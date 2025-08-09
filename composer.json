@@ -1,0 +1,42 @@
+{
+	"name": "mikitosina1/migrainediary",
+	"description": "Simple diary for migraine patients",
+	"authors": [
+		{
+			"name": "Mykyta Zarichnyi",
+			"email": "mikitosina27@gmail.com"
+		}
+	],
+	"keywords": [
+		"laravel",
+		"module",
+		"migraine diary",
+		"mikitosina1",
+		"MigraineDiary"
+	],
+	"extra": {
+		"laravel": {
+			"providers": [],
+			"aliases": {
+			}
+		}
+	},
+	"require": {
+		"php": "^8.1",
+		"laravel/framework": "^10.10",
+		"laravel/ui": "^4.5",
+		"nwidart/laravel-modules": "^10.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Modules\\SupportChat\\": "../../Modules/MigraineDiary",
+			"Database\\Migrations\\": "./Database/migrations/",
+			"Database\\Seeders\\": "./Database/Seeders/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Modules\\MigraineDiary\\Tests\\": "../../Modules/MigraineDiary/tests/"
+		}
+	}
+}
