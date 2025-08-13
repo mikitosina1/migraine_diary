@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			modalSaveBtn.textContent = modalSaveBtn.dataset.save;
 
 			// empty form
+			itemId.value = '';
 			document.getElementById('itemCode').value = '';
 			document.querySelectorAll('[id^="name_"]').forEach(input => input.value = '');
 		}
@@ -120,9 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		const id = formData.get('id');
 
 		try {
-			const url = `/admin/migraine-diary/${type}/${id}/update`;
-			const method = id ? 'post' : 'post'; // Laravel spoof for PUT/PATCH with _method
-			if (id) formData.append('_method', 'PUT');
+			let url;
+			let method = 'post';
+
+			if (id) {
+				url = `/admin/migraine-diary/${type}/${id}/update`;
+				formData.append('_method', 'PUT'); // Laravel spoof
+			} else {
+				url = `/admin/migraine-diary/${type}/store`;
+			}
 
 			await axios({
 				method,
@@ -134,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			alert(`Save error: ${err.response?.statusText || err.message}`);
 		}
 	});
+
 
 	$('.delete-item-btn').click(async function (e) {
 		e.preventDefault();

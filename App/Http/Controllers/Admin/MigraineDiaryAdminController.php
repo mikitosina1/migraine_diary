@@ -35,79 +35,12 @@ class MigraineDiaryAdminController extends Controller
 	}
 
 	/**
-	 * check code of symptom
-	 * @param Request $request
-	 * @return JsonResponse
-	 */
-	public function checkSymptomCode(Request $request): JsonResponse
-	{
-		$code = $request->get('code');
-		$symptom = MigraineSymptom::where('code', $code)->first();
-
-		return response()->json([
-			'exists' => $symptom !== null,
-			'item' => $symptom ? [
-				'name' => $symptom->getNameAttribute(),
-				'code' => $symptom->code
-			] : null
-		]);
-	}
-
-	/**
-	 * check code of trigger
-	 * @param Request $request
-	 * @return JsonResponse
-	 */
-	public function checkTriggerCode(Request $request): JsonResponse
-	{
-		$code = $request->get('code');
-		$trigger = MigraineTrigger::where('code', $code)->first();
-
-		return response()->json([
-			'exists' => $trigger !== null,
-			'item' => $trigger ? [
-				'name' => $trigger->getNameAttribute(),
-				'code' => $trigger->code
-			] : null
-		]);
-	}
-
-	/**
-	 * check code of medication
-	 * @param Request $request
-	 * @return JsonResponse
-	 */
-	public function checkMedsCode(Request $request): JsonResponse
-	{
-		$code = $request->get('code');
-		$meds = MigraineMed::where('code', $code)->first();
-
-		return response()->json([
-			'exists' => $meds !== null,
-			'item' => $meds ? [
-				'name' => $meds->getNameAttribute(),
-				'code' => $meds->code
-			] : null
-		]);
-	}
-
-	/**
 	 * Show the form for creating a new resource.
 	 * @return View|Factory|Application
 	 */
 	public function create(): View|Factory|Application
 	{
 		return view('migrainediary::create');
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 * @param Request $request
-	 * @return RedirectResponse
-	 */
-	public function store(Request $request): RedirectResponse
-	{
-		return redirect()->route('welcome')->with('success', 'we1e');
 	}
 
 	/**
@@ -134,6 +67,41 @@ class MigraineDiaryAdminController extends Controller
 		$model = $modelClass::with('translations')->findOrFail($id);
 
 		return response()->json($model);
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param Request $request
+	 * @param string $type type of model
+	 * @return JsonResponse
+	 */
+	public function store(Request $request, string $type): JsonResponse
+	{
+		$data = $request->validate([
+			'code' => 'required|string|max:255',
+			'translations' => 'required|array',
+			'translations.*.name' => 'required|string|max:255',
+		]);
+
+		/** @var $modelClass MigraineSymptom|MigraineTrigger|MigraineMed */
+		$modelClass = $this->getModelByType($type);
+
+		$model = new $modelClass();
+		$model->code = $data['code'];
+		$model->save();
+
+		foreach ($data['translations'] as $locale => $translation) {
+			$model->translations()->create([
+				'locale' => $locale,
+				'name' => $translation['name'],
+			]);
+		}
+
+		return response()->json([
+			'success' => true,
+			'item' => $model->load('translations'),
+		]);
 	}
 
 	/**
@@ -204,6 +172,63 @@ class MigraineDiaryAdminController extends Controller
 		}
 
 		return $map[$type];
+	}
+
+	/**
+	 * check code of symptom
+	 * @param Request $request
+	 * @return JsonResponse
+	 */
+	public function checkSymptomCode(Request $request): JsonResponse
+	{
+		$code = $request->get('code');
+		$symptom = MigraineSymptom::where('code', $code)->first();
+
+		return response()->json([
+			'exists' => $symptom !== null,
+			'item' => $symptom ? [
+				'name' => $symptom->getNameAttribute(),
+				'code' => $symptom->code
+			] : null
+		]);
+	}
+
+	/**
+	 * check code of trigger
+	 * @param Request $request
+	 * @return JsonResponse
+	 */
+	public function checkTriggerCode(Request $request): JsonResponse
+	{
+		$code = $request->get('code');
+		$trigger = MigraineTrigger::where('code', $code)->first();
+
+		return response()->json([
+			'exists' => $trigger !== null,
+			'item' => $trigger ? [
+				'name' => $trigger->getNameAttribute(),
+				'code' => $trigger->code
+			] : null
+		]);
+	}
+
+	/**
+	 * check code of medication
+	 * @param Request $request
+	 * @return JsonResponse
+	 */
+	public function checkMedsCode(Request $request): JsonResponse
+	{
+		$code = $request->get('code');
+		$meds = MigraineMed::where('code', $code)->first();
+
+		return response()->json([
+			'exists' => $meds !== null,
+			'item' => $meds ? [
+				'name' => $meds->getNameAttribute(),
+				'code' => $meds->code
+			] : null
+		]);
 	}
 
 }

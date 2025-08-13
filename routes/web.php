@@ -24,12 +24,19 @@ Route::middleware(['web', 'auth'])
 	->name('admin.migraine-diary.')
 	->group(function () {
 		Route::get('/', [MigraineDiaryAdminController ::class, 'index'])->name('index');
+
+		Route::post('/{type}/store', [MigraineDiaryAdminController::class, 'store'])
+			->where(['type' => 'symptoms|triggers|meds'])
+			->name('store');
+
 		Route::get('/{type}/{id}/edit', [MigraineDiaryAdminController::class, 'edit'])
 			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
 			->name('edit');
+
 		Route::match(['post', 'put'], '/{type}/{id}/update', [MigraineDiaryAdminController::class, 'update'])
 			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
 			->name('update');
+
 		Route::delete('/{type}/{id}', [MigraineDiaryAdminController::class, 'destroy'])
 			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
 			->name('destroy');
