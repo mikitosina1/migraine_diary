@@ -2,8 +2,12 @@
 
 namespace Modules\MigraineDiary\App\Providers;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\MigraineDiary\Services\MigraineDiaryService;
+use Modules\ModuleManager\App\Services\ModuleAdminActionRegistrar;
 
 class MigraineDiaryServiceProvider extends ServiceProvider
 {
@@ -13,6 +17,7 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 
 	/**
 	 * Boot the application events.
+	 * @throws BindingResolutionException
 	 */
 	public function boot(): void
 	{
@@ -22,6 +27,16 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 		$this->registerConfig();
 		$this->registerViews();
 		$this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
+		$this->loadViewsFrom(__DIR__ . '/../../resources/views', $this->moduleNameLower);
+
+		ModuleAdminActionRegistrar::register(
+			$this->moduleName,
+			$this->moduleNameLower,
+			'admin.migraine-diary.index',
+			$this->moduleNameLower . '::admin.config_diary',
+			'📔',
+			fn() => $this->app->make(MigraineDiaryService::class)->isModuleActive()
+		);
 	}
 
 	/**
@@ -48,14 +63,14 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 	 */
 	public function registerTranslations(): void
 	{
-		$langPath = resource_path('lang/modules/' . $this->moduleNameLower);
+		$langPath = resource_path('lang/' . $this->moduleNameLower);
 
 		if (is_dir($langPath)) {
 			$this->loadTranslationsFrom($langPath, $this->moduleNameLower);
 			$this->loadJsonTranslationsFrom($langPath);
 		} else {
-			$this->loadTranslationsFrom(module_path($this->moduleName, 'lang'), $this->moduleNameLower);
-			$this->loadJsonTranslationsFrom(module_path($this->moduleName, 'lang'));
+			$this->loadTranslationsFrom(module_path($this->moduleName, 'resources/lang'), $this->moduleNameLower);
+			$this->loadJsonTranslationsFrom(module_path($this->moduleName, 'resources/lang'));
 		}
 	}
 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\MigraineDiary\App\Http\Controllers\Admin\MigraineDiaryAdminController;
 use Modules\MigraineDiary\App\Http\Controllers\MigraineDiaryController;
 
 /*
@@ -15,5 +16,21 @@ use Modules\MigraineDiary\App\Http\Controllers\MigraineDiaryController;
 */
 
 Route::group([], function () {
-	Route::resource('migrainediary', MigraineDiaryController::class)->names('migrainediary');
+	Route::resource('migraine-diary', MigraineDiaryController::class)->names('migraine-diary');
 });
+
+Route::middleware(['web', 'auth'])
+	->prefix('admin/migraine-diary')
+	->name('admin.migraine-diary.')
+	->group(function () {
+		Route::get('/', [MigraineDiaryAdminController ::class, 'index'])->name('index');
+		Route::get('/{type}/{id}/edit', [MigraineDiaryAdminController::class, 'edit'])
+			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
+			->name('edit');
+		Route::match(['post', 'put'], '/{type}/{id}/update', [MigraineDiaryAdminController::class, 'update'])
+			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
+			->name('update');
+		Route::delete('/{type}/{id}', [MigraineDiaryAdminController::class, 'destroy'])
+			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
+			->name('destroy');
+	});
