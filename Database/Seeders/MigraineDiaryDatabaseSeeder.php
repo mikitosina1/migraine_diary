@@ -11,6 +11,13 @@ class MigraineDiaryDatabaseSeeder extends Seeder
 	 */
 	public function run(): void
 	{
-		// $this->call([]);
+		$this->call([
+			MigraineSymptomsSeeder::class,
+			MigraineTriggersSeeder::class,
+			MigraineMedsSeeder::class,
+			MigraineSymptomsTranslationsSeeder::class,
+			MigraineTriggersTranslationsSeeder::class,
+			MigraineMedTranslationsSeeder::class,
+		]);
 	}
 }
