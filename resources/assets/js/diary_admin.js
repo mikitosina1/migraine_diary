@@ -1,7 +1,5 @@
 import axios from 'axios';
-import $ from 'jquery';
 
-window.$ = $;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -13,8 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	const codeError = document.getElementById('codeError');
 	const modalTitle = document.getElementById('modalTitle');
 	const modalSaveBtn = document.getElementById('modalSaveBtn');
+	const editForm = document.getElementById('editForm');
 
-	// helpers
+	// Tab buttons
+	document.querySelectorAll('.tab-button').forEach(btn => {
+		btn.addEventListener('click', e => {
+			localStorage.setItem('activeTab', e.target.dataset.tab);
+		});
+	});
+
+	// Open modal
 	const openModal = async (type, id = '') => {
 		itemType.value = type;
 		itemId.value = id;
@@ -24,31 +30,24 @@ document.addEventListener('DOMContentLoaded', () => {
 			modalSaveBtn.textContent = modalSaveBtn.dataset.update;
 
 			try {
-				const {data} = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`);
+				const { data } = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`);
+				itemCode.value = data.code || '';
 
-				document.getElementById('itemCode').value = data.code || '';
 				document.querySelectorAll('[id^="name_"]').forEach(input => input.value = '');
-
 				(data.translations || []).forEach(t => {
 					const input = document.getElementById(`name_${t.locale}`);
-					if (input) {
-						input.value = t.name || '';
-					}
+					if (input) input.value = t.name || '';
 				});
-
 			} catch (err) {
 				console.error('Error loading data:', err);
-				alert('Can not load data. Please try again later.');
+				alert('Cannot load data. Please try again later.');
 				return;
 			}
-
 		} else {
 			modalTitle.textContent = `${modalTitle.dataset.add} (${type})`;
 			modalSaveBtn.textContent = modalSaveBtn.dataset.save;
-
-			// empty form
 			itemId.value = '';
-			document.getElementById('itemCode').value = '';
+			itemCode.value = '';
 			document.querySelectorAll('[id^="name_"]').forEach(input => input.value = '');
 		}
 
@@ -57,13 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const closeModal = () => modal.classList.add('hidden');
 
+	// Search
 	const searchList = (type, term) => {
 		document.querySelectorAll(`#${type}-tab ul li`).forEach(item => {
 			item.style.display = item.textContent.toLowerCase().includes(term) ? '' : 'none';
 		});
 	};
 
-	// tabs
+	// Tab switch
 	document.querySelector('.tab-buttons').addEventListener('click', e => {
 		if (!e.target.matches('.tab-button')) return;
 
@@ -74,31 +74,52 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.getElementById(`${e.target.dataset.tab}-tab`).classList.remove('hidden');
 	});
 
-	// actions
+	// Delegated actions
 	document.body.addEventListener('click', e => {
-		if (e.target.closest('.edit-item-btn')) {
-			const btn = e.target.closest('.edit-item-btn');
-			openModal(btn.dataset.type, btn.dataset.id);
-		}
-		if (e.target.closest('.add-item-btn')) {
-			openModal(e.target.closest('.add-item-btn').dataset.type);
-		}
-		if (e.target.closest('.modal-close')) {
-			closeModal();
+		const editBtn = e.target.closest('.edit-item-btn');
+		const addBtn = e.target.closest('.add-item-btn');
+		const closeBtn = e.target.closest('.modal-close');
+
+		if (editBtn) openModal(editBtn.dataset.type, editBtn.dataset.id);
+		if (addBtn) openModal(addBtn.dataset.type);
+		if (closeBtn) closeModal();
+
+		// Delete button
+		const deleteBtn = e.target.closest('.delete-item-btn');
+		if (deleteBtn) {
+			e.preventDefault();
+			const id = deleteBtn.dataset.id;
+			const type = deleteBtn.dataset.type;
+			if (!confirm('Delete this element?')) return;
+
+			axios.delete(`/admin/migraine-diary/${type}/${id}`, {
+				data: { _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') }
+			})
+				.then(() => location.reload())
+				.catch(err => {
+					console.error('Delete error:', err);
+					alert('Error deleting item. Please try again later.');
+				});
 		}
 	});
 
-	// search
+	// Search input
 	document.body.addEventListener('input', e => {
 		if (e.target.matches('.search-input')) {
 			searchList(e.target.dataset.type, e.target.value.toLowerCase());
 		}
 	});
 
-	// unique code check
+	// Unique code check
 	itemCode.addEventListener('blur', async () => {
+		const type = itemType.value;
+		const id = itemId.value;
 		if (!itemCode.value) return;
+
 		try {
+			/**
+			 * @type {{ exists?: boolean, item?: { name?: string } }}
+			 */
 			const { data } = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`, {
 				params: { code: itemCode.value }
 			});
@@ -113,53 +134,30 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
-	// form submit
-	document.getElementById('editForm').addEventListener('submit', async e => {
+	// Form submit
+	editForm.addEventListener('submit', async e => {
 		e.preventDefault();
-		const formData = new FormData(e.target);
+		const formData = new FormData(editForm);
 		const type = formData.get('type');
 		const id = formData.get('id');
 
 		try {
-			let url;
-			let method = 'post';
+			let url = id
+				? `/admin/migraine-diary/${type}/${id}/update`
+				: `/admin/migraine-diary/${type}/store`;
 
-			if (id) {
-				url = `/admin/migraine-diary/${type}/${id}/update`;
-				formData.append('_method', 'PUT'); // Laravel spoof
-			} else {
-				url = `/admin/migraine-diary/${type}/store`;
-			}
+			if (id) formData.append('_method', 'PUT');
 
-			await axios({
-				method,
-				url,
-				data: formData
-			});
+			await axios.post(url, formData);
 			location.reload();
 		} catch (err) {
 			alert(`Save error: ${err.response?.statusText || err.message}`);
 		}
 	});
 
-
-	$('.delete-item-btn').click(async function (e) {
-		e.preventDefault();
-
-		const id = $(this).data('id');
-		const type = $(this).data('type');
-
-		if (!confirm('Delete this element?')) return;
-
-		try {
-			await axios.delete(`/admin/migraine-diary/${type}/${id}`, {
-				data: { _token: $('meta[name="csrf-token"]').attr('content') }
-			});
-
-			location.reload();
-		} catch (err) {
-			console.error('Delete error:', err);
-			alert('Error deleting item. Please try again later.');
-		}
-	});
+	// Restore active tab
+	const activeTab = localStorage.getItem('activeTab');
+	if (activeTab) {
+		document.querySelector(`.tab-button[data-tab="${activeTab}"]`)?.click();
+	}
 });

@@ -26,7 +26,7 @@ class MigraineDiaryAdminController extends Controller
 	 */
 	public function index(): View|Factory|Application
 	{
-		return view('migrainediary::index-admin', [
+		return view('migrainediary::admin.index-admin', [
 			'symptomList' => MigraineSymptom::getListWithTranslations(),
 			'triggerList' => MigraineTrigger::getListWithTranslations(),
 			'medsList' => MigraineMed::getListWithTranslations(),

@@ -20,7 +20,7 @@
 						<span class="font-medium">{{ $item['name'] }}</span>
 						<span class="text-sm text-gray-500 ml-2">{{ $item['code'] }}</span>
 					</div>
-					<div class="opacity-0 group-hover:opacity-100 transition-opacity">
+					<div class="list-buttons-container">
 						<button class="edit-item-btn px-2 py-1 text-blue-600 hover:text-blue-800"
 								data-id="{{ $item['id'] }}"
 								data-type="{{ $type }}">
