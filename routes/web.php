@@ -15,9 +15,12 @@ use Modules\MigraineDiary\App\Http\Controllers\MigraineDiaryController;
 |
 */
 
-Route::group([], function () {
-	Route::resource('migraine-diary', MigraineDiaryController::class)->names('migraine-diary');
-});
+Route::middleware(['web', 'auth'])
+	->prefix('migraine-diary')
+	->name('user.migraine-diary.')
+	->group(function () {
+		Route::resource('/', MigraineDiaryController::class)->names('resource');
+	});
 
 Route::middleware(['web', 'auth'])
 	->prefix('admin/migraine-diary')
