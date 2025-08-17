@@ -12,4 +12,5 @@ return [
 	'review' => 'Review',
 	'back' => 'Back',
 	'next' => 'Next',
+	'today' => 'Today',
 ];

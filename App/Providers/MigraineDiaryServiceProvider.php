@@ -37,6 +37,7 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 			'📔',
 			fn() => $this->app->make(MigraineDiaryService::class)->isModuleActive()
 		);
+		Blade::component('migrainediary::components.modal', 'user-migraine-modal');
 	}
 
 	/**

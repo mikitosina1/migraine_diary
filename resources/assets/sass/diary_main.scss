@@ -2,3 +2,20 @@
 .dashboard-widget.migraine-diary {
 	color: var(--main-text-color);
 }
+
+dialog {
+	&[open] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	&::backdrop {
+		background: rgba(0, 0, 0, 0.5);
+	}
+}
+
+.modal-content {
+	max-height: 90vh;
+	overflow-y: auto;
+}

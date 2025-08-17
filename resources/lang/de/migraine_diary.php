@@ -12,4 +12,5 @@ return [
 	'review' => 'Bestätigung',
 	'back' => 'Zurück',
 	'next' => 'Weiter',
+	'today' => 'Heute',
 ];
