@@ -13,7 +13,7 @@ class MigraineDiaryController extends Controller
 	 */
 	public function index()
 	{
-		return view('migrainediary::index')->with(['test' =>'test value']);
+		return view('migrainediary::user.index')->with(['test' =>'test value']);
 	}
 
 	/**
