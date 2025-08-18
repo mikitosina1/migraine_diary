@@ -5,6 +5,9 @@ namespace Modules\MigraineDiary\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Modules\MigraineDiary\App\Models\MigraineMed;
+use Modules\MigraineDiary\App\Models\MigraineSymptom;
+use Modules\MigraineDiary\App\Models\MigraineTrigger;
 
 class MigraineDiaryController extends Controller
 {
@@ -13,7 +16,12 @@ class MigraineDiaryController extends Controller
 	 */
 	public function index()
 	{
-		return view('migrainediary::user.index')->with(['symptoms' =>[],'triggers' =>[], 'meds' =>[]]);
+		return view('migrainediary::user.index', [
+			'symptoms' => MigraineSymptom::getListWithTranslations(),
+			'triggers' => MigraineTrigger::getListWithTranslations(),
+			'meds' => MigraineMed::getListWithTranslations(),
+			'locales' => config('app.locales')
+		]);
 	}
 
 	/**

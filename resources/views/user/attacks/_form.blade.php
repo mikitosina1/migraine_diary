@@ -1,4 +1,5 @@
-<div id="migraine-form">
+<form method="POST" id="migraine-form" action="{{ route('user.migraine-diary.resource.store') }}">
+	@csrf
 	<!-- Progress bar -->
 	@include('migrainediary::components.steps', [
 			'form_steps' => [
@@ -34,4 +35,4 @@
 		<button type="button" class="prev-btn">@lang('migrainediary::migraine_diary.back')</button>
 		<button type="button" class="next-btn">@lang('migrainediary::migraine_diary.next')</button>
 	</div>
-</div>
+</form>
