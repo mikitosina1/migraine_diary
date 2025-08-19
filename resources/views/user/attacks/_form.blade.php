@@ -32,7 +32,7 @@
 
 	<!-- Navigation buttons -->
 	<div class="flex justify-between mt-6">
-		<button type="button" class="prev-btn">@lang('migrainediary::migraine_diary.back')</button>
-		<button type="button" class="next-btn">@lang('migrainediary::migraine_diary.next')</button>
+		<button type="button" class="prev-btn bg-blue-600 rounded-md hover:bg-blue-700 text-white p-1">@lang('migrainediary::migraine_diary.back')</button>
+		<button type="button" class="next-btn bg-blue-600 rounded-md hover:bg-blue-700 text-white p-1">@lang('migrainediary::migraine_diary.next')</button>
 	</div>
 </form>

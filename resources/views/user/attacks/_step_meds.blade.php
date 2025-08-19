@@ -1,4 +1,4 @@
-<div class="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto">
+<div class="flex flex-col gap-2">
 	@foreach($meds as $med)
 		<label>
 			<input type="checkbox" name="meds[]" value="{{ $med['id'] }}">

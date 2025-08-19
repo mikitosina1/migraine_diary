@@ -19,3 +19,22 @@ dialog {
 	max-height: 90vh;
 	overflow-y: auto;
 }
+
+.cloud {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1em;
+
+	.calendar-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		border: 1px solid var(--block-border-color);
+		border-radius: 10px;
+
+	}
+}

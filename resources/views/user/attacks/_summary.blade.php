@@ -1,4 +1,4 @@
-<div id="form-summary">
+<div id="form-summary" class="form-summary">
 	<!-- data filled with js -->
 	<div id="summary-details"></div>
 	<div id="summary-symptoms"></div>

@@ -15,10 +15,6 @@
 			<div class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">
 				{{ $label }}
 			</div>
-
-			@if(!$loop->last)
-				<div class="flex-1 h-0.5 bg-gray-300 dark:bg-gray-600 mx-4"></div>
-			@endif
 		</div>
 	@endforeach
 </div>
