@@ -30,7 +30,9 @@ class MigraineAttack extends Model
 	{
 		return $this->belongsToMany(
 			MigraineSymptom::class,
-			'migraine_attack_symptom'
+			'migraine_attack_symptom',
+			'attack_id',
+			'symptom_id'
 		);
 	}
 
@@ -42,7 +44,9 @@ class MigraineAttack extends Model
 	{
 		return $this->belongsToMany(
 			MigraineTrigger::class,
-			'migraine_attack_trigger'
+			'migraine_attack_trigger',
+			'attack_id',
+			'trigger_id'
 		);
 	}
 
@@ -54,7 +58,27 @@ class MigraineAttack extends Model
 	{
 		return $this->belongsToMany(
 			MigraineMed::class,
-			'migraine_attack_med'
+			'migraine_attack_med',
+			'attack_id',
+			'med_id'
 		)->withPivot('dosage');
+	}
+
+	/**
+	 * Scope for getting attacks for a specific user
+	 */
+	public function scopeForUser($query, $userId)
+	{
+		return $query->where('user_id', $userId)
+			->with(['symptoms', 'triggers', 'meds'])
+			->orderBy('start_time', 'desc');
+	}
+
+	/**
+	 * Method for getting attacks for a specific user
+	 */
+	public static function getForUser($userId)
+	{
+		return self::forUser($userId)->get();
 	}
 }
