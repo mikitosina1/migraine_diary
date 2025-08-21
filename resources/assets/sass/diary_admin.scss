@@ -17,7 +17,7 @@
 		border: 1px solid var(--block-border-color);
 		border-radius: 10px;
 
-		.list-block{
+		.list-block {
 			ul {
 				li {
 					@apply dark:bg-gray-700 dark:border-gray-600 dark:text-white;
@@ -58,6 +58,12 @@
 }
 
 @keyframes modalFadeIn {
-	from { opacity: 0; transform: translateY(-20px); }
-	to { opacity: 1; transform: translateY(0); }
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }

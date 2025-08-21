@@ -2,6 +2,7 @@
 
 namespace Modules\MigraineDiary\App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -21,6 +22,19 @@ class MigraineAttack extends Model
 		'start_time' => 'datetime',
 		'end_time' => 'datetime',
 	];
+
+	/**
+	 * Method for getting attacks for a specific user
+	 * using the scope method for getting attacks
+	 *
+	 * @use self::scopeForUser()
+	 * @param int $userId
+	 * @return mixed
+	 */
+	public static function getForUser(int $userId): mixed
+	{
+		return self::forUser($userId)->get();
+	}
 
 	/**
 	 * return symptoms (many-to-many)
@@ -66,19 +80,15 @@ class MigraineAttack extends Model
 
 	/**
 	 * Scope for getting attacks for a specific user
+	 *
+	 * @param Builder $query
+	 * @param int $userId
+	 * @return Builder
 	 */
-	public function scopeForUser($query, $userId)
+	public function scopeForUser(Builder $query, int $userId): Builder
 	{
 		return $query->where('user_id', $userId)
 			->with(['symptoms', 'triggers', 'meds'])
 			->orderBy('start_time', 'desc');
-	}
-
-	/**
-	 * Method for getting attacks for a specific user
-	 */
-	public static function getForUser($userId)
-	{
-		return self::forUser($userId)->get();
 	}
 }

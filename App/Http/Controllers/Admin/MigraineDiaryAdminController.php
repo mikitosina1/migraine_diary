@@ -35,15 +35,6 @@ class MigraineDiaryAdminController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 * @return View|Factory|Application
-	 */
-	public function create(): View|Factory|Application
-	{
-		return view('migrainediary::create');
-	}
-
-	/**
 	 * Show the specified resource.
 	 * @param int $id
 	 * @return View|Factory|Application
@@ -67,6 +58,26 @@ class MigraineDiaryAdminController extends Controller
 		$model = $modelClass::with('translations')->findOrFail($id);
 
 		return response()->json($model);
+	}
+
+	/**
+	 * get model class by type
+	 * @param string $type
+	 * @return string
+	 */
+	private function getModelByType(string $type): string
+	{
+		$map = [
+			'symptoms' => MigraineSymptom::class,
+			'triggers' => MigraineTrigger::class,
+			'meds'     => MigraineMed::class,
+		];
+
+		if (!isset($map[$type])) {
+			abort(404, 'Unknown type');
+		}
+
+		return $map[$type];
 	}
 
 	/**
@@ -102,6 +113,15 @@ class MigraineDiaryAdminController extends Controller
 			'success' => true,
 			'item' => $model->load('translations'),
 		]);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 * @return View|Factory|Application
+	 */
+	public function create(): View|Factory|Application
+	{
+		return view('migrainediary::create');
 	}
 
 	/**
@@ -152,26 +172,6 @@ class MigraineDiaryAdminController extends Controller
 		$item->delete();
 
 		return response()->json(['success' => true, 'message' => 'Record ' . $code . ' deleted successfully']);
-	}
-
-	/**
-	 * get model class by type
-	 * @param string $type
-	 * @return string
-	 */
-	private function getModelByType(string $type): string
-	{
-		$map = [
-			'symptoms' => MigraineSymptom::class,
-			'triggers' => MigraineTrigger::class,
-			'meds'     => MigraineMed::class,
-		];
-
-		if (!isset($map[$type])) {
-			abort(404, 'Unknown type');
-		}
-
-		return $map[$type];
 	}
 
 	/**

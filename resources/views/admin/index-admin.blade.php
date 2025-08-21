@@ -3,9 +3,12 @@
 	<div class="cloud mx-auto max-w-7xl px-4 py-6">
 		<!-- Tab-buttons -->
 		<div class="flex border-b dark:border-gray-700 mb-6 tab-buttons">
-			<button data-tab="symptoms" class="tab-button active px-4 py-2 font-medium">@lang('migrainediary::admin.symptom_list')</button>
-			<button data-tab="triggers" class="tab-button px-4 py-2 font-medium">@lang('migrainediary::admin.trigger_list')</button>
-			<button data-tab="meds" class="tab-button px-4 py-2 font-medium">@lang('migrainediary::admin.meds_list')</button>
+			<button data-tab="symptoms"
+					class="tab-button active px-4 py-2 font-medium">@lang('migrainediary::admin.symptom_list')</button>
+			<button data-tab="triggers"
+					class="tab-button px-4 py-2 font-medium">@lang('migrainediary::admin.trigger_list')</button>
+			<button data-tab="meds"
+					class="tab-button px-4 py-2 font-medium">@lang('migrainediary::admin.meds_list')</button>
 		</div>
 
 		<!-- Blocks of list (by default - symptoms) -->

@@ -7,18 +7,6 @@ use Nwidart\Modules\Facades\Module;
 class MigraineDiaryService
 {
 	/**
-	 * Check if the SupportChat module is active.
-	 *
-	 * @return bool
-	 */
-	public function isModuleActive(): bool
-	{
-		$enabledModules = Module::allEnabled();
-
-		return isset($enabledModules['MigraineDiary']);
-	}
-
-	/**
 	 * Get the path to a module's view.
 	 *
 	 * @param string $viewPath
@@ -30,5 +18,17 @@ class MigraineDiaryService
 			return view()->exists("migrainediary::{$viewPath}") ? "migrainediary::{$viewPath}" : null;
 		}
 		return null;
+	}
+
+	/**
+	 * Check if the SupportChat module is active.
+	 *
+	 * @return bool
+	 */
+	public function isModuleActive(): bool
+	{
+		$enabledModules = Module::allEnabled();
+
+		return isset($enabledModules['MigraineDiary']);
 	}
 }

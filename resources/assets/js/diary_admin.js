@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			modalSaveBtn.textContent = modalSaveBtn.dataset.update;
 
 			try {
-				const { data } = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`);
+				const {data} = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`);
 				itemCode.value = data.code || '';
 
 				document.querySelectorAll('[id^="name_"]').forEach(input => input.value = '');
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (!confirm('Delete this element?')) return;
 
 			axios.delete(`/admin/migraine-diary/${type}/${id}`, {
-				data: { _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') }
+				data: {_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')}
 			})
 				.then(() => location.reload())
 				.catch(err => {
@@ -120,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			/**
 			 * @type {{ exists?: boolean, item?: { name?: string } }}
 			 */
-			const { data } = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`, {
-				params: { code: itemCode.value }
+			const {data} = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`, {
+				params: {code: itemCode.value}
 			});
 			if (data.exists) {
 				codeError.textContent = `Code already exists: ${data.item.name}`;
