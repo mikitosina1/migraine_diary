@@ -5,6 +5,7 @@ return [
 	'to_diary'       => 'To Migraine Diary',
 	'add_attack'     => 'Add Attack',
 	'new_attack'     => 'New Attack',
+	'statistic'      => 'Statistic',
 	'monthly_stats'  => 'Monthly Stats',
 	'triggers_stats' => 'Triggers Stats',
 	'details'        => 'Basic information',
@@ -16,7 +17,12 @@ return [
 	'next'           => 'Next',
 	'today'          => 'Today',
 	'start_time'     => 'Start time',
+	'end_time'       => 'End time',
 	'pain_level'     => 'Pain level',
+	'list'           => 'List',
+	'calendar'       => 'Calendar',
+	'count'          => 'Count',
+	'count_by_month' => 'Count by month',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',

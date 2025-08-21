@@ -20,12 +20,14 @@ dialog {
 	overflow-y: auto;
 }
 
-.cloud {
+.cloud.migraine-diary {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	gap: 1em;
+	border: 1px solid var(--block-border-color);
+	border-radius: 10px;
 
 	.calendar-container {
 		display: flex;
@@ -33,7 +35,19 @@ dialog {
 		justify-content: center;
 		align-items: center;
 		height: 100%;
-		border: 1px solid var(--block-border-color);
-		border-radius: 10px;
+
+		.calendar-buttons {
+
+			.tabs {
+
+				.tab-btn {
+					@apply border-b-2 border-transparent transition;
+
+					&.active {
+						@apply border-blue-500 font-semibold;
+					}
+				}
+			}
+		}
 	}
 }

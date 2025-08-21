@@ -7,10 +7,20 @@ window.axios.defaults.withCredentials = true;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 document.addEventListener('DOMContentLoaded', () => {
+
+	// Tab buttons to switch calendar-to-list view and vice versa
+	document.querySelectorAll('.tab-btn').forEach(btn => {
+		btn.addEventListener('click', () => {
+			document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+			document.getElementById(`tab-${btn.dataset.tab}`).classList.remove('hidden');
+			document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+		});
+	});
+
 	const modal = document.getElementById('migraineModal');
 	if (modal) {
 		window.migraineModal = modal;
-
 		// Close button
 		const closeBtn = modal.querySelector('.modal-close');
 		if (closeBtn) {
@@ -42,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (target) target.classList.remove('hidden');
 
 			stepIndicators.forEach((circle, i) => {
-				circle.classList.remove('bg-blue-500', 'text-white', 'border-blue-500', 'bg-green-500', 'text-gray-600', 'bg-gray-200');
+				circle.classList.remove('bg-blue-500', 'text-white', 'border-blue-500',
+					'bg-green-500', 'text-gray-600', 'bg-gray-200'
+				);
 				if (i + 1 < step) {
 					circle.classList.add('bg-green-500', 'text-white');
 				} else if (i + 1 === step) {
@@ -52,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			});
 		};
-
 
 		// fill the summary
 		const fillSummary = () => {

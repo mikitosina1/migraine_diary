@@ -5,6 +5,7 @@ return [
 	'to_diary'       => 'Перейти в дневник мигреней',
 	'add_attack'     => 'Добавить атаку',
 	'new_attack'     => 'Новая атака',
+	'statistic'      => 'Статистика',
 	'monthly_stats'  => 'Месячная статистика',
 	'triggers_stats' => 'Статистика триггеров',
 	'details'        => 'Основные данные',
@@ -16,6 +17,11 @@ return [
 	'next'           => 'Далее',
 	'today'          => 'Сегодня',
 	'start_time'     => 'Время начала',
+	'end_time'       => 'Время конца',
+	'list'           => 'Список',
+	'calendar'       => 'Календарь',
+	'count'          => 'Количество',
+	'count_by_month' => 'Количество за месяц',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',

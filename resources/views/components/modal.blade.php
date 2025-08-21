@@ -1,9 +1,12 @@
 <dialog
 	id="{{ $id }}"
 	class="fixed inset-0 z-50 hidden w-full h-full p-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
-@if(isset($attributes)) {{ $attributes }} @endif
+	@if(isset($attributes))
+		{{ $attributes }}
+	@endif
 >
-	<div class="relative rounded-2xl shadow-2xl bg-white dark:bg-gray-900 transform transition-all scale-95 opacity-0 dialog-content">
+	<div
+		class="relative rounded-2xl shadow-2xl bg-white dark:bg-gray-900 transform transition-all scale-95 opacity-0 dialog-content">
 		@if(isset($title))
 			<div class="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 px-6 py-4">
 				<h3 class="text-xl font-semibold text-gray-900 dark:text-white">

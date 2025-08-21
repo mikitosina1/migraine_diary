@@ -5,6 +5,7 @@ return [
 	'to_diary'       => 'Nach Migräne-Tagebuch',
 	'add_attack'     => 'Angriff hinzufügen',
 	'new_attack'     => 'Neue Angriff',
+	'statistic'      => 'Statistik',
 	'monthly_stats'  => 'Monatsstatistik',
 	'triggers_stats' => 'Triggerstatistik',
 	'details'        => 'Grundlegende Daten',
@@ -16,7 +17,12 @@ return [
 	'next'           => 'Weiter',
 	'today'          => 'Heute',
 	'start_time'     => 'Zeit von Beginn',
+	'end_time'       => 'Zeit von Endung',
 	'pain_level'     => 'Schmerzstufe',
+	'list'           => 'Liste',
+	'calendar'       => 'Calender',
+	'count'          => 'Zahl',
+	'count_by_month' => 'Zahl bei Monat',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',

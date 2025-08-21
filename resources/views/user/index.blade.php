@@ -1,23 +1,21 @@
 @vite(['Modules/MigraineDiary/resources/assets/js/diary_main.js', 'Modules/MigraineDiary/resources/assets/sass/diary_main.scss'])
 <x-app-layout>
-	<div class="cloud mt-8 mx-auto max-w-7xl">
+	<div class="cloud migraine-diary mt-8 mx-auto max-w-7xl dark:bg-gray-900 sm:rounded-lg">
 		<!-- Calendar Section -->
-		<div class="calendar-container dark:bg-gray-900 sm:rounded-lg p-4">
+		<div class="calendar-container p-4">
 			<!-- Calendar buttons -->
 			<div class="flex justify-between items-center mb-4 calendar-buttons">
-				<!-- navigation buttons -->
-				<div class="flex space-x-2">
-					<button id="prev-month" class="px-3 py-1 text-white border rounded-md">
-						<i class="fas fa-chevron-left"></i>
+				<div class="tabs flex space-x-4">
+					<button class="tab-btn px-4 py-2 text-white active" data-tab="calendar">
+						@lang('migrainediary::migraine_diary.calendar')
 					</button>
-					<button id="next-month" class="px-3 py-1 text-white border rounded-md">
-						<i class="fas fa-chevron-right"></i>
+					<button class="tab-btn px-4 py-2 text-white" data-tab="list">
+						@lang('migrainediary::migraine_diary.list')
 					</button>
-					<button id="today-btn" class="px-3 py-1 text-white border rounded-md">
-						@lang('migrainediary::migraine_diary.today')
+					<button class="tab-btn px-4 py-2 text-white" data-tab="statistic">
+						@lang('migrainediary::migraine_diary.statistic')
 					</button>
 				</div>
-
 				<!-- add button -->
 				<button
 					onclick="window.migraineModal.showModal()"
@@ -26,20 +24,29 @@
 					@lang('migrainediary::migraine_diary.add_attack')
 				</button>
 			</div>
-			<x-migrainediary::modal
-				id="migraineModal"
-				title="{{ __('migrainediary::migraine_diary.new_attack') }}"
-			>
-				@include('migrainediary::user.attacks._form')
-			</x-migrainediary::modal>
+		</div>
+		<!-- calendar -->
+		<div  id="tab-calendar" class="tab-content">
+			<x-migrainediary::attacks-calendar :attacks="$attacks"/>
+		</div>
 
-			<!-- calendar -->
-			<div id="migraine-calendar" class="bg-white dark:bg-gray-800 rounded-lg shadow p-4"></div>
+		<!-- list -->
+		<div id="tab-list" class="tab-content hidden">
+			<x-migrainediary::attacks-list :attacks="$attacks"/>
 		</div>
 
 		<!-- statistics -->
-		<div class="statistic-container flex flex-col gap-4 p-2">
-			{{--TODO: statistics--}}
+		<div id="tab-statistic" class="tab-content hidden">
+			<x-migrainediary::attacks-statistics :attacks="$attacks"/>
 		</div>
+
+		<!-- modal -->
+		<x-migrainediary::modal
+			id="migraineModal"
+			title="{{ __('migrainediary::migraine_diary.new_attack') }}"
+		>
+			@include('migrainediary::user.attacks._form')
+		</x-migrainediary::modal>
+
 	</div>
 </x-app-layout>

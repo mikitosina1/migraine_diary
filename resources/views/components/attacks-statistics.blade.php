@@ -1,0 +1,3 @@
+@if($attacks)
+
+@endif
