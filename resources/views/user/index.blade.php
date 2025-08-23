@@ -6,10 +6,10 @@
 			<!-- Calendar buttons -->
 			<div class="flex justify-between items-center mb-4 calendar-buttons">
 				<div class="tabs flex space-x-4">
-					<button class="tab-btn px-4 py-2 text-white active" data-tab="calendar">
+					<button class="tab-btn px-4 py-2 text-white" data-tab="calendar">
 						@lang('migrainediary::migraine_diary.calendar')
 					</button>
-					<button class="tab-btn px-4 py-2 text-white" data-tab="list">
+					<button class="tab-btn px-4 py-2 text-white active" data-tab="list">
 						@lang('migrainediary::migraine_diary.list')
 					</button>
 					<button class="tab-btn px-4 py-2 text-white" data-tab="statistic">
@@ -26,12 +26,12 @@
 			</div>
 		</div>
 		<!-- calendar -->
-		<div  id="tab-calendar" class="tab-content">
+		<div  id="tab-calendar" class="tab-content hidden">
 			<x-migrainediary::attacks-calendar :attacks="$attacks"/>
 		</div>
 
-		<!-- list -->
-		<div id="tab-list" class="tab-content hidden">
+		<!-- list by default -->
+		<div id="tab-list" class="tab-content">
 			<x-migrainediary::attacks-list :attacks="$attacks"/>
 		</div>
 

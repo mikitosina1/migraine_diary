@@ -18,6 +18,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
+	// Filter buttons
+	document.querySelectorAll(".filter-btn").forEach(btn => {
+		btn.addEventListener("click", () => {
+			const range = btn.dataset.range;
+			applyFilter(range);
+		});
+	});
+
+	const select = document.getElementById("attack-range");
+	if (select) {
+		select.addEventListener("change", e => {
+			applyFilter(e.target.value);
+		});
+	}
+
 	const modal = document.getElementById('migraineModal');
 	if (modal) {
 		window.migraineModal = modal;
@@ -157,3 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		showStep(currentStep);
 	}
 });
+
+function applyFilter(range) {
+	console.log("Фильтруем по:", range);
+
+	// TODO: filter on server side.
+}

@@ -22,6 +22,9 @@ return [
 	'calendar'       => 'Календарь',
 	'count'          => 'Количество',
 	'count_by_month' => 'Количество за месяц',
+	'last_month'     => 'За последний месяц',
+	'last_3_months'  => 'За последние 3 месяца',
+	'last_year'      => 'За год',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',

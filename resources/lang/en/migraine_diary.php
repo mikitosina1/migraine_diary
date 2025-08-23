@@ -23,6 +23,9 @@ return [
 	'calendar'       => 'Calendar',
 	'count'          => 'Count',
 	'count_by_month' => 'Count by month',
+	'last_month'     => 'Last month',
+	'last_3_months'  => 'Last 3 months',
+	'last_year'      => 'Per year',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',

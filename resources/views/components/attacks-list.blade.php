@@ -4,12 +4,12 @@
 
 @if($attacks->count())
 	<div class="list-header flex flex-row justify-between items-center p-4">
-		<div class="text-white mr-2">
-			@lang('migrainediary::migraine_diary.count'): {{ $attacks->count() }}
-		</div>
-		<div class="text-white ml-2">
-			@lang('migrainediary::migraine_diary.count_by_month'):
-			{{ $attacks->filter(fn($a) => Carbon::parse($a->start_time)->isCurrentMonth())->count() }}
+		<div class="filter-block mb-4">
+			<select id="attack-range" class="bg-gray-800 text-white py-2 rounded">
+				<option value="year">@lang('migrainediary::migraine_diary.last_year')</option>
+				<option value="3months">@lang('migrainediary::migraine_diary.last_3_months')</option>
+				<option value="month">@lang('migrainediary::migraine_diary.last_month')</option>
+			</select>
 		</div>
 	</div>
 
