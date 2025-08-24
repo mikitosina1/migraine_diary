@@ -2,12 +2,12 @@
 	<!-- Date & Time -->
 	<div>
 		<label for="start_time" class="p-1 mr-2 text-white">@lang('migrainediary::migraine_diary.start_time'): </label>
-		<input type="datetime-local" name="start_time" value="{{ now()->format('Y-m-d\TH:i') }}">
+		<input type="datetime-local" name="start_time" id="start_time" value="{{ now()->format('Y-m-d\TH:i') }}">
 	</div>
 
 	<!-- Pain Level -->
 	<div class="flex flex-col gap-2">
-		<label for="pain_level" class="p-1 mr-2 text-white">
+		<label class="p-1 mr-2 text-white">
 			@lang('migrainediary::migraine_diary.pain_level'):
 		</label>
 

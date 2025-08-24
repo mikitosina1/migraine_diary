@@ -27,6 +27,7 @@ return [
 	'last_3_months'  => 'Letzte 3 Monate',
 	'last_year'      => 'Letzte Jahr',
 	'no_rec_found'   => 'Keine Einträge vorhanden',
+	'loading'        => 'Loading',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',
@@ -39,5 +40,9 @@ return [
 	'pain_level_8'   => 'Sehr starke Schmerzen',
 	'pain_level_9'   => 'Äußerst starke Schmerzen',
 	'pain_level_10'  => 'Unerträgliche Schmerzen',
+
+	//errors
+	'form_send_err'  => 'Fehler beim Senden des #md Form. Bitte versuchen Sie es später erneut.',
+	'filtr_err'      => 'Fehler beim Filtration. Bitte versuchen Sie es später erneut.',
 
 ];

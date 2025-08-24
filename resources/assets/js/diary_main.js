@@ -1,5 +1,6 @@
 import axios from 'axios';
 import $ from 'jquery';
+import ContentFilter from "./ContentFilter.js";
 
 window.$ = $;
 window.axios = axios;
@@ -32,10 +33,50 @@ async function loadTranslations() {
 	}
 }
 
+// Creating filters exemplars
+let listFilter, statisticFilter;
+
+function initializeFilters() {
+	listFilter = new ContentFilter({
+		containerSelector: '.list',
+		targetSelector: '.list',
+		endpoint: '/migraine-diary',
+		loadingMessage: __('loading', 'Loading'),
+		errorMessage: __('filtr_err', 'List filtration error'),
+		translateFn: __
+	});
+
+	statisticFilter = new ContentFilter({
+		containerSelector: '.statistic',
+		targetSelector: '.statistic',
+		endpoint: '/migraine-diary',
+		loadingMessage: __('loading', 'Loading'),
+		errorMessage: __('filtr_err', 'Statistics filtration error'),
+		translateFn: __
+	});
+}
+
+function applyListFilter(range) {
+	if (!listFilter) {
+		console.warn('List filter not initialized');
+		return;
+	}
+	listFilter.apply(range);
+}
+
+function applyStatisticFilter(range) {
+	if (!statisticFilter) {
+		console.warn('Statistic filter not initialized');
+		return;
+	}
+	statisticFilter.apply(range);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 	loadTranslations().then(() => {
 		console.log('Translations initialized for migraine diary');
+		// Initialize filters after translations are loaded
+		initializeFilters();
 	});
 
 
@@ -49,18 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
-	// Filter buttons
-	document.querySelectorAll(".filter-btn").forEach(btn => {
-		btn.addEventListener("click", () => {
-			const range = btn.dataset.range;
-			applyFilter(range);
+	// Filter for a list by date
+	const listSelect = document.getElementById("list-attack-range");
+	if (listSelect) {
+		listSelect.addEventListener("change", e => {
+			applyListFilter(e.target.value);
 		});
-	});
+	}
 
-	const select = document.getElementById("attack-range");
-	if (select) {
-		select.addEventListener("change", e => {
-			applyFilter(e.target.value);
+	const statisticSelect = document.getElementById("statistic-attack-range");
+	if (statisticSelect) {
+		statisticSelect.addEventListener("change", e => {
+			applyStatisticFilter(e.target.value);
 		});
 	}
 
@@ -185,8 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					showStep(currentStep);
 				}
 			} catch (error) {
-				console.error(error);
-				alert('Error on sending form. Please try again later.');
+				console.error('Submit form error #md: ', error);
+				alert(__('form_send_err', 'Error sending form'));
 			}
 		};
 
@@ -203,34 +244,3 @@ document.addEventListener('DOMContentLoaded', () => {
 		showStep(currentStep);
 	}
 });
-
-function applyFilter(range) {
-	console.log("Фильтруем по:", range);
-
-	// load indicator
-	const attacksList = document.querySelector('.list');
-	if (attacksList) {
-		attacksList.innerHTML = '<div class="text-center p-4">Загрузка...</div>';
-	}
-
-	// request
-	axios.get('/migraine-diary', {
-		params: { range: range }
-	})
-		.then(response => {
-			const parser = new DOMParser();
-			const doc = parser.parseFromString(response.data, 'text/html');
-			const newAttacksList = doc.querySelector('.list');
-
-			if (attacksList && newAttacksList) {
-				attacksList.innerHTML = newAttacksList.innerHTML;
-			}
-		})
-		.catch(error => {
-			console.error('Ошибка при фильтрации:', error);
-			if (attacksList) {
-				attacksList.innerHTML = '<div class="text-center p-4 text-red-500">Ошибка загрузки данных</div>';
-			}
-		});
-}
-

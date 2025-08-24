@@ -1,6 +1,7 @@
 <?php
 
 return [
+	//template translations
 	'widget_title'   => 'Дневник мигреней',
 	'to_diary'       => 'Перейти в дневник мигреней',
 	'add_attack'     => 'Добавить атаку',
@@ -26,6 +27,7 @@ return [
 	'last_3_months'  => 'За последние 3 месяца',
 	'last_year'      => 'За год',
 	'no_rec_found'   => 'Записи отсутствуют',
+	'loading'        => 'Загрузка',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',
@@ -39,5 +41,9 @@ return [
 	'pain_level_8'   => 'Очень сильная боль',
 	'pain_level_9'   => 'Крайне сильная боль',
 	'pain_level_10'  => 'Невыносимая боль',
+
+	//errors
+	'form_send_err'  => 'Ошибка при отправке формы #md. Повторите попытку позже.',
+	'filtr_err'      => 'Ошибка фильтрации. Повторите попытку позже.',
 
 ];

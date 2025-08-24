@@ -6,7 +6,7 @@
 @if($attacks->count())
 	<div class="list-header flex flex-row justify-between items-center p-4">
 		<div class="filter-block mb-4">
-			<select id="attack-range" class="bg-gray-800 text-white py-2 rounded">
+			<select id="list-attack-range" class="bg-gray-800 text-white py-2 rounded">
 				<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
 					@lang('migrainediary::migraine_diary.last_year')
 				</option>

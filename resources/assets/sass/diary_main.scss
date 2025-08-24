@@ -28,6 +28,8 @@ dialog {
 	gap: 1em;
 	border: 1px solid var(--block-border-color);
 	border-radius: 10px;
+	width: 535px;
+	max-width: 535px;
 
 	.calendar-container {
 		display: flex;
@@ -52,11 +54,25 @@ dialog {
 	}
 
 	#tab-list {
+		width: 505px;
 
 		.list-header {
 
 			.filter-block {
-				#attack-range {
+				#list-attack-range {
+					padding: .5em 2em .5em .5em;
+				}
+			}
+		}
+	}
+
+	#tab-statistic {
+		width: 505px;
+
+		.statistic-header {
+
+			.filter-block {
+				#statistic-attack-range {
 					padding: .5em 2em .5em .5em;
 				}
 			}
