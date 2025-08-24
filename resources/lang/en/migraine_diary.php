@@ -26,6 +26,7 @@ return [
 	'last_month'     => 'Last month',
 	'last_3_months'  => 'Last 3 months',
 	'last_year'      => 'Per year',
+	'no_rec_found'   => 'No records found',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',

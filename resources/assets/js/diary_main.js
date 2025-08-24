@@ -6,7 +6,38 @@ window.axios = axios;
 window.axios.defaults.withCredentials = true;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+let translations = {};
+
+// translations
+function __(key, fallback) {
+	if (translations[key]) {
+		return translations[key];
+	}
+	return fallback || key;
+}
+
+// getting translations
+async function loadTranslations() {
+	try {
+		const response = await axios.get('/migraine-diary/translations');
+
+		if (response.data && response.data.success && response.data.translations) {
+			translations = response.data.translations;
+			console.log('Translations loaded for migraine diary');
+		} else {
+			console.warn('Can not load translations for migraine diary: ', response.data);
+		}
+	} catch (error) {
+		console.error('Error on load  for migraine diary: ', error);
+	}
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
+	loadTranslations().then(() => {
+		console.log('Translations initialized for migraine diary');
+	});
+
 
 	// Tab buttons to switch calendar-to-list view and vice versa
 	document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -91,27 +122,27 @@ document.addEventListener('DOMContentLoaded', () => {
 				const startInput = form.querySelector('input[name="start_time"]');
 				const painInput = form.querySelector('input[name="pain_level"]:checked');
 				detailsDiv.innerHTML = `
-					<p><strong>Start:</strong> ${startInput?.value || '-'}</p>
-					<p><strong>Pain Level:</strong> ${painInput?.value || '-'}</p>
+					<p><strong>${__('start_time', 'Start time')}: </strong> ${startInput?.value || '-'}</p>
+					<p><strong>${__('pain_level', 'Pain level')}: </strong> ${painInput?.value || '-'}</p>
 				`;
 			}
 
 			if (symptomsDiv) {
 				const symptoms = [...form.querySelectorAll('input[name="symptoms[]"]:checked')]
 					.map((el) => el.nextSibling.textContent.trim());
-				symptomsDiv.innerHTML = `<p><strong>Symptoms:</strong> ${symptoms.join(', ') || '-'}</p>`;
+				symptomsDiv.innerHTML = `<p><strong>${__('symptoms', 'Symptoms')}: </strong> ${symptoms.join(', ') || '-'}</p>`;
 			}
 
 			if (triggersDiv) {
 				const triggers = [...form.querySelectorAll('input[name="triggers[]"]:checked')]
 					.map((el) => el.nextSibling.textContent.trim());
-				triggersDiv.innerHTML = `<p><strong>Triggers:</strong> ${triggers.join(', ') || '-'}</p>`;
+				triggersDiv.innerHTML = `<p><strong>${__('triggers', 'Triggers')}: </strong> ${triggers.join(', ') || '-'}</p>`;
 			}
 
 			if (medsDiv) {
 				const meds = [...form.querySelectorAll('input[name="meds[]"]:checked')]
 					.map((el) => el.nextSibling.textContent.trim());
-				medsDiv.innerHTML = `<p><strong>Meds:</strong> ${meds.join(', ') || '-'}</p>`;
+				medsDiv.innerHTML = `<p><strong>${__('meds', 'Medicaments')}: </strong> ${meds.join(', ') || '-'}</p>`;
 			}
 		};
 
@@ -176,5 +207,30 @@ document.addEventListener('DOMContentLoaded', () => {
 function applyFilter(range) {
 	console.log("Фильтруем по:", range);
 
-	// TODO: filter on server side.
+	// load indicator
+	const attacksList = document.querySelector('.list');
+	if (attacksList) {
+		attacksList.innerHTML = '<div class="text-center p-4">Загрузка...</div>';
+	}
+
+	// request
+	axios.get('/migraine-diary', {
+		params: { range: range }
+	})
+		.then(response => {
+			const parser = new DOMParser();
+			const doc = parser.parseFromString(response.data, 'text/html');
+			const newAttacksList = doc.querySelector('.list');
+
+			if (attacksList && newAttacksList) {
+				attacksList.innerHTML = newAttacksList.innerHTML;
+			}
+		})
+		.catch(error => {
+			console.error('Ошибка при фильтрации:', error);
+			if (attacksList) {
+				attacksList.innerHTML = '<div class="text-center p-4 text-red-500">Ошибка загрузки данных</div>';
+			}
+		});
 }
+

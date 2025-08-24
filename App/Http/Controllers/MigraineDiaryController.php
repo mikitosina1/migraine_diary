@@ -3,6 +3,8 @@
 namespace Modules\MigraineDiary\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\MigraineDiary\App\Models\MigraineAttack;
@@ -15,14 +17,21 @@ class MigraineDiaryController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index()
+	public function index(Request $request)
 	{
+		$validated = $request->validate([
+			'range' => 'nullable|string|in:month,3months,year'
+		]);
+
+		$range = $validated['range'] ?? 'year';
+
 		return view('migrainediary::user.index', [
 			'symptoms' => MigraineSymptom::getListWithTranslations(),
 			'triggers' => MigraineTrigger::getListWithTranslations(),
 			'meds' => MigraineMed::getListWithTranslations(),
 			'locales' => config('app.locales'),
-			'attacks' => MigraineAttack::getForUser(auth()->id()),
+			'attacks' => $this->getFilteredAttacks($range),
+			'currentRange' => $range,
 		]);
 	}
 
@@ -108,4 +117,40 @@ class MigraineDiaryController extends Controller
 	{
 		//
 	}
+
+	/**
+	 * Get filtered attacks based on range
+	 */
+	private function getFilteredAttacks(string $range)
+	{
+		$query = MigraineAttack::where('user_id', auth()->id())
+			->orderBy('start_time', 'desc');
+
+		$startDate = match($range) {
+			'month' => Carbon::now()->subMonth(),
+			'3months' => Carbon::now()->subMonths(3),
+			'year' => Carbon::now()->subYear(),
+		};
+
+		return $query->where('start_time', '>=', $startDate)->get();
+	}
+
+	public function getTranslations(Request $request): JsonResponse
+	{
+		$locale = $request->header('Accept-Language') ?? app()->getLocale();
+		$locale = substr($locale, 0, 2);
+
+		$availableLocales = ['en', 'de', 'ru'];
+		if (!in_array($locale, $availableLocales)) {
+			$locale = 'en'; // basic translation
+		}
+
+		$translations = trans('migrainediary::migraine_diary', [], $locale);
+
+		return response()->json([
+			'success' => true,
+			'translations' => $translations
+		]);
+	}
+
 }

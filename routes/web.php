@@ -20,6 +20,7 @@ Route::middleware(['web', 'auth'])
 	->name('user.migraine-diary.')
 	->group(function () {
 		Route::resource('/', MigraineDiaryController::class)->names('resource');
+		Route::get('/translations', [MigraineDiaryController::class, 'getTranslations']);
 	});
 
 Route::middleware(['web', 'auth'])

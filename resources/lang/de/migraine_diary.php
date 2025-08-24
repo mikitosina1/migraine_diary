@@ -26,6 +26,7 @@ return [
 	'last_month'     => 'Letzter Monat',
 	'last_3_months'  => 'Letzte 3 Monate',
 	'last_year'      => 'Letzte Jahr',
+	'no_rec_found'   => 'Keine Einträge vorhanden',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',

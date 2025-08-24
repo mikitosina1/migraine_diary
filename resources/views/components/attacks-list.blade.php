@@ -1,14 +1,21 @@
 @php
 	use Carbon\Carbon;
+	$currentRange = $currentRange ?? 'year';
 @endphp
 
 @if($attacks->count())
 	<div class="list-header flex flex-row justify-between items-center p-4">
 		<div class="filter-block mb-4">
 			<select id="attack-range" class="bg-gray-800 text-white py-2 rounded">
-				<option value="year">@lang('migrainediary::migraine_diary.last_year')</option>
-				<option value="3months">@lang('migrainediary::migraine_diary.last_3_months')</option>
-				<option value="month">@lang('migrainediary::migraine_diary.last_month')</option>
+				<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
+					@lang('migrainediary::migraine_diary.last_year')
+				</option>
+				<option value="3months" {{ $currentRange === '3months' ? 'selected' : '' }}>
+					@lang('migrainediary::migraine_diary.last_3_months')
+				</option>
+				<option value="month" {{ $currentRange === 'month' ? 'selected' : '' }}>
+					@lang('migrainediary::migraine_diary.last_month')
+				</option>
 			</select>
 		</div>
 	</div>
@@ -76,4 +83,6 @@
 			</div>
 		@endforeach
 	</div>
+@else
+	@lang('migrainediary::migraine_diary.no_rec_found')
 @endif

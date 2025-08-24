@@ -25,6 +25,7 @@ return [
 	'last_month'     => 'За последний месяц',
 	'last_3_months'  => 'За последние 3 месяца',
 	'last_year'      => 'За год',
+	'no_rec_found'   => 'Записи отсутствуют',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',
