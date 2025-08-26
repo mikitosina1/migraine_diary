@@ -36,6 +36,23 @@ class MigraineDiaryController extends Controller
 	}
 
 	/**
+	 * Get filtered attacks based on range
+	 */
+	private function getFilteredAttacks(string $range)
+	{
+		$query = MigraineAttack::where('user_id', auth()->id())
+			->orderBy('start_time', 'desc');
+
+		$startDate = match($range) {
+			'month' => Carbon::now()->subMonth(),
+			'3months' => Carbon::now()->subMonths(3),
+			'year' => Carbon::now()->subYear(),
+		};
+
+		return $query->where('start_time', '>=', $startDate)->get();
+	}
+
+	/**
 	 * Store a newly created resource in storage.
 	 */
 	public function store(Request $request)
@@ -116,23 +133,6 @@ class MigraineDiaryController extends Controller
 	public function destroy($id)
 	{
 		//
-	}
-
-	/**
-	 * Get filtered attacks based on range
-	 */
-	private function getFilteredAttacks(string $range)
-	{
-		$query = MigraineAttack::where('user_id', auth()->id())
-			->orderBy('start_time', 'desc');
-
-		$startDate = match($range) {
-			'month' => Carbon::now()->subMonth(),
-			'3months' => Carbon::now()->subMonths(3),
-			'year' => Carbon::now()->subYear(),
-		};
-
-		return $query->where('start_time', '>=', $startDate)->get();
 	}
 
 	public function getTranslations(Request $request): JsonResponse

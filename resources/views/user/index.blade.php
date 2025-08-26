@@ -26,7 +26,7 @@
 			</div>
 		</div>
 		<!-- calendar -->
-		<div  id="tab-calendar" class="tab-content hidden">
+		<div id="tab-calendar" class="tab-content hidden">
 			<x-migrainediary::attacks-calendar :attacks="$attacks"/>
 		</div>
 

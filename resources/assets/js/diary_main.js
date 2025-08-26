@@ -203,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			});
 		}
+
 		const submitForm = async () => {
 			const formData = {
 				start_time: form.querySelector('input[name="start_time"]').value,

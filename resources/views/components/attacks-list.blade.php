@@ -39,7 +39,8 @@
 						@endif
 					</div>
 					<div class="flex items-center gap-3">
-						<span class="px-2 py-1 rounded text-sm" style="background-color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
+						<span class="px-2 py-1 rounded text-sm"
+							  style="background-color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
 							@lang('migrainediary::migraine_diary.pain_level'): {{ $attack->pain_level }}
 						</span>
 						<svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
