@@ -81,11 +81,11 @@
 						</div>
 					@endif
 
-					<div class="list-item-buttons flex flex-row items-center justify-end space-x-2">
+					<div class="list-item-buttons flex flex-row items-center justify-end space-x-2 mt-4">
 						<!-- Delete -->
 						<button
 							type="button"
-							class="delete-btn"
+							class="delete-btn mr-2"
 							data-attack-id="{{ $attack->id }}"
 						>
 							<i class="fas fa-trash text-red-500"></i>

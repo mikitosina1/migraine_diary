@@ -28,8 +28,11 @@ return [
 	'last_year'      => 'Per year',
 	'no_rec_found'   => 'No records found',
 	'loading'        => 'Loading',
+	'unauthorized'   => 'Unauthorized action',
 	'delete'         => 'Delete',
+	'delete_error'   => 'An error occurred during deletion.',
 	'delete_confirm' => 'Are you sure you want to delete?',
+	'add_success'    => 'Attack successfully added',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',

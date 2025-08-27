@@ -40,7 +40,7 @@ function initializeFilters() {
 	listFilter = new ContentFilter({
 		containerSelector: '.list',
 		targetSelector: '.list',
-		endpoint: '/migraine-diary/attacks',
+		endpoint: '/migraine-diary',
 		loadingMessage: __('loading', 'Loading'),
 		errorMessage: __('filtr_err', 'List filtration error'),
 		translateFn: __
@@ -49,7 +49,7 @@ function initializeFilters() {
 	statisticFilter = new ContentFilter({
 		containerSelector: '.statistic',
 		targetSelector: '.statistic',
-		endpoint: '/migraine-diary/attacks',
+		endpoint: '/migraine-diary',
 		loadingMessage: __('loading', 'Loading'),
 		errorMessage: __('filtr_err', 'Statistics filtration error'),
 		translateFn: __
@@ -81,7 +81,6 @@ async function deleteAttack(attackId) {
 		const response = await axios.delete(`/migraine-diary/attacks/${attackId}`);
 
 		if (response.data.success) {
-			// Find and remove the attack element
 			const attackElement = document.querySelector(`.delete-btn[data-attack-id="${attackId}"]`)
 				.closest('.migraine-list-item');
 
@@ -93,7 +92,7 @@ async function deleteAttack(attackId) {
 				setTimeout(() => {
 					attackElement.remove();
 
-					// Check if list is empty after deletion
+					// Check if a list is empty after deletion
 					if (document.querySelectorAll('.migraine-list-item').length === 0) {
 						document.querySelector('.list').innerHTML =
 							'<p class="text-center py-8">' +
@@ -121,7 +120,6 @@ async function loadAttackForEdit(attackId) {
 		const response = await axios.get(`/migraine-diary/attacks/${attackId}/edit`);
 
 		if (response.data.success) {
-			// Fill the modal with attack data
 			fillEditModal(response.data.attack);
 			window.migraineModal.showModal();
 		}
@@ -132,23 +130,20 @@ async function loadAttackForEdit(attackId) {
 }
 
 // Function to fill edit modal with data
+//TODO: refactor to different form or finish to equal, it doesn't works yet
 function fillEditModal(attack) {
-	// Fill basic fields
 	document.querySelector('input[name="edit_start_time"]').value = attack.start_time;
 	document.querySelector('input[name="edit_pain_level"][value="' + attack.pain_level + '"]').checked = true;
 	document.querySelector('textarea[name="edit_notes"]').value = attack.notes || '';
 
-	// Fill symptoms
 	document.querySelectorAll('input[name="edit_symptoms[]"]').forEach(checkbox => {
 		checkbox.checked = attack.symptoms.some(symptom => symptom.id === checkbox.value);
 	});
 
-	// Fill triggers
 	document.querySelectorAll('input[name="edit_triggers[]"]').forEach(checkbox => {
 		checkbox.checked = attack.triggers.some(trigger => trigger.id === checkbox.value);
 	});
 
-	// Fill meds
 	document.querySelectorAll('input[name="edit_meds[]"]').forEach(checkbox => {
 		const med = attack.meds.find(med => med.id === checkbox.value);
 		checkbox.checked = !!med;
@@ -157,13 +152,11 @@ function fillEditModal(attack) {
 		}
 	});
 
-	// Store attack ID for update
 	document.getElementById('edit-attack-id').value = attack.id;
 }
 
 // Notification function
 function showNotification(message, type = 'success') {
-	// Create a simple notification element
 	const alert = document.createElement('div');
 	alert.className = `fixed top-4 right-4 p-4 rounded-md text-white ${
 		type === 'success' ? 'bg-green-500' : 'bg-red-500'
@@ -178,8 +171,6 @@ function showNotification(message, type = 'success') {
 
 document.addEventListener('DOMContentLoaded', () => {
 	loadTranslations().then(() => {
-		console.log('Translations initialized for migraine diary');
-		// Initialize filters after translations are loaded
 		initializeFilters();
 	});
 
@@ -193,15 +184,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	});
 
-	// Event delegation for delete buttons
-	document.addEventListener('click', function(e) {
+	// delete attack button
+	document.addEventListener('click', function (e) {
 		// Delete button
 		if (e.target.closest('.delete-btn')) {
 			const attackId = e.target.closest('.delete-btn').dataset.attackId;
 			deleteAttack(attackId);
 		}
 
-		// Edit button
+		// Edit attack button
 		if (e.target.closest('.edit-btn')) {
 			const attackId = e.target.closest('.edit-btn').dataset.attackId;
 			loadAttackForEdit(attackId);
@@ -343,6 +334,9 @@ document.addEventListener('DOMContentLoaded', () => {
 					form.reset();
 					currentStep = 1;
 					showStep(currentStep);
+					setTimeout(() => {
+						window.location.reload();
+					}, 1000);
 				}
 			} catch (error) {
 				console.error('Submit form error #md: ', error);

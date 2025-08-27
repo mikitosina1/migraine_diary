@@ -4,9 +4,7 @@ namespace Modules\MigraineDiary\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\MigraineDiary\App\Models\MigraineAttack;
 
 class MigraineAttackController extends Controller
@@ -17,14 +15,6 @@ class MigraineAttackController extends Controller
 	public function index()
 	{
 		return view('migrainediary::index');
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 */
-	public function create()
-	{
-		return view('migrainediary::create');
 	}
 
 	/**
@@ -65,9 +55,17 @@ class MigraineAttackController extends Controller
 
 		return response()->json([
 			'success'   => true,
-			'message'   => 'Attack created successfully!',
+			'message'   => __('migrainediary::migraine_diary.add_success'),
 			'attack_id' => $attack->id,
 		]);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 */
+	public function create()
+	{
+		return view('migrainediary::create');
 	}
 
 	/**

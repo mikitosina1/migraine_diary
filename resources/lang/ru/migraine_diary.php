@@ -28,8 +28,11 @@ return [
 	'last_year'      => 'За год',
 	'no_rec_found'   => 'Записи отсутствуют',
 	'loading'        => 'Загрузка',
+	'unauthorized'   => 'Несанкционированное действие',
 	'delete'         => 'Удаление',
+	'delete_error'   => 'При удалении произошла ошибка',
 	'delete_confirm' => 'Вы уверены, что хотите удалить?',
+	'add_success'    => 'Атака успешно добавлена',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',

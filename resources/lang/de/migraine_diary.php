@@ -28,8 +28,11 @@ return [
 	'last_year'      => 'Letzte Jahr',
 	'no_rec_found'   => 'Keine Einträge vorhanden',
 	'loading'        => 'Loading',
+	'unauthorized'   => 'Unbefugte Aktion',
 	'delete'         => 'Löschen',
+	'delete_error'   => 'Beim Löschen ist ein Fehler aufgetreten.',
 	'delete_confirm' => 'Sind Sie sicher, dass Sie löschen möchten?',
+	'add_success'    => 'Angriff erfolgreich hinzugefügt',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',
