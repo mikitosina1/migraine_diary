@@ -28,6 +28,8 @@ return [
 	'last_year'      => 'За год',
 	'no_rec_found'   => 'Записи отсутствуют',
 	'loading'        => 'Загрузка',
+	'delete'         => 'Удаление',
+	'delete_confirm' => 'Вы уверены, что хотите удалить?',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',

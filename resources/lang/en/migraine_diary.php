@@ -28,6 +28,8 @@ return [
 	'last_year'      => 'Per year',
 	'no_rec_found'   => 'No records found',
 	'loading'        => 'Loading',
+	'delete'         => 'Delete',
+	'delete_confirm' => 'Are you sure you want to delete?',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',

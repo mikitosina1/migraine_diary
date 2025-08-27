@@ -28,6 +28,8 @@ return [
 	'last_year'      => 'Letzte Jahr',
 	'no_rec_found'   => 'Keine Einträge vorhanden',
 	'loading'        => 'Loading',
+	'delete'         => 'Löschen',
+	'delete_confirm' => 'Sind Sie sicher, dass Sie löschen möchten?',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',

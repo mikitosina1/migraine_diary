@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\MigraineDiary\App\Http\Controllers\Admin\MigraineDiaryAdminController;
+use Modules\MigraineDiary\App\Http\Controllers\MigraineAttackController;
 use Modules\MigraineDiary\App\Http\Controllers\MigraineDiaryController;
 
 /*
@@ -20,6 +21,9 @@ Route::middleware(['web', 'auth'])
 	->name('user.migraine-diary.')
 	->group(function () {
 		Route::resource('/', MigraineDiaryController::class)->names('resource');
+
+		Route::resource('/attacks', MigraineAttackController::class)->names('attacks');
+
 		Route::get('/translations', [MigraineDiaryController::class, 'getTranslations']);
 	});
 

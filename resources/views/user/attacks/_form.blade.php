@@ -1,4 +1,5 @@
 <form method="POST" id="migraine-form" action="{{ route('user.migraine-diary.resource.store') }}">
+	<input type="hidden" id="edit-attack-id" value="">
 	@csrf
 	<!-- Progress bar -->
 	@include('migrainediary::components.steps', [

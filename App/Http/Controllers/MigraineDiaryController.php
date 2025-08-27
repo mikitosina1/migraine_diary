@@ -5,7 +5,6 @@ namespace Modules\MigraineDiary\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\MigraineDiary\App\Models\MigraineAttack;
 use Modules\MigraineDiary\App\Models\MigraineMed;
@@ -57,42 +56,7 @@ class MigraineDiaryController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$validated = $request->validate([
-			'start_time' => 'required|date',
-			'pain_level' => 'required|integer|min:1|max:10',
-			'notes'      => 'nullable|string',
-			'symptoms'   => 'array',
-			'symptoms.*' => 'integer|exists:migraine_symptoms,id',
-			'meds'       => 'array',
-			'meds.*.id'  => 'required|integer|exists:migraine_meds,id',
-			'meds.*.dosage' => 'nullable|string',
-			'triggers'   => 'array',
-			'triggers.*' => 'integer|exists:migraine_triggers,id',
-		]);
-
-		$attack = MigraineAttack::create([
-			'user_id'    => auth()->id(),
-			'start_time' => $validated['start_time'],
-			'pain_level' => $validated['pain_level'],
-			'notes'      => $validated['notes'] ?? null,
-		]);
-
-		$meds = [];
-		if (!empty($validated['meds'])) {
-			foreach ($validated['meds'] as $med) {
-				$meds[$med['id']] = ['dosage' => $med['dosage'] ?? null];
-			}
-		}
-
-		$attack->symptoms()->sync(array_map('intval', $validated['symptoms']));
-		$attack->triggers()->sync(array_map('intval', $validated['triggers']));
-		$attack->meds()->sync($meds);
-
-		return response()->json([
-			'success'   => true,
-			'message'   => 'Attack created successfully!',
-			'attack_id' => $attack->id,
-		]);
+		//
 	}
 
 	/**
@@ -122,15 +86,15 @@ class MigraineDiaryController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 */
-	public function update(Request $request, $id): RedirectResponse
+	public function update(Request $request)
 	{
-		return redirect()->route('welcome')->with('success', 'we2e');
+		//
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy($id)
+	public function destroy(Request $request)
 	{
 		//
 	}

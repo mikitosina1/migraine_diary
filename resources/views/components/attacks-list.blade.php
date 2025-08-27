@@ -22,7 +22,7 @@
 
 	<div class="list grid gap-4 p-4">
 		@foreach($attacks as $attack)
-			<div x-data="{ open: false }" class="rounded-md bg-gray-800 text-white shadow">
+			<div x-data="{ open: false }" class="migraine-list-item rounded-md bg-gray-800 text-white shadow">
 				{{-- Block Title --}}
 				<button
 					@click="open = !open"
@@ -55,7 +55,7 @@
 				</button>
 
 				{{-- Content --}}
-				<div x-show="open" x-collapse class="p-4 border-t border-gray-700">
+				<div x-show="open" x-collapse class="list-item-content p-4 border-t border-gray-700">
 					@if($attack->notes)
 						<div class="mt-2 italic">"{{ $attack->notes }}"</div>
 					@endif
@@ -80,6 +80,24 @@
 							{{ $attack->meds->pluck('name')->join(', ') }}
 						</div>
 					@endif
+
+					<div class="list-item-buttons flex flex-row items-center justify-end space-x-2">
+						<!-- Delete -->
+						<button
+							type="button"
+							class="delete-btn"
+							data-attack-id="{{ $attack->id }}"
+						>
+							<i class="fas fa-trash text-red-500"></i>
+						</button>
+						<!-- Edit -->
+						<button
+							class="edit-btn"
+							data-attack-id="{{ $attack->id }}"
+						>
+							<i class="fas fa-edit text-green-600"></i>
+						</button>
+					</div>
 				</div>
 			</div>
 		@endforeach
