@@ -42,10 +42,9 @@
 
 		<!-- modal -->
 		<x-migrainediary::modal
-			id="migraineModal"
 			title="{{ __('migrainediary::migraine_diary.new_attack') }}"
 		>
-			@include('migrainediary::user.attacks._form')
+			@include('migrainediary::user.attacks._form', ['mode' => 'create'])
 		</x-migrainediary::modal>
 
 	</div>

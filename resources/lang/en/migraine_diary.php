@@ -28,6 +28,7 @@ return [
 	'last_year'      => 'Per year',
 	'no_rec_found'   => 'No records found',
 	'loading'        => 'Loading',
+	'update'         => 'Update data',
 	'unauthorized'   => 'Unauthorized action',
 	'delete'         => 'Delete',
 	'delete_error'   => 'An error occurred during deletion.',

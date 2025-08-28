@@ -3,22 +3,30 @@
 namespace Modules\MigraineDiary\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\Factory;
+use Illuminate\View\View;
 use Modules\MigraineDiary\App\Models\MigraineAttack;
+use Modules\MigraineDiary\App\Models\MigraineMed;
+use Modules\MigraineDiary\App\Models\MigraineSymptom;
+use Modules\MigraineDiary\App\Models\MigraineTrigger;
 
 class MigraineAttackController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index()
+	public function index(): View|Application|Factory
 	{
 		return view('migrainediary::index');
 	}
 
 	/**
 	 * Store a newly created resource in storage.
+	 * @param Request $request
+	 * @return JsonResponse
 	 */
 	public function store(Request $request): JsonResponse
 	{
@@ -79,9 +87,16 @@ class MigraineAttackController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 */
-	public function edit(MigraineAttack $attack)
+	public function edit(MigraineAttack $attack): View
 	{
-		return view('migrainediary::attacks.edit', compact('attack'));
+		return view('migrainediary::user.attacks._form', [
+			'title' => __('migrainediary::migraine_diary.update'),
+			'symptoms' => MigraineSymptom::getListWithTranslations(),
+			'triggers' => MigraineTrigger::getListWithTranslations(),
+			'meds' => MigraineMed::getListWithTranslations(),
+			'attack' => $attack,
+			'mode' => 'edit',
+		]);
 	}
 
 	/**

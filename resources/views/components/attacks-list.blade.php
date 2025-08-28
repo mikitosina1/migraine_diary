@@ -87,6 +87,7 @@
 							type="button"
 							class="delete-btn mr-2"
 							data-attack-id="{{ $attack->id }}"
+							title="@lang('migrainediary::migraine_diary.delete')"
 						>
 							<i class="fas fa-trash text-red-500"></i>
 						</button>
@@ -94,6 +95,7 @@
 						<button
 							class="edit-btn"
 							data-attack-id="{{ $attack->id }}"
+							title="@lang('migrainediary::migraine_diary.update')"
 						>
 							<i class="fas fa-edit text-green-600"></i>
 						</button>

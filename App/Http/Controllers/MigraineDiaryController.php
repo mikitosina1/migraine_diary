@@ -31,6 +31,7 @@ class MigraineDiaryController extends Controller
 			'locales' => config('app.locales'),
 			'attacks' => $this->getFilteredAttacks($range),
 			'currentRange' => $range,
+			'mode' => 'show',
 		]);
 	}
 

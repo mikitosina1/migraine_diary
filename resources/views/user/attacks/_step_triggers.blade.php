@@ -1,7 +1,9 @@
 <div class="flex flex-col gap-2">
 	@foreach($triggers as $trigger)
 		<label class="text-white">
-			<input type="checkbox" name="triggers[]" value="{{ $trigger['id'] }}">
+			<input type="checkbox" name="triggers[]" value="{{ $trigger['id'] }}"
+				   @if(isset($attack) && $attack->meds->contains($trigger['id'])) checked @endif
+			>
 			{{ $trigger['name'] }}
 		</label>
 	@endforeach

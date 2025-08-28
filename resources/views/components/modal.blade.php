@@ -1,8 +1,8 @@
 <dialog
-	id="{{ $id }}"
+	id="migraineModal"
 	class="fixed inset-0 z-50 hidden w-full h-full p-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
-	@if(isset($attributes))
-		{{ $attributes }}
+@if(isset($attributes))
+	{{ $attributes }}
 	@endif
 >
 	<div
@@ -12,14 +12,16 @@
 				<h3 class="text-xl font-semibold text-gray-900 dark:text-white">
 					{{ $title }}
 				</h3>
-				<button type="button" class="modal-close text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+				<button type="button" class="modal-close text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+					title="Close"
+				>
 					✕
 				</button>
 			</div>
 		@endif
 
 		<div class="p-6">
-			{{ $slot }}
+			{{ $slot ?? '' }}
 		</div>
 	</div>
 </dialog>

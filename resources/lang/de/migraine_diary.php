@@ -28,6 +28,7 @@ return [
 	'last_year'      => 'Letzte Jahr',
 	'no_rec_found'   => 'Keine Einträge vorhanden',
 	'loading'        => 'Loading',
+	'update'         => 'Daten aktualisieren',
 	'unauthorized'   => 'Unbefugte Aktion',
 	'delete'         => 'Löschen',
 	'delete_error'   => 'Beim Löschen ist ein Fehler aufgetreten.',
