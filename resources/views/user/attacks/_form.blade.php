@@ -1,6 +1,6 @@
 <form method="POST" id="migraine-form"
 	  action="{{ $mode === 'edit' ? route('user.migraine-diary.attacks.update', $attack) :
-	  route('user.migraine-diary.resource.store') }}"
+	  route('user.migraine-diary.attacks.store') }}"
 >
 	@csrf
 	@if($mode === 'edit')
