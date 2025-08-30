@@ -90,7 +90,6 @@ class MigraineAttackController extends Controller
 	public function edit(MigraineAttack $attack): View
 	{
 		return view('migrainediary::user.attacks._form', [
-			'title' => __('migrainediary::migraine_diary.update'),
 			'symptoms' => MigraineSymptom::getListWithTranslations(),
 			'triggers' => MigraineTrigger::getListWithTranslations(),
 			'meds' => MigraineMed::getListWithTranslations(),

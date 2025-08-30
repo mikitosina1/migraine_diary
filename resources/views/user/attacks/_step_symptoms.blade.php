@@ -2,7 +2,7 @@
 	@foreach($symptoms as $symptom)
 		<label class="text-white">
 			<input type="checkbox" name="symptoms[]" value="{{ $symptom['id'] }}"
-				   @if(isset($attack) && $attack->meds->contains($symptom['id'])) checked @endif
+				   @if(isset($attack) && $attack->symptoms->contains($symptom['id'])) checked @endif
 			>
 			{{ $symptom['name'] }}
 		</label>

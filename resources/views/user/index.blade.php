@@ -18,7 +18,7 @@
 				</div>
 				<!-- add button -->
 				<button
-					onclick="window.migraineModal.showModal()"
+					data-action="add-attack"
 					class="px-3 py-1 ml-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
 				>
 					@lang('migrainediary::migraine_diary.add_attack')
@@ -41,9 +41,7 @@
 		</div>
 
 		<!-- modal -->
-		<x-migrainediary::modal
-			title="{{ __('migrainediary::migraine_diary.new_attack') }}"
-		>
+		<x-migrainediary::modal>
 			@include('migrainediary::user.attacks._form', ['mode' => 'create'])
 		</x-migrainediary::modal>
 

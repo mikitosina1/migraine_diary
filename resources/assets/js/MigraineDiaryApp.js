@@ -150,6 +150,7 @@ class MigraineDiaryApp {
 			const modal = document.getElementById('migraineModal');
 
 			if (modal && response.data) {
+				modal.querySelector('.attack-modal-title').innerHTML = this.translate('update');
 				modal.querySelector('.p-6').innerHTML = response.data;
 				modal.showModal();
 				this.initFormSteps(modal.querySelector('form'));
@@ -327,6 +328,11 @@ class MigraineDiaryApp {
 			btn.addEventListener('click', (e) => this.handleTabClick(e));
 		});
 
+		// Add an attack button handler
+		document.querySelector('[data-action="add-attack"]')?.addEventListener('click', () => {
+			this.openCreateModal();
+		});
+
 		// Filter dropdowns
 		this.setupFilterListeners();
 
@@ -424,7 +430,7 @@ class MigraineDiaryApp {
 		}
 	}
 
-	// Add this method to your MigraineDiaryApp class
+	// update step indicators
 	updateStepIndicators(currentStep, totalSteps) {
 		const stepCircles = document.querySelectorAll('.step-circle');
 
@@ -464,7 +470,7 @@ class MigraineDiaryApp {
 		this.updateStepIndicators(stepNumber, steps.length);
 	}
 
-	// Add this method to your MigraineDiaryApp class
+	// reset form method
 	resetForm() {
 		// Reset main creation form
 		const mainForm = document.getElementById('migraine-form');
@@ -479,7 +485,7 @@ class MigraineDiaryApp {
 			this.clearCheckboxes('input[name="meds[]"]', mainForm);
 		}
 
-		// Also reset any form in the modal
+		// reset any form in the modal
 		const modalForm = document.querySelector('#migraine-form form');
 		if (modalForm && modalForm !== mainForm) {
 			modalForm.reset();
@@ -500,7 +506,7 @@ class MigraineDiaryApp {
 		});
 	}
 
-	// Method to reset radio buttons
+	// reset radio buttons
 	resetRadioButtons(selector, container = document) {
 		const searchScope = container instanceof Document ? container : container;
 		const radioButtons = searchScope.querySelectorAll(selector);
@@ -514,7 +520,7 @@ class MigraineDiaryApp {
 		}
 	}
 
-// Method to reset datetime field
+	// reset datetime field
 	resetDateTimeField(selector, container = document) {
 		const searchScope = container instanceof Document ? container : container;
 		const datetimeField = searchScope.querySelector(selector);
@@ -524,6 +530,14 @@ class MigraineDiaryApp {
 		}
 	}
 
+	openCreateModal() {
+		const modal = document.getElementById('migraineModal');
+		if (modal) {
+			modal.querySelector('.attack-modal-title').innerHTML = this.translate('add_attack');
+			modal.showModal();
+			this.resetForm();
+		}
+	}
 }
 
 export default MigraineDiaryApp;
