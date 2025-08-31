@@ -5,6 +5,7 @@ return [
 	'to_diary'       => 'Nach Migräne-Tagebuch',
 	'add_attack'     => 'Angriff hinzufügen',
 	'new_attack'     => 'Neue Angriff',
+	'attacks_for'    => 'Angriff für',
 	'statistic'      => 'Statistik',
 	'monthly_stats'  => 'Monatsstatistik',
 	'triggers_stats' => 'Triggerstatistik',
@@ -50,5 +51,56 @@ return [
 	//errors
 	'form_send_err'  => 'Fehler beim Senden des #md Form. Bitte versuchen Sie es später erneut.',
 	'filtr_err'      => 'Fehler beim Filtration. Bitte versuchen Sie es später erneut.',
+
+	//date translations
+	'short_days' => [
+		'monday'    => 'mo',
+		'tuesday'   => 'di',
+		'wednesday' => 'mi',
+		'thursday'  => 'do',
+		'friday'    => 'fr',
+		'saturday'  => 'sa',
+		'sunday'    => 'so',
+	],
+
+	'full_days' => [
+		'monday'    => 'montag',
+		'tuesday'   => 'dienstag',
+		'wednesday' => 'mittwoch',
+		'thursday'  => 'donnerstag',
+		'friday'    => 'freitag',
+		'saturday'  => 'samstag',
+		'sunday'    => 'sonntag',
+	],
+
+	'short_months' => [
+		'january'   => 'jan',
+		'february'  => 'feb',
+		'march'     => 'mär',
+		'april'     => 'apr',
+		'may'       => 'mai',
+		'june'      => 'jun',
+		'july'      => 'jul',
+		'august'    => 'aug',
+		'september' => 'sep',
+		'october'   => 'okt',
+		'november'  => 'nov',
+		'december'  => 'dez',
+	],
+
+	'full_months' => [
+		'january'   => 'januar',
+		'february'  => 'februar',
+		'march'     => 'märz',
+		'april'     => 'april',
+		'may'       => 'mai',
+		'june'      => 'juni',
+		'july'      => 'juli',
+		'august'    => 'august',
+		'september' => 'september',
+		'october'   => 'oktober',
+		'november'  => 'november',
+		'december'  => 'dezember',
+	],
 
 ];

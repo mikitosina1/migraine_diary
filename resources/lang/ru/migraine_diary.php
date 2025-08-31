@@ -6,6 +6,7 @@ return [
 	'to_diary'       => 'Перейти в дневник мигреней',
 	'add_attack'     => 'Добавить атаку',
 	'new_attack'     => 'Новая атака',
+	'attacks_for'    => 'Атаки за',
 	'statistic'      => 'Статистика',
 	'monthly_stats'  => 'Месячная статистика',
 	'triggers_stats' => 'Статистика триггеров',
@@ -51,5 +52,56 @@ return [
 	//errors
 	'form_send_err'  => 'Ошибка при отправке формы #md. Повторите попытку позже.',
 	'filtr_err'      => 'Ошибка фильтрации. Повторите попытку позже.',
+
+	//date translations
+	'short_days' => [
+		'monday'    => 'пн',
+		'tuesday'   => 'вт',
+		'wednesday' => 'ср',
+		'thursday'  => 'чт',
+		'friday'    => 'пт',
+		'saturday'  => 'сб',
+		'sunday'    => 'вс',
+	],
+
+	'full_days' => [
+		'monday'    => 'понедельник',
+		'tuesday'   => 'вторник',
+		'wednesday' => 'среда',
+		'thursday'  => 'четверг',
+		'friday'    => 'пятница',
+		'saturday'  => 'суббота',
+		'sunday'    => 'воскресенье',
+	],
+
+	'short_months' => [
+		'january'   => 'янв',
+		'february'  => 'фев',
+		'march'     => 'мар',
+		'april'     => 'апр',
+		'may'       => 'май',
+		'june'      => 'июн',
+		'july'      => 'июл',
+		'august'    => 'авг',
+		'september' => 'сен',
+		'october'   => 'окт',
+		'november'  => 'ноя',
+		'december'  => 'дек',
+	],
+
+	'full_months' => [
+		'january'   => 'январь',
+		'february'  => 'февраль',
+		'march'     => 'март',
+		'april'     => 'апрель',
+		'may'       => 'май',
+		'june'      => 'июнь',
+		'july'      => 'июль',
+		'august'    => 'август',
+		'september' => 'сентябрь',
+		'october'   => 'октябрь',
+		'november'  => 'ноябрь',
+		'december'  => 'декабрь',
+	],
 
 ];

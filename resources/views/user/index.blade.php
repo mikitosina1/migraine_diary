@@ -27,7 +27,7 @@
 		</div>
 		<!-- calendar -->
 		<div id="tab-calendar" class="tab-content hidden">
-			<x-migrainediary::attacks-calendar :attacks="$attacks"/>
+			<livewire:migraine-diary.migraine-calendar />
 		</div>
 
 		<!-- list by default -->
