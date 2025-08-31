@@ -18,7 +18,7 @@
 				<button type="button" class="modal-close text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
 					title="Close"
 				>
-					✕
+					<i class="fa-solid fa-x"></i>
 				</button>
 			</div>
 

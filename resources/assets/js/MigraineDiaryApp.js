@@ -507,7 +507,7 @@ class MigraineDiaryApp {
 	}
 
 	// reset radio buttons
-	resetRadioButtons(selector, container = document) {
+	resetRadioButtons(selector, container) {
 		const searchScope = container instanceof Document ? container : container;
 		const radioButtons = searchScope.querySelectorAll(selector);
 
@@ -521,7 +521,7 @@ class MigraineDiaryApp {
 	}
 
 	// reset datetime field
-	resetDateTimeField(selector, container = document) {
+	resetDateTimeField(selector, container) {
 		const searchScope = container instanceof Document ? container : container;
 		const datetimeField = searchScope.querySelector(selector);
 
