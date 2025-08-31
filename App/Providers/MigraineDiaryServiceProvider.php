@@ -6,6 +6,8 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use Modules\MigraineDiary\App\Livewire\MigraineCalendar;
 use Modules\MigraineDiary\Services\MigraineDiaryService;
 use Modules\ModuleManager\App\Services\ModuleAdminActionRegistrar;
 
@@ -38,6 +40,10 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 			fn() => $this->app->make(MigraineDiaryService::class)->isModuleActive()
 		);
 		Blade::component('migrainediary::components.modal', 'user-migraine-modal');
+		Livewire::component(
+			'migraine-diary.migraine-calendar',
+			MigraineCalendar::class
+		);
 	}
 
 	/**
