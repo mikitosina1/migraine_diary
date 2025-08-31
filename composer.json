@@ -16,7 +16,9 @@
 	],
 	"extra": {
 		"laravel": {
-			"providers": [],
+			"providers": [
+				"Modules\\MigraineDiary\\Providers\\MigraineDiaryServiceProvider"
+			],
 			"aliases": {
 			}
 		}
@@ -29,7 +31,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Modules\\SupportChat\\": "../../Modules/MigraineDiary",
+			"Modules\\MigraineDiary\\": "../../Modules/MigraineDiary",
 			"Database\\Migrations\\": "./Database/migrations/",
 			"Database\\Seeders\\": "./Database/Seeders/"
 		}
