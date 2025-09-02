@@ -89,14 +89,16 @@
 							data-attack-id="{{ $attack->id }}"
 							title="@lang('migrainediary::migraine_diary.delete')"
 						>
+							@lang('migrainediary::migraine_diary.delete')
 							<i class="fas fa-trash text-red-500"></i>
 						</button>
 						<!-- Edit -->
 						<button
-							class="edit-btn"
+							class="edit-btn px-2 py-1 bg-gray-500 rounded-md"
 							data-attack-id="{{ $attack->id }}"
 							title="@lang('migrainediary::migraine_diary.update')"
 						>
+							@lang('migrainediary::migraine_diary.update')
 							<i class="fas fa-edit text-green-600"></i>
 						</button>
 					</div>

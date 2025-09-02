@@ -30,11 +30,13 @@
 				<div class="p-2"></div>
 			@else
 				<div class="border rounded-md p-2 text-center cursor-pointer transition-colors bg-blue-100
+					{{ (now()->format('Y-m-d') == $day['key']) ? 'bg-gray-600 border-blue-300' : '' }}
 					{{ $day['is_selected'] ? 'bg-blue-100 border-blue-300' : '' }}
 					{{ $day['has_attack'] ? 'bg-red-50 border-red-200 hover:bg-red-100' : 'hover:bg-gray-50' }}"
+					 wire:key="day-{{ $day['key'] }}"
 					 wire:click="selectDay('{{ $day['key'] }}')">
 
-					<div class="text-sm font-medium">{{ $day['number'] }}</div>
+					<div class="text-sm font-medium">{{ $day['number'] }} </div>
 
 					@if($day['has_attack'])
 						<div class="text-xs text-red-600 mt-1">
@@ -47,10 +49,10 @@
 	</div>
 
 	<!-- Details if clicked day has attacks -->
-	@if($selectedDay && isset($attacks[$selectedDay]))
+	@if($selectedDay && isset($this->attacks[$selectedDay]))
 		<div class=" bg-blue-100 rounded-lg p-4 mb-4">
 			<h4 class="font-semibold mb-2">@lang('migrainediary::migraine_diary.attacks_for') {{ $selectedDay }} :</h4>
-			@foreach($attacks[$selectedDay] as $attack)
+			@foreach($this->attacks[$selectedDay] as $attack)
 				<div class="mb-3 p-2 bg-white rounded border">
 					<div class="flex justify-between items-start">
 						<span class="font-medium">@lang('migrainediary::migraine_diary.pain_level'): {{ $attack['pain_level'] }}/10</span>
