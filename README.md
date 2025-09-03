@@ -24,3 +24,7 @@ You can find the rest of the dependencies in composer.json and package.json.
 <br> or <br>
 `php artisan db:seed --class=Modules\\MigraineDiary\\Database\\Seeders\\MigraineDiaryDatabaseSeeder`
 
+TODO:
+- add user possibility to add meds, triggers, symptoms
+- add verification of existing meds, triggers, symptoms
+- think about ending button in a list of attacks
