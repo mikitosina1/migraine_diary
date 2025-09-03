@@ -17,10 +17,9 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Modules\\MigraineDiary\\Providers\\MigraineDiaryServiceProvider"
+				"Modules\\MigraineDiary\\App\\Providers\\MigraineDiaryServiceProvider"
 			],
-			"aliases": {
-			}
+			"aliases": {}
 		}
 	},
 	"require": {
