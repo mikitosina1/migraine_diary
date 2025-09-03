@@ -5,6 +5,7 @@ namespace Modules\MigraineDiary\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
@@ -161,4 +162,22 @@ class MigraineAttackController extends Controller
 			'message' => 'Attack deleted successfully!',
 		]);
 	}
+
+	/**
+	 * end attack
+	 * @param int $id
+	 * @return RedirectResponse
+	 */
+	public function endAttack(int $id): RedirectResponse
+	{
+		$attack = MigraineAttack::where('user_id', auth()->id())
+			->whereNull('end_time')
+			->findOrFail($id);
+
+		$attack->end_time = now();
+		$attack->save();
+
+		return back()->with('success', __('migrainediary::migraine_diary.attack_ended'));
+	}
+
 }

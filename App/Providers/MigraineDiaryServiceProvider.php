@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\MigraineDiary\App\Livewire\MigraineCalendar;
+use Modules\MigraineDiary\App\Models\MigraineAttack;
 use Modules\MigraineDiary\Services\MigraineDiaryService;
 use Modules\ModuleManager\App\Services\ModuleAdminActionRegistrar;
 
@@ -30,7 +31,18 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 		$this->registerViews();
 		$this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
 		$this->loadViewsFrom(__DIR__ . '/../../resources/views', $this->moduleNameLower);
+		$this->registerComponents();
 
+	}
+
+	/**
+	 * Register components
+	 *
+	 * @return void
+	 * @throws BindingResolutionException
+	 */
+	protected function registerComponents(): void
+	{
 		ModuleAdminActionRegistrar::register(
 			$this->moduleName,
 			$this->moduleNameLower,
@@ -39,11 +51,27 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 			'📔',
 			fn() => $this->app->make(MigraineDiaryService::class)->isModuleActive()
 		);
+
 		Blade::component('migrainediary::components.modal', 'user-migraine-modal');
+
 		Livewire::component(
-			'migraine-diary.migraine-calendar',
+			'migrainediary.migraine-calendar',
 			MigraineCalendar::class
 		);
+
+		View::composer('migrainediary::user.dashboard-block', function ($view) {
+			$user = auth()->user();
+
+			$thisMonth = MigraineAttack::where('user_id', $user->id)
+				->whereYear('created_at', now()->year)
+				->whereMonth('created_at', now()->month)
+				->orderByDesc('created_at')
+				->get();
+
+			$activeAttacks = $thisMonth->where('end_time', null);
+
+			$view->with(compact('thisMonth', 'activeAttacks'));
+		});
 	}
 
 	/**

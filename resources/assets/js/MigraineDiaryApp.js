@@ -87,6 +87,17 @@ class MigraineDiaryApp {
 		this.statisticFilter.apply(range);
 	}
 
+	// end a migraine attack
+	// async endAttack(attackId) {
+	// 	try {
+	// 		const { data } = await axios.post(`/migraine-diary/attacks/${attackId}/end`);
+	// 		alert(data.message);
+	// 	} catch (error) {
+	// 		console.error('Failed to finish attack:', error);
+	// 		alert(this.translate('unauthorized', 'Unauthorized action'));
+	// 	}
+	// }
+
 	// Delete a migraine attack
 	async deleteAttack(attackId) {
 		const confirmMessage = this.translate('delete_confirm', 'Are you sure you want to delete this attack?');
@@ -101,6 +112,24 @@ class MigraineDiaryApp {
 			}
 		} catch (error) {
 			this.handleDeleteError(error);
+		}
+	}
+
+	// Load attack data for editing
+	async editAttack(attackId) {
+		try {
+			const response = await axios.get(`/migraine-diary/attacks/${attackId}/edit`);
+			const modal = document.getElementById('migraineModal');
+
+			if (modal && response.data) {
+				modal.querySelector('.attack-modal-title').innerHTML = this.translate('update');
+				modal.querySelector('.p-6').innerHTML = response.data;
+				modal.showModal();
+				this.initFormSteps(modal.querySelector('form'));
+			}
+		} catch (error) {
+			console.error('Failed to load attack for editing:', error);
+			this.showNotification(this.translate('load_error', 'Error loading attack data'), 'error');
 		}
 	}
 
@@ -140,24 +169,6 @@ class MigraineDiaryApp {
 			this.showNotification(this.translate('unauthorized', 'Unauthorized action'), 'error');
 		} else {
 			this.showNotification(this.translate('delete_error', 'Error deleting attack'), 'error');
-		}
-	}
-
-	// Load attack data for editing
-	async editAttack(attackId) {
-		try {
-			const response = await axios.get(`/migraine-diary/attacks/${attackId}/edit`);
-			const modal = document.getElementById('migraineModal');
-
-			if (modal && response.data) {
-				modal.querySelector('.attack-modal-title').innerHTML = this.translate('update');
-				modal.querySelector('.p-6').innerHTML = response.data;
-				modal.showModal();
-				this.initFormSteps(modal.querySelector('form'));
-			}
-		} catch (error) {
-			console.error('Failed to load attack for editing:', error);
-			this.showNotification(this.translate('load_error', 'Error loading attack data'), 'error');
 		}
 	}
 
@@ -417,6 +428,12 @@ class MigraineDiaryApp {
 
 	// Handle global click events for dynamic content
 	handleGlobalClick(event) {
+		//handle finish attack buttons
+		// if (event.target.closest('.end-attack-button')) {
+		// 	const attackId = event.target.closest('.end-attack-button').dataset.attackId;
+		// 	this.endAttack(attackId);
+		// }
+
 		// Handle delete buttons
 		if (event.target.closest('.delete-btn')) {
 			const attackId = event.target.closest('.delete-btn').dataset.attackId;

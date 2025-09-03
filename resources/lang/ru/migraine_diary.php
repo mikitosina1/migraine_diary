@@ -1,9 +1,14 @@
 <?php
 
 return [
-	//template translations
+	//widget
 	'widget_title'   => 'Дневник мигреней',
 	'to_diary'       => 'Перейти в дневник мигреней',
+	'attacks_this_year'  => 'Атак в этом году',
+	'no_attacks_this_month'  => 'Нет атак в этом году',
+	'active_attacks_this_month'  => 'Активные атаки',
+
+	//general
 	'add_attack'     => 'Добавить атаку',
 	'new_attack'     => 'Новая атака',
 	'attacks_for'    => 'Атаки за',
@@ -30,11 +35,9 @@ return [
 	'no_rec_found'   => 'Записи отсутствуют',
 	'loading'        => 'Загрузка',
 	'update'         => 'Обновить данные',
-	'unauthorized'   => 'Несанкционированное действие',
 	'delete'         => 'Удаление',
-	'delete_error'   => 'При удалении произошла ошибка',
 	'delete_confirm' => 'Вы уверены, что хотите удалить?',
-	'add_success'    => 'Атака успешно добавлена',
+	'end_attack'     => 'Окончить Атаку',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',
@@ -49,9 +52,15 @@ return [
 	'pain_level_9'   => 'Крайне сильная боль',
 	'pain_level_10'  => 'Невыносимая боль',
 
+	//successes
+	'attack_ended'   => 'Атака окончена',
+	'add_success'    => 'Атака успешно добавлена',
+
 	//errors
 	'form_send_err'  => 'Ошибка при отправке формы #md. Повторите попытку позже.',
 	'filtr_err'      => 'Ошибка фильтрации. Повторите попытку позже.',
+	'delete_error'   => 'При удалении произошла ошибка',
+	'unauthorized'   => 'Несанкционированное действие',
 
 	//date translations
 	'short_days' => [

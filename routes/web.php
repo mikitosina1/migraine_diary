@@ -25,6 +25,10 @@ Route::middleware(['web', 'auth'])
 		Route::resource('/attacks', MigraineAttackController::class)->names('attacks');
 
 		Route::get('/translations', [MigraineDiaryController::class, 'getTranslations']);
+
+		Route::post('/attacks/{id}/end', [MigraineAttackController::class, 'endAttack'])
+			->where('id', '[0-9]+')
+			->name('attacks.end');
 	});
 
 Route::middleware(['web', 'auth'])

@@ -24,25 +24,38 @@
 		@foreach($attacks as $attack)
 			<div x-data="{ open: false }" class="migraine-list-item rounded-md bg-gray-800 text-white shadow">
 				{{-- Block Title --}}
-				<button
+				<div
 					@click="open = !open"
-					class="w-full flex justify-between items-center p-4 text-left focus:outline-none"
+					class="statistic-header w-full flex justify-between items-center p-4 text-left focus:outline-none"
 				>
-					<div class="mr-2">
-						<strong>@lang('migrainediary::migraine_diary.start_time'):</strong>
-						{{ Carbon::parse($attack->start_time)->format('d.m.Y H:i') }}
+					<div class="flex flex-col gap-2 mr-2">
+						<span>
+							<strong>@lang('migrainediary::migraine_diary.start_time'):</strong>
+							{{ Carbon::parse($attack->start_time)->format('d.m.Y H:i') }}
+						</span>
 						@if($attack->end_time)
-							<span class="ml-4">
+							<span>
 								<strong>@lang('migrainediary::migraine_diary.end_time'):</strong>
 								{{ Carbon::parse($attack->end_time)->format('d.m.Y H:i') }}
 							</span>
 						@endif
 					</div>
-					<div class="flex items-center gap-3">
+					<div class="short-info flex items-center gap-3">
+						{{-- pain level span --}}
 						<span class="px-2 py-1 rounded text-sm"
 							  style="background-color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
 							@lang('migrainediary::migraine_diary.pain_level'): {{ $attack->pain_level }}
 						</span>
+						{{-- end attack button --}}
+{{--						@if($attack->end_time == null)--}}
+{{--							<button--}}
+{{--								data-attack-id="{{ $attack->id }}"--}}
+{{--								class="end-attack-button flex flex-row gap-2 items-center"--}}
+{{--								title=" {{ __('migrainediary::migraine_diary.end_attack') }}">--}}
+{{--								<i class="fas fa-check-circle"></i>--}}
+{{--							</button>--}}
+{{--						@endif--}}
+						{{-- expand/collapse button --}}
 						<svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
 							 viewBox="0 0 24 24" stroke="currentColor">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -52,7 +65,7 @@
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
 						</svg>
 					</div>
-				</button>
+				</div>
 
 				{{-- Content --}}
 				<div x-show="open" x-collapse class="list-item-content p-4 border-t border-gray-700">

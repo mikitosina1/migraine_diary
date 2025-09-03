@@ -1,8 +1,14 @@
 <?php
 
 return [
+	//widget
 	'widget_title'   => 'Migraine Diary',
 	'to_diary'       => 'To Migraine Diary',
+	'attacks_this_year'  => 'Attacks this year',
+	'no_attacks_this_month'  => 'No attacks this year',
+	'active_attacks_this_month'  => 'Active attacks',
+
+	//general
 	'add_attack'     => 'Add Attack',
 	'new_attack'     => 'New Attack',
 	'attacks_for'    => 'Attacks for',
@@ -30,11 +36,9 @@ return [
 	'no_rec_found'   => 'No records found',
 	'loading'        => 'Loading',
 	'update'         => 'Update data',
-	'unauthorized'   => 'Unauthorized action',
 	'delete'         => 'Delete',
-	'delete_error'   => 'An error occurred during deletion.',
 	'delete_confirm' => 'Are you sure you want to delete?',
-	'add_success'    => 'Attack successfully added',
+	'end_attack'     => 'End Attack',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',
@@ -48,9 +52,15 @@ return [
 	'pain_level_9'   => 'Extremely severe pain',
 	'pain_level_10'  => 'Unbearable pain',
 
+	//successes
+	'attack_ended'   => 'Attack ended',
+	'add_success'    => 'Attack successfully added',
+
 	//errors
 	'form_send_err'  => 'Error on sending #md form. Please try again later.',
 	'filtr_err'      => 'Error on filtration. Please try again later.',
+	'delete_error'   => 'An error occurred during deletion.',
+	'unauthorized'   => 'Unauthorized action',
 
 	//date translations
 	'short_days' => [

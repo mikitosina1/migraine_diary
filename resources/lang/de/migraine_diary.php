@@ -1,8 +1,14 @@
 <?php
 
 return [
+	//widget
 	'widget_title'   => 'Migräne-Tagebuch',
 	'to_diary'       => 'Nach Migräne-Tagebuch',
+	'attacks_this_year'  => 'Angriff in diesem Jahr',
+	'no_attacks_this_month'  => 'Keine Angriffe in diesem Monat',
+	'active_attacks_this_month' => 'Aktive Angriffe',
+
+	//general
 	'add_attack'     => 'Angriff hinzufügen',
 	'new_attack'     => 'Neue Angriff',
 	'attacks_for'    => 'Angriff für',
@@ -30,11 +36,9 @@ return [
 	'no_rec_found'   => 'Keine Einträge vorhanden',
 	'loading'        => 'Loading',
 	'update'         => 'Daten aktualisieren',
-	'unauthorized'   => 'Unbefugte Aktion',
 	'delete'         => 'Löschen',
-	'delete_error'   => 'Beim Löschen ist ein Fehler aufgetreten.',
 	'delete_confirm' => 'Sind Sie sicher, dass Sie löschen möchten?',
-	'add_success'    => 'Angriff erfolgreich hinzugefügt',
+	'end_attack'     => 'Angriff enden',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',
@@ -48,9 +52,15 @@ return [
 	'pain_level_9'   => 'Äußerst starke Schmerzen',
 	'pain_level_10'  => 'Unerträgliche Schmerzen',
 
+	//successes
+	'attack_ended'   => 'Angriff beendet',
+	'add_success'    => 'Angriff erfolgreich hinzugefügt',
+
 	//errors
 	'form_send_err'  => 'Fehler beim Senden des #md Form. Bitte versuchen Sie es später erneut.',
 	'filtr_err'      => 'Fehler beim Filtration. Bitte versuchen Sie es später erneut.',
+	'delete_error'   => 'Beim Löschen ist ein Fehler aufgetreten.',
+	'unauthorized'   => 'Unbefugte Aktion',
 
 	//date translations
 	'short_days' => [
