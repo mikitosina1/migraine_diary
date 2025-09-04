@@ -29,6 +29,10 @@ Route::middleware(['web', 'auth'])
 		Route::post('/attacks/{id}/end', [MigraineAttackController::class, 'endAttack'])
 			->where('id', '[0-9]+')
 			->name('attacks.end');
+
+		Route::post('attacks/{id}/end-ajax', [MigraineAttackController::class, 'endAttackAjax'])
+			->where('id', '[0-9]+')
+			->name('attacks.end.ajax');
 	});
 
 Route::middleware(['web', 'auth'])

@@ -88,15 +88,22 @@ class MigraineDiaryApp {
 	}
 
 	// end a migraine attack
-	// async endAttack(attackId) {
-	// 	try {
-	// 		const { data } = await axios.post(`/migraine-diary/attacks/${attackId}/end`);
-	// 		alert(data.message);
-	// 	} catch (error) {
-	// 		console.error('Failed to finish attack:', error);
-	// 		alert(this.translate('unauthorized', 'Unauthorized action'));
-	// 	}
-	// }
+	async endAttackAjax(attackId) {
+		try {
+			const response = await axios.post(`/migraine-diary/attacks/${attackId}/end-ajax`);
+
+			if (response.data.success) {
+				this.showNotification(response.data.message, 'success');
+				this.updateAttackInUI(attackId, response.data.attack);
+			}
+		} catch (error) {
+			console.error('End attack error:', error);
+			this.showNotification(
+				error.response?.data?.message || this.translate('end_attack_error', 'Error ending attack'),
+				'error'
+			);
+		}
+	}
 
 	// Delete a migraine attack
 	async deleteAttack(attackId) {
@@ -148,6 +155,65 @@ class MigraineDiaryApp {
 			attackElement.remove();
 			this.checkEmptyList();
 		}, 300);
+	}
+
+	/**
+	 * Update the attack element in UI
+	 * @param {number} attackId - ID of the attack
+	 * @param {Object} attackData - Attack data from server
+	 * @param {string} attackData.end_time_formatted - Formatted end time string
+	 * @param {string} attackData.end_time - Raw end time string
+	 * @param {number} attackData.id - Attack ID
+	 */
+	updateAttackInUI(attackId, attackData) {
+		// Find the attack element
+		const attackElement = document.querySelector(`.end-attack-button[data-attack-id="${attackId}"]`)
+			?.closest('.migraine-list-item');
+
+		if (!attackElement) return;
+
+		// Remove the end button
+		const endButton = attackElement.querySelector('.end-attack-button');
+		if (endButton) {
+			endButton.remove();
+		}
+
+		// Update the end time in the header
+		const header = attackElement.querySelector('.statistic-header');
+		const startTimeSpan = header.querySelector('span:first-child');
+
+		if (startTimeSpan) {
+			// Create or update end time span
+			let endTimeSpan = header.querySelector('span:nth-child(2)');
+
+			if (!endTimeSpan) {
+				endTimeSpan = document.createElement('span');
+				startTimeSpan.parentNode.insertBefore(endTimeSpan, startTimeSpan.nextSibling);
+			}
+
+			endTimeSpan.innerHTML = `
+				<strong> ${ this.translate('end_time') } :</strong>
+				${attackData.end_time_formatted}
+			`;
+		}
+
+		// Add visual indication that the attack is ended
+		attackElement.classList.add('attack-ended');
+
+		// Update the pain level span style
+		const painLevelSpan = attackElement.querySelector('.short-info > span:first-child');
+		if (painLevelSpan) {
+			painLevelSpan.style.opacity = '0.8';
+			painLevelSpan.style.textDecoration = 'none';
+		}
+
+		// Show success notification
+		this.showNotification(
+			this.translate('attack_ended', 'Attack successfully ended'),
+			'success'
+		);
+
+		console.log('Attack UI updated successfully:', attackId);
 	}
 
 	// Check if a list is empty and show the appropriate message
@@ -429,10 +495,10 @@ class MigraineDiaryApp {
 	// Handle global click events for dynamic content
 	handleGlobalClick(event) {
 		//handle finish attack buttons
-		// if (event.target.closest('.end-attack-button')) {
-		// 	const attackId = event.target.closest('.end-attack-button').dataset.attackId;
-		// 	this.endAttack(attackId);
-		// }
+		if (event.target.closest('.end-attack-button')) {
+			const attackId = event.target.closest('.end-attack-button').dataset.attackId;
+			this.endAttackAjax(attackId);
+		}
 
 		// Handle delete buttons
 		if (event.target.closest('.delete-btn')) {
@@ -525,7 +591,8 @@ class MigraineDiaryApp {
 
 	// reset radio buttons
 	resetRadioButtons(selector, container) {
-		const searchScope = container instanceof Document ? container : container;
+		const searchScope = container instanceof Document || container instanceof Element ?
+			container : document;
 		const radioButtons = searchScope.querySelectorAll(selector);
 
 		radioButtons.forEach(radio => {
@@ -537,9 +604,9 @@ class MigraineDiaryApp {
 		}
 	}
 
-	// reset datetime field
 	resetDateTimeField(selector, container) {
-		const searchScope = container instanceof Document ? container : container;
+		const searchScope = container instanceof Document || container instanceof Element ?
+			container : document;
 		const datetimeField = searchScope.querySelector(selector);
 
 		if (datetimeField) {

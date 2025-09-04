@@ -180,4 +180,29 @@ class MigraineAttackController extends Controller
 		return back()->with('success', __('migrainediary::migraine_diary.attack_ended'));
 	}
 
+	/**
+	 * end attack method for ajax
+	 * @param int $id
+	 * @return JsonResponse
+	 */
+	public function endAttackAjax(int $id): JsonResponse
+	{
+		$attack = MigraineAttack::where('user_id', auth()->id())
+			->whereNull('end_time')
+			->findOrFail($id);
+
+		$attack->end_time = now();
+		$attack->save();
+
+		return response()->json([
+			'success' => true,
+			'message' => __('migrainediary::migraine_diary.attack_ended'),
+			'attack' => [
+				'id' => $attack->id,
+				'end_time' => $attack->end_time->format('Y-m-d H:i:s'),
+				'end_time_formatted' => $attack->end_time->format('d.m.Y H:i')
+			]
+		]);
+	}
+
 }

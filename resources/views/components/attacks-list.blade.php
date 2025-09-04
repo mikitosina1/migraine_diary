@@ -47,14 +47,14 @@
 							@lang('migrainediary::migraine_diary.pain_level'): {{ $attack->pain_level }}
 						</span>
 						{{-- end attack button --}}
-{{--						@if($attack->end_time == null)--}}
-{{--							<button--}}
-{{--								data-attack-id="{{ $attack->id }}"--}}
-{{--								class="end-attack-button flex flex-row gap-2 items-center"--}}
-{{--								title=" {{ __('migrainediary::migraine_diary.end_attack') }}">--}}
-{{--								<i class="fas fa-check-circle"></i>--}}
-{{--							</button>--}}
-{{--						@endif--}}
+						@if($attack->end_time == null)
+							<button
+								data-attack-id="{{ $attack->id }}"
+								class="end-attack-button flex flex-row gap-2 items-center"
+								title=" {{ __('migrainediary::migraine_diary.end_attack') }}">
+								<i class="fas fa-check-circle"></i>
+							</button>
+						@endif
 						{{-- expand/collapse button --}}
 						<svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
 							 viewBox="0 0 24 24" stroke="currentColor">

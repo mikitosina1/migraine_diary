@@ -7,7 +7,7 @@
 		<div class="attacks-list p-2">
 			<div class="summary py-2">
 				<p class="text-white">
-					@lang('migrainediary::migraine_diary.attacks_this_year'):
+					@lang('migrainediary::migraine_diary.last_month'):
 					<strong>{{ $thisMonth->count() }}</strong>
 				</p>
 			</div>
