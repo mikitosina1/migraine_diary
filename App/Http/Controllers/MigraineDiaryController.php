@@ -30,7 +30,7 @@ class MigraineDiaryController extends Controller
 
 		// For AJAX requests, return only the list partial
 		if ($request->ajax()) {
-			return view('migrainediary::partials.attack-list', [
+			return view('migrainediary::components.attacks-list', [
 				'attacks' => $attacks,
 				'currentRange' => $range,
 				'currentPainLevel' => $painLevel
