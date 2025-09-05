@@ -27,4 +27,4 @@ You can find the rest of the dependencies in composer.json and package.json.
 TODO:
 - add user possibility to add meds, triggers, symptoms
 - add verification of existing meds, triggers, symptoms
-- think about ending button in a list of attacks
+- finish filter in the list of attacks

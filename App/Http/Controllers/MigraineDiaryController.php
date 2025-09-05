@@ -19,18 +19,33 @@ class MigraineDiaryController extends Controller
 	public function index(Request $request)
 	{
 		$validated = $request->validate([
-			'range' => 'nullable|string|in:month,3months,year'
+			'range' => 'nullable|string|in:month,3months,year',
+			'pain_level' => 'nullable|string|in:all,1,2,3,4,5,6,7,8,9,10'
 		]);
 
 		$range = $validated['range'] ?? 'year';
+		$painLevel = $validated['pain_level'] ?? 'all';
 
+		$attacks = $this->getFilteredAttacks($range, $painLevel);
+
+		// For AJAX requests, return only the list partial
+		if ($request->ajax()) {
+			return view('migrainediary::partials.attack-list', [
+				'attacks' => $attacks,
+				'currentRange' => $range,
+				'currentPainLevel' => $painLevel
+			]);
+		}
+
+		// For full page requests
 		return view('migrainediary::user.index', [
 			'symptoms' => MigraineSymptom::getListWithTranslations(),
 			'triggers' => MigraineTrigger::getListWithTranslations(),
 			'meds' => MigraineMed::getListWithTranslations(),
 			'locales' => config('app.locales'),
-			'attacks' => $this->getFilteredAttacks($range),
+			'attacks' => $attacks,
 			'currentRange' => $range,
+			'currentPainLevel' => $painLevel,
 			'mode' => 'show',
 		]);
 	}
@@ -38,18 +53,26 @@ class MigraineDiaryController extends Controller
 	/**
 	 * Get filtered attacks based on range
 	 */
-	private function getFilteredAttacks(string $range)
+	private function getFilteredAttacks(string $range, string $painLevel = 'all')
 	{
 		$query = MigraineAttack::where('user_id', auth()->id())
 			->orderBy('start_time', 'desc');
 
+		// Apply date range filter
 		$startDate = match($range) {
 			'month' => Carbon::now()->subMonth(),
 			'3months' => Carbon::now()->subMonths(3),
-			'year' => Carbon::now()->subYear(),
+			'year' => Carbon::now()->subYear()
 		};
 
-		return $query->where('start_time', '>=', $startDate)->get();
+		$query->where('start_time', '>=', $startDate);
+
+		// Apply pain level filter only if not 'all'
+		if ($painLevel !== 'all') {
+			$query->where('pain_level', (int)$painLevel);
+		}
+
+		return $query->get();
 	}
 
 	/**

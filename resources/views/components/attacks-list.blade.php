@@ -1,6 +1,7 @@
 @php
 	use Carbon\Carbon;
 	$currentRange = $currentRange ?? 'year';
+	$currentPainLevel = $currentPainLevel ?? 'all';
 @endphp
 
 @if($attacks->count())
@@ -17,6 +18,23 @@
 					@lang('migrainediary::migraine_diary.last_month')
 				</option>
 			</select>
+
+			@if($currentPainLevel)
+				<!-- Pain Level Filter -->
+				<select id="list-pain-level" class="bg-gray-800 text-white py-2 rounded">
+					<option value="all">All Pain Levels</option>
+					@for($i = 1; $i <= 10; $i++)
+						<option value="{{ $i }}" {{ $currentPainLevel == $i ? 'selected' : '' }}>
+							Level {{ $i }}
+						</option>
+					@endfor
+				</select>
+			@endif
+
+			<!-- Reset Filters Button -->
+			<button id="reset-filters" class="bg-gray-600 text-white px-3 py-2 rounded hover:bg-gray-700">
+				Reset Filters
+			</button>
 		</div>
 	</div>
 
