@@ -8,17 +8,23 @@ class ContentFilter {
 		this.containerSelector = config.containerSelector;
 		this.targetSelector = config.targetSelector;
 		this.endpoint = config.endpoint || '/migraine-diary';
+		this.defaultParams = config.params || {};
 		this.params = config.params || {};
 		this.loadingMessage = config.loadingMessage || 'Loading';
 		this.errorMessage = config.errorMessage || 'Filtration error';
 		this.translateFn = config.translateFn || ((key, fallback) => fallback);
+
+		this.currentFilters = {
+			range: 'year',
+			pain_level: 'all'
+		};
 	}
 
 	// Show loading indicator
 	showLoading() {
 		const container = document.querySelector(this.containerSelector);
 		if (container) {
-			container.innerHTML = `<div class="text-center p-4">${this.loadingMessage}...</div>`;
+			container.innerHTML = `<div class="text-center p-4 text-white">${this.loadingMessage}...</div>`;
 		}
 		return container;
 	}
@@ -51,17 +57,34 @@ class ContentFilter {
 		return false;
 	}
 
+	// Update specific filter value
+	setFilter(filterName, value) {
+		this.currentFilters[filterName] = value;
+		return this;
+	}
+
+	// Get all current filters
+	getFilters() {
+		return { ...this.defaultParams, ...this.currentFilters };
+	}
+
 	// Main method to apply filtering
-	async apply(range) {
+	async apply(filters = null) {
+		if (filters) {
+			// Update specific filters if provided
+			Object.keys(filters).forEach(key => {
+				if (filters[key] !== undefined) {
+					this.currentFilters[key] = filters[key];
+				}
+			});
+		}
+
 		const container = this.showLoading();
 		if (!container) return;
 
 		try {
 			const response = await axios.get(this.endpoint, {
-				params: {
-					range: range,
-					...this.params
-				}
+				params: this.getFilters()
 			});
 
 			const newContent = this.parseHtmlContent(response.data);

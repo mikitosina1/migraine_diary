@@ -70,21 +70,21 @@ class MigraineDiaryApp {
 	}
 
 	// Apply filter to attack a list
-	applyListFilter(range) {
+	applyListFilters(filters) {
 		if (!this.listFilter) {
 			console.warn(this.translate('filtr_err', 'List filter not initialized'));
 			return;
 		}
-		this.listFilter.apply(range);
+		this.listFilter.apply(filters);
 	}
 
 	// Apply filter to statistics
-	applyStatisticFilter(range) {
+	applyStatisticFilters(filters) {
 		if (!this.statisticFilter) {
 			console.warn(this.translate('filtr_err', 'Statistic filter not initialized'));
 			return;
 		}
-		this.statisticFilter.apply(range);
+		this.statisticFilter.apply(filters);
 	}
 
 	// end a migraine attack
@@ -445,15 +445,72 @@ class MigraineDiaryApp {
 	// Set up filter dropdown listeners
 	setupFilterListeners() {
 		const listSelect = document.getElementById('list-attack-range');
+		const painLevelSelect = document.getElementById('list-pain-level');
 		const statisticSelect = document.getElementById('statistic-attack-range');
+		const statisticPainLevelSelect = document.getElementById('statistic-pain-level');
 
+		// Debounce filter application
+		let filterTimeout;
+
+
+
+		const applyListFiltersDebounced = () => {
+			clearTimeout(filterTimeout);
+			filterTimeout = setTimeout(() => {
+				const range = listSelect?.value || 'year';
+				const painLevel = painLevelSelect?.value || 'all';
+
+				this.applyListFilters({ range, pain_level: painLevel });
+			}, 300);
+		};
+		const applyStatisticFiltersDebounced = () => {
+			clearTimeout(filterTimeout);
+			filterTimeout = setTimeout(() => {
+				const range = statisticSelect?.value || 'year';
+				const painLevel = statisticPainLevelSelect?.value || 'all';
+
+				this.applyStatisticFilters({ range, pain_level: painLevel });
+			}, 300);
+		};
+
+		// List filters
 		if (listSelect) {
-			listSelect.addEventListener('change', (e) => this.applyListFilter(e.target.value));
+			listSelect.addEventListener('change', applyListFiltersDebounced);
 		}
 
-		if (statisticSelect) {
-			statisticSelect.addEventListener('change', (e) => this.applyStatisticFilter(e.target.value));
+		if (painLevelSelect) {
+			painLevelSelect.addEventListener('change', applyListFiltersDebounced);
 		}
+
+		// Statistic filters
+		if (statisticSelect) {
+			statisticSelect.addEventListener('change', applyStatisticFiltersDebounced);
+		}
+
+		if (statisticPainLevelSelect) {
+			statisticPainLevelSelect.addEventListener('change', applyStatisticFiltersDebounced);
+		}
+
+		// Reset Filters Button
+		const resetFiltersBtn = document.getElementById('reset-filters');
+		if (resetFiltersBtn) {
+			resetFiltersBtn.addEventListener('click', () => {
+				this.resetAllFilters();
+			});
+		}
+	}
+
+	resetAllFilters() {
+		document.querySelectorAll('#list-attack-range, #statistic-attack-range').forEach(select => {
+			select.value = 'year';
+		});
+
+		document.querySelectorAll('#list-pain-level, #statistic-pain-level').forEach(select => {
+			select.value = 'all';
+		});
+
+		this.applyListFilters({ range: 'year', pain_level: 'all' });
+		this.applyStatisticFilters({ range: 'year', pain_level: 'all' });
 	}
 
 	// Set up modal listeners
