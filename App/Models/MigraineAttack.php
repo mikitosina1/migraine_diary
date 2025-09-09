@@ -78,6 +78,36 @@ class MigraineAttack extends Model
 		)->withPivot('dosage');
 	}
 
+	public function userSymptoms(): BelongsToMany
+	{
+		return $this->belongsToMany(
+			MigraineUserSymptom::class,
+			'migraine_attack_user_symptom',
+			'attack_id',
+			'user_symptom_id'
+		);
+	}
+
+	public function userTriggers(): BelongsToMany
+	{
+		return $this->belongsToMany(
+			MigraineUserTrigger::class,
+			'migraine_attack_user_trigger',
+			'attack_id',
+			'user_trigger_id'
+		);
+	}
+
+	public function userMeds(): BelongsToMany
+	{
+		return $this->belongsToMany(
+			MigraineUserMed::class,
+			'migraine_attack_user_med',
+			'attack_id',
+			'user_med_id'
+		)->withPivot('dosage');
+	}
+
 	/**
 	 * Scope for getting attacks for a specific user
 	 *
@@ -88,7 +118,7 @@ class MigraineAttack extends Model
 	public function scopeForUser(Builder $query, int $userId): Builder
 	{
 		return $query->where('user_id', $userId)
-			->with(['symptoms', 'triggers', 'meds'])
+			->with(['symptoms', 'triggers', 'meds', 'userSymptoms', 'userTriggers', 'userMeds'])
 			->orderBy('start_time', 'desc');
 	}
 }

@@ -36,45 +36,6 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 	}
 
 	/**
-	 * Register components
-	 *
-	 * @return void
-	 * @throws BindingResolutionException
-	 */
-	protected function registerComponents(): void
-	{
-		ModuleAdminActionRegistrar::register(
-			$this->moduleName,
-			$this->moduleNameLower,
-			'admin.migraine-diary.index',
-			$this->moduleNameLower . '::admin.config_diary',
-			'📔',
-			fn() => $this->app->make(MigraineDiaryService::class)->isModuleActive()
-		);
-
-		Blade::component('migrainediary::components.modal', 'user-migraine-modal');
-
-		Livewire::component(
-			'migrainediary.migraine-calendar',
-			MigraineCalendar::class
-		);
-
-		View::composer('migrainediary::user.dashboard-block', function ($view) {
-			$user = auth()->user();
-
-			$thisMonth = MigraineAttack::where('user_id', $user->id)
-				->whereYear('created_at', now()->year)
-				->whereMonth('created_at', now()->month)
-				->orderByDesc('created_at')
-				->get();
-
-			$activeAttacks = $thisMonth->where('end_time', null);
-
-			$view->with(compact('thisMonth', 'activeAttacks'));
-		});
-	}
-
-	/**
 	 * Register commands in the format of Command::class
 	 */
 	protected function registerCommands(): void
@@ -144,6 +105,45 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 		}
 
 		return $paths;
+	}
+
+	/**
+	 * Register components
+	 *
+	 * @return void
+	 * @throws BindingResolutionException
+	 */
+	protected function registerComponents(): void
+	{
+		ModuleAdminActionRegistrar::register(
+			$this->moduleName,
+			$this->moduleNameLower,
+			'admin.migraine-diary.index',
+			$this->moduleNameLower . '::admin.config_diary',
+			'📔',
+			fn() => $this->app->make(MigraineDiaryService::class)->isModuleActive()
+		);
+
+		Blade::component('migrainediary::components.modal', 'user-migraine-modal');
+
+		Livewire::component(
+			'migrainediary.migraine-calendar',
+			MigraineCalendar::class
+		);
+
+		View::composer('migrainediary::user.dashboard-block', function ($view) {
+			$user = auth()->user();
+
+			$thisMonth = MigraineAttack::where('user_id', $user->id)
+				->whereYear('created_at', now()->year)
+				->whereMonth('created_at', now()->month)
+				->orderByDesc('created_at')
+				->get();
+
+			$activeAttacks = $thisMonth->where('end_time', null);
+
+			$view->with(compact('thisMonth', 'activeAttacks'));
+		});
 	}
 
 	/**

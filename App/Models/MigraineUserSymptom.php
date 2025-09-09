@@ -17,14 +17,6 @@ class MigraineUserSymptom extends Model
 	];
 
 	/**
-	 * Relationship with a user
-	 */
-	public function user(): BelongsTo
-	{
-		return $this->belongsTo(User::class);
-	}
-
-	/**
 	 * Get user's custom symptoms
 	 */
 	public static function getForUser(int $userId)
@@ -32,5 +24,13 @@ class MigraineUserSymptom extends Model
 		return self::where('user_id', $userId)
 			->orderBy('name')
 			->get();
+	}
+
+	/**
+	 * Relationship with a user
+	 */
+	public function user(): BelongsTo
+	{
+		return $this->belongsTo(User::class);
 	}
 }

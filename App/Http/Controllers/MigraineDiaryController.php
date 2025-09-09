@@ -10,6 +10,9 @@ use Modules\MigraineDiary\App\Models\MigraineAttack;
 use Modules\MigraineDiary\App\Models\MigraineMed;
 use Modules\MigraineDiary\App\Models\MigraineSymptom;
 use Modules\MigraineDiary\App\Models\MigraineTrigger;
+use Modules\MigraineDiary\App\Models\MigraineUserMed;
+use Modules\MigraineDiary\App\Models\MigraineUserSymptom;
+use Modules\MigraineDiary\App\Models\MigraineUserTrigger;
 
 class MigraineDiaryController extends Controller
 {
@@ -40,8 +43,11 @@ class MigraineDiaryController extends Controller
 		// For full page requests
 		return view('migrainediary::user.index', [
 			'symptoms' => MigraineSymptom::getListWithTranslations(),
+			'userSymptoms' => MigraineUserSymptom::getForUser(auth()->id()),
 			'triggers' => MigraineTrigger::getListWithTranslations(),
+			'userTriggers' => MigraineUserTrigger::getForUser(auth()->id()),
 			'meds' => MigraineMed::getListWithTranslations(),
+			'userMeds' => MigraineUserMed::getForUser(auth()->id()),
 			'locales' => config('app.locales'),
 			'attacks' => $attacks,
 			'currentRange' => $range,

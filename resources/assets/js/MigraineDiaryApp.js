@@ -453,7 +453,6 @@ class MigraineDiaryApp {
 		let filterTimeout;
 
 
-
 		const applyListFiltersDebounced = () => {
 			clearTimeout(filterTimeout);
 			filterTimeout = setTimeout(() => {

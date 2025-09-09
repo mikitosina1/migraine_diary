@@ -27,7 +27,7 @@
 		</div>
 		<!-- calendar -->
 		<div id="tab-calendar" class="tab-content hidden">
-			<livewire:migrainediary.migraine-calendar />
+			<livewire:migrainediary.migraine-calendar/>
 		</div>
 
 		<!-- list by default -->

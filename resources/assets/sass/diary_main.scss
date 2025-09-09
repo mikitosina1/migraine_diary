@@ -11,14 +11,25 @@
 					.attack-loading {
 						display: inline-flex;
 						gap: 2px;
+
 						span {
 							opacity: 0.2;
 							animation: blink 1.5s infinite;
 						}
-						span:nth-child(1) { animation-delay: 0s; }
-						span:nth-child(2) { animation-delay: 0.3s; }
-						span:nth-child(3) { animation-delay: 0.6s; }
+
+						span:nth-child(1) {
+							animation-delay: 0s;
+						}
+
+						span:nth-child(2) {
+							animation-delay: 0.3s;
+						}
+
+						span:nth-child(3) {
+							animation-delay: 0.6s;
+						}
 					}
+
 					.end-attack-button {
 						padding: 0 .5em;
 						border: 1px solid mediumseagreen;
@@ -29,6 +40,7 @@
 			}
 		}
 	}
+
 	.module-link {
 		.to-diary {
 			padding: 0 .5em;
@@ -47,8 +59,12 @@
 }
 
 @keyframes blink {
-	0%, 80%, 100% { opacity: 0.2; }
-	40% { opacity: 1; }
+	0%, 80%, 100% {
+		opacity: 0.2;
+	}
+	40% {
+		opacity: 1;
+	}
 }
 
 dialog {
@@ -100,9 +116,11 @@ dialog {
 
 	#tab-calendar {
 		width: 400px;
+
 		.calendar-day {
 			transition: all 0.2s ease-in-out;
 		}
+
 		.calendar-day:hover {
 			transform: translateY(-2px);
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -122,11 +140,13 @@ dialog {
 
 	#tab-list {
 		width: 530px;
+
 		.list-header {
 			.filter-block {
 				#list-attack-range {
 					padding: .5em 2em .5em .5em;
 				}
+
 				#list-pain-level {
 					padding: .5em 2em .5em .5em;
 				}
@@ -145,6 +165,7 @@ dialog {
 						}
 					}
 				}
+
 				.list-item-content {
 					.list-item-buttons {
 						form {
@@ -158,6 +179,7 @@ dialog {
 
 	#tab-statistic {
 		width: 505px;
+
 		.statistic-header {
 			.filter-block {
 				#statistic-attack-range {

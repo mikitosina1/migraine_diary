@@ -65,7 +65,7 @@ class ContentFilter {
 
 	// Get all current filters
 	getFilters() {
-		return { ...this.defaultParams, ...this.currentFilters };
+		return {...this.defaultParams, ...this.currentFilters};
 	}
 
 	// Main method to apply filtering

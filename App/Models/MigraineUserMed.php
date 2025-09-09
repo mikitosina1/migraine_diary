@@ -17,15 +17,15 @@ class MigraineUserMed extends Model
 		'description'
 	];
 
-	public function user(): BelongsTo
-	{
-		return $this->belongsTo(User::class);
-	}
-
 	public static function getForUser(int $userId)
 	{
 		return self::where('user_id', $userId)
 			->orderBy('name')
 			->get();
+	}
+
+	public function user(): BelongsTo
+	{
+		return $this->belongsTo(User::class);
 	}
 }

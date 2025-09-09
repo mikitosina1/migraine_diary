@@ -13,6 +13,9 @@ use Modules\MigraineDiary\App\Models\MigraineAttack;
 use Modules\MigraineDiary\App\Models\MigraineMed;
 use Modules\MigraineDiary\App\Models\MigraineSymptom;
 use Modules\MigraineDiary\App\Models\MigraineTrigger;
+use Modules\MigraineDiary\App\Models\MigraineUserMed;
+use Modules\MigraineDiary\App\Models\MigraineUserSymptom;
+use Modules\MigraineDiary\App\Models\MigraineUserTrigger;
 
 class MigraineAttackController extends Controller
 {
@@ -32,16 +35,23 @@ class MigraineAttackController extends Controller
 	public function store(Request $request): JsonResponse
 	{
 		$validated = $request->validate([
-			'start_time' => 'required|date',
-			'pain_level' => 'required|integer|min:1|max:10',
-			'notes'      => 'nullable|string',
-			'symptoms'   => 'array',
-			'symptoms.*' => 'integer|exists:migraine_symptoms,id',
-			'meds'       => 'array',
-			'meds.*.id'  => 'required|integer|exists:migraine_meds,id',
-			'meds.*.dosage' => 'nullable|string',
-			'triggers'   => 'array',
-			'triggers.*' => 'integer|exists:migraine_triggers,id',
+			'start_time'         => 'required|date',
+			'pain_level'         => 'required|integer|min:1|max:10',
+			'notes'              => 'nullable|string',
+			'symptoms'           => 'array',
+			'symptoms.*'         => 'integer|exists:migraine_symptoms,id',
+			'user_symptoms'      => 'array',
+			'user_symptoms.*'    => 'integer',
+			'meds'               => 'array',
+			'meds.*.id'          => 'required|integer|exists:migraine_meds,id',
+			'meds.*.dosage'      => 'nullable|string',
+			'user_meds'          => 'array',
+			'user_meds.*.id'     => 'required|integer',
+			'user_meds.*.dosage' => 'nullable|string',
+			'triggers'           => 'array',
+			'triggers.*'         => 'integer|exists:migraine_triggers,id',
+			'user_triggers'      => 'array',
+			'user_triggers.*'    => 'integer',
 		]);
 
 		$attack = MigraineAttack::create([
@@ -59,8 +69,11 @@ class MigraineAttackController extends Controller
 		}
 
 		$attack->symptoms()->sync(array_map('intval', $validated['symptoms']));
+		$attack->userSymptoms()->sync(array_map('intval', $validated['userSymptoms']));
 		$attack->triggers()->sync(array_map('intval', $validated['triggers']));
+		$attack->userTriggers()->sync(array_map('intval', $validated['userTriggers']));
 		$attack->meds()->sync($meds);
+		$attack->userMeds()->sync($validated['userMeds']);
 
 		return response()->json([
 			'success'   => true,
@@ -90,10 +103,15 @@ class MigraineAttackController extends Controller
 	 */
 	public function edit(MigraineAttack $attack): View
 	{
+		$userId = auth()->id();
+
 		return view('migrainediary::user.attacks._form', [
 			'symptoms' => MigraineSymptom::getListWithTranslations(),
+			'userSymptoms' => MigraineUserSymptom::getForUser($userId),
 			'triggers' => MigraineTrigger::getListWithTranslations(),
+			'userTriggers' => MigraineUserTrigger::getForUser($userId),
 			'meds' => MigraineMed::getListWithTranslations(),
+			'userMeds' => MigraineUserMed::getForUser($userId),
 			'attack' => $attack,
 			'mode' => 'edit',
 		]);

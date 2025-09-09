@@ -17,15 +17,18 @@ You can find the rest of the dependencies in composer.json and package.json.
 
 #### run `npm install` <br>
 
-#### run migration: `php artisan migrate --path=Modules/MigraineDiary/Database/migrations` 
+#### run migration: `php artisan migrate --path=Modules/MigraineDiary/Database/migrations`
+
 <br> or <br>
 `php artisan module:migrate MigraineDiary`
 
 #### run seeder:
+
 `php artisan db:seed --class=MigraineDiaryDatabaseSeeder`
 <br> or <br>
 `php artisan db:seed --class=Modules\\MigraineDiary\\Database\\Seeders\\MigraineDiaryDatabaseSeeder`
 
 TODO:
+
 - add user possibility to add meds, triggers, symptoms
 - add verification of existing meds, triggers, symptoms

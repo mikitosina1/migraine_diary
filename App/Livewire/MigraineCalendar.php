@@ -2,6 +2,7 @@
 
 namespace Modules\MigraineDiary\App\Livewire;
 
+use Exception;
 use Illuminate\View\View;
 use Livewire\Component;
 use Modules\MigraineDiary\App\Models\MigraineAttack;
@@ -70,7 +71,7 @@ class MigraineCalendar extends Component
 
 			$this->attacks = $attacksByDay;
 
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$this->attacks = [];
 			logger()->error('Error loading attacks: ' . $e->getMessage());
 		}
