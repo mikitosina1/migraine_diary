@@ -5,11 +5,11 @@ namespace Modules\MigraineDiary\App\Livewire;
 use Exception;
 use Illuminate\View\View;
 use Livewire\Component;
-use Modules\MigraineDiary\App\Models\MigraineAttack;
+use Modules\MigraineDiary\App\Models\Attack;
 use Illuminate\Support\Carbon;
 
 /**
- * Class MigraineCalendar
+ * Class Calendar
  *
  * @package Modules\MigraineDiary\App\Livewire
  *
@@ -19,7 +19,7 @@ use Illuminate\Support\Carbon;
  * @property array $attacks array of attacks for the current month
  * @property string $selectedDay key of the selected day
  */
-class MigraineCalendar extends Component
+class Calendar extends Component
 {
 	/** @var string $currentDate YYYY-MM format */
 	public $currentDate;
@@ -45,7 +45,7 @@ class MigraineCalendar extends Component
 	public function loadAttacks(): void
 	{
 		try {
-			$attacks = MigraineAttack::where('user_id', auth()->id())
+			$attacks = Attack::where('user_id', auth()->id())
 				->whereYear('start_time', substr($this->currentDate, 0, 4))
 				->whereMonth('start_time', substr($this->currentDate, 5, 2))
 				->with(['symptoms', 'triggers', 'meds'])

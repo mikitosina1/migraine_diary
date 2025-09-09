@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\MigraineDiary\App\Models\MigraineAttack;
-use Modules\MigraineDiary\App\Models\MigraineMed;
-use Modules\MigraineDiary\App\Models\MigraineSymptom;
-use Modules\MigraineDiary\App\Models\MigraineTrigger;
-use Modules\MigraineDiary\App\Models\MigraineUserMed;
-use Modules\MigraineDiary\App\Models\MigraineUserSymptom;
-use Modules\MigraineDiary\App\Models\MigraineUserTrigger;
+use Modules\MigraineDiary\App\Models\Attack;
+use Modules\MigraineDiary\App\Models\Med;
+use Modules\MigraineDiary\App\Models\Symptom;
+use Modules\MigraineDiary\App\Models\Trigger;
+use Modules\MigraineDiary\App\Models\UserMed;
+use Modules\MigraineDiary\App\Models\UserSymptom;
+use Modules\MigraineDiary\App\Models\UserTrigger;
 
 class MigraineDiaryController extends Controller
 {
@@ -42,12 +42,12 @@ class MigraineDiaryController extends Controller
 
 		// For full page requests
 		return view('migrainediary::user.index', [
-			'symptoms' => MigraineSymptom::getListWithTranslations(),
-			'userSymptoms' => MigraineUserSymptom::getForUser(auth()->id()),
-			'triggers' => MigraineTrigger::getListWithTranslations(),
-			'userTriggers' => MigraineUserTrigger::getForUser(auth()->id()),
-			'meds' => MigraineMed::getListWithTranslations(),
-			'userMeds' => MigraineUserMed::getForUser(auth()->id()),
+			'symptoms' => Symptom::getListWithTranslations(),
+			'userSymptoms' => UserSymptom::getForUser(auth()->id()),
+			'triggers' => Trigger::getListWithTranslations(),
+			'userTriggers' => UserTrigger::getForUser(auth()->id()),
+			'meds' => Med::getListWithTranslations(),
+			'userMeds' => UserMed::getForUser(auth()->id()),
 			'locales' => config('app.locales'),
 			'attacks' => $attacks,
 			'currentRange' => $range,
@@ -61,7 +61,7 @@ class MigraineDiaryController extends Controller
 	 */
 	private function getFilteredAttacks(string $range, string $painLevel = 'all')
 	{
-		$query = MigraineAttack::where('user_id', auth()->id())
+		$query = Attack::where('user_id', auth()->id())
 			->orderBy('start_time', 'desc');
 
 		// Apply date range filter

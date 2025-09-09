@@ -5,8 +5,26 @@ namespace Modules\MigraineDiary\App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
-class MigraineAttack extends Model
+/**
+ * Attack Model
+ *
+ * Represents a migraine attack record with symptoms, triggers, and medications.
+ * Handles both predefined and user-defined entries.
+ *
+ * @package Modules\MigraineDiary\App\Models
+ *
+ * @method static Builder|Attack create(array $attributes = [])
+ * @method static Builder|Attack find($id, $columns = ['*'])
+ * @method static Builder|Attack findOrFail($id, $columns = ['*'])
+ * @method static Builder|Attack where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method static Builder|Attack whereIn($column, $values, $boolean = 'and', $not = false)
+ * @method static Builder|Attack orderBy($column, $direction = 'asc')
+ * @method static Collection|Attack[] get($columns = ['*'])
+ * @method static Collection|Attack[] all($columns = ['*'])
+ */
+class Attack extends Model
 {
 	protected $table = 'migraine_attacks';
 
@@ -43,7 +61,7 @@ class MigraineAttack extends Model
 	public function symptoms(): BelongsToMany
 	{
 		return $this->belongsToMany(
-			MigraineSymptom::class,
+			Symptom::class,
 			'migraine_attack_symptom',
 			'attack_id',
 			'symptom_id'
@@ -57,7 +75,7 @@ class MigraineAttack extends Model
 	public function triggers(): BelongsToMany
 	{
 		return $this->belongsToMany(
-			MigraineTrigger::class,
+			Trigger::class,
 			'migraine_attack_trigger',
 			'attack_id',
 			'trigger_id'
@@ -71,7 +89,7 @@ class MigraineAttack extends Model
 	public function meds(): BelongsToMany
 	{
 		return $this->belongsToMany(
-			MigraineMed::class,
+			Med::class,
 			'migraine_attack_med',
 			'attack_id',
 			'med_id'
@@ -81,7 +99,7 @@ class MigraineAttack extends Model
 	public function userSymptoms(): BelongsToMany
 	{
 		return $this->belongsToMany(
-			MigraineUserSymptom::class,
+			UserSymptom::class,
 			'migraine_attack_user_symptom',
 			'attack_id',
 			'user_symptom_id'
@@ -91,7 +109,7 @@ class MigraineAttack extends Model
 	public function userTriggers(): BelongsToMany
 	{
 		return $this->belongsToMany(
-			MigraineUserTrigger::class,
+			UserTrigger::class,
 			'migraine_attack_user_trigger',
 			'attack_id',
 			'user_trigger_id'
@@ -101,7 +119,7 @@ class MigraineAttack extends Model
 	public function userMeds(): BelongsToMany
 	{
 		return $this->belongsToMany(
-			MigraineUserMed::class,
+			UserMed::class,
 			'migraine_attack_user_med',
 			'attack_id',
 			'user_med_id'

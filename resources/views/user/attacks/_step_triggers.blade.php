@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-2">
-	@if(isset($trigger))
+	@if(isset($triggers))
 		@foreach($triggers as $trigger)
 			<label class="text-white">
 				<input type="checkbox" name="triggers[]" value="{{ $trigger['id'] }}"

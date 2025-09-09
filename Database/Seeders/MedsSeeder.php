@@ -5,7 +5,7 @@ namespace Modules\MigraineDiary\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MigraineMedsSeeder extends Seeder
+class MedsSeeder extends Seeder
 {
 	public function run(): void
 	{

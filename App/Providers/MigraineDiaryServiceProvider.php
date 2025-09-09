@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use Modules\MigraineDiary\App\Livewire\MigraineCalendar;
-use Modules\MigraineDiary\App\Models\MigraineAttack;
+use Modules\MigraineDiary\App\Livewire\Calendar;
+use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\Services\MigraineDiaryService;
 use Modules\ModuleManager\App\Services\ModuleAdminActionRegistrar;
 
@@ -128,13 +128,13 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 
 		Livewire::component(
 			'migrainediary.migraine-calendar',
-			MigraineCalendar::class
+			Calendar::class
 		);
 
 		View::composer('migrainediary::user.dashboard-block', function ($view) {
 			$user = auth()->user();
 
-			$thisMonth = MigraineAttack::where('user_id', $user->id)
+			$thisMonth = Attack::where('user_id', $user->id)
 				->whereYear('created_at', now()->year)
 				->whereMonth('created_at', now()->month)
 				->orderByDesc('created_at')

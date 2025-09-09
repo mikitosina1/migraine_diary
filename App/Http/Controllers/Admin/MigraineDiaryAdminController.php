@@ -9,9 +9,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Modules\MigraineDiary\App\Models\MigraineMed;
-use Modules\MigraineDiary\App\Models\MigraineSymptom;
-use Modules\MigraineDiary\App\Models\MigraineTrigger;
+use Modules\MigraineDiary\App\Models\Med;
+use Modules\MigraineDiary\App\Models\Symptom;
+use Modules\MigraineDiary\App\Models\Trigger;
 
 /**
  * Class MigraineDiaryAdminController
@@ -27,9 +27,9 @@ class MigraineDiaryAdminController extends Controller
 	public function index(): View|Factory|Application
 	{
 		return view('migrainediary::admin.index-admin', [
-			'symptomList' => MigraineSymptom::getListWithTranslations(),
-			'triggerList' => MigraineTrigger::getListWithTranslations(),
-			'medsList' => MigraineMed::getListWithTranslations(),
+			'symptomList' => Symptom::getListWithTranslations(),
+			'triggerList' => Trigger::getListWithTranslations(),
+			'medsList' => Med::getListWithTranslations(),
 			'locales' => config('app.locales')
 		]);
 	}
@@ -52,7 +52,7 @@ class MigraineDiaryAdminController extends Controller
 	 */
 	public function edit(string $type, int $id): JsonResponse
 	{
-		/** @var $modelClass MigraineSymptom|MigraineTrigger|MigraineMed */
+		/** @var $modelClass Symptom|Trigger|Med */
 		$modelClass = $this->getModelByType($type);
 
 		$model = $modelClass::with('translations')->findOrFail($id);
@@ -68,9 +68,9 @@ class MigraineDiaryAdminController extends Controller
 	private function getModelByType(string $type): string
 	{
 		$map = [
-			'symptoms' => MigraineSymptom::class,
-			'triggers' => MigraineTrigger::class,
-			'meds'     => MigraineMed::class,
+			'symptoms' => Symptom::class,
+			'triggers' => Trigger::class,
+			'meds'     => Med::class,
 		];
 
 		if (!isset($map[$type])) {
@@ -95,7 +95,7 @@ class MigraineDiaryAdminController extends Controller
 			'translations.*.name' => 'required|string|max:255',
 		]);
 
-		/** @var $modelClass MigraineSymptom|MigraineTrigger|MigraineMed */
+		/** @var $modelClass Symptom|Trigger|Med */
 		$modelClass = $this->getModelByType($type);
 
 		$model = new $modelClass();
@@ -139,7 +139,7 @@ class MigraineDiaryAdminController extends Controller
 			'translations.*.name' => 'required|string|max:255',
 		]);
 
-		/** @var $modelClass MigraineSymptom|MigraineTrigger|MigraineMed */
+		/** @var $modelClass Symptom|Trigger|Med */
 		$modelClass = $this->getModelByType($type);
 		$model = $modelClass::findOrFail($id);
 
@@ -164,7 +164,7 @@ class MigraineDiaryAdminController extends Controller
 	 */
 	public function destroy(string $type, int $id): JsonResponse
 	{
-		/** @var $model MigraineSymptom|MigraineTrigger|MigraineMed */
+		/** @var $model Symptom|Trigger|Med */
 		$model = $this->getModelByType($type);
 		$item = $model::findOrFail($id);
 		$code = $item->code;
@@ -182,7 +182,7 @@ class MigraineDiaryAdminController extends Controller
 	public function checkSymptomCode(Request $request): JsonResponse
 	{
 		$code = $request->get('code');
-		$symptom = MigraineSymptom::where('code', $code)->first();
+		$symptom = Symptom::where('code', $code)->first();
 
 		return response()->json([
 			'exists' => $symptom !== null,
@@ -201,7 +201,7 @@ class MigraineDiaryAdminController extends Controller
 	public function checkTriggerCode(Request $request): JsonResponse
 	{
 		$code = $request->get('code');
-		$trigger = MigraineTrigger::where('code', $code)->first();
+		$trigger = Trigger::where('code', $code)->first();
 
 		return response()->json([
 			'exists' => $trigger !== null,
@@ -220,7 +220,7 @@ class MigraineDiaryAdminController extends Controller
 	public function checkMedsCode(Request $request): JsonResponse
 	{
 		$code = $request->get('code');
-		$meds = MigraineMed::where('code', $code)->first();
+		$meds = Med::where('code', $code)->first();
 
 		return response()->json([
 			'exists' => $meds !== null,

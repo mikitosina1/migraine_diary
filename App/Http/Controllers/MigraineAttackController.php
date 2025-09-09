@@ -9,13 +9,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
-use Modules\MigraineDiary\App\Models\MigraineAttack;
-use Modules\MigraineDiary\App\Models\MigraineMed;
-use Modules\MigraineDiary\App\Models\MigraineSymptom;
-use Modules\MigraineDiary\App\Models\MigraineTrigger;
-use Modules\MigraineDiary\App\Models\MigraineUserMed;
-use Modules\MigraineDiary\App\Models\MigraineUserSymptom;
-use Modules\MigraineDiary\App\Models\MigraineUserTrigger;
+use Modules\MigraineDiary\App\Models\Attack;
+use Modules\MigraineDiary\App\Models\Med;
+use Modules\MigraineDiary\App\Models\Symptom;
+use Modules\MigraineDiary\App\Models\Trigger;
+use Modules\MigraineDiary\App\Models\UserMed;
+use Modules\MigraineDiary\App\Models\UserSymptom;
+use Modules\MigraineDiary\App\Models\UserTrigger;
 
 class MigraineAttackController extends Controller
 {
@@ -54,7 +54,7 @@ class MigraineAttackController extends Controller
 			'user_triggers.*'    => 'integer',
 		]);
 
-		$attack = MigraineAttack::create([
+		$attack = Attack::create([
 			'user_id'    => auth()->id(),
 			'start_time' => $validated['start_time'],
 			'pain_level' => $validated['pain_level'],
@@ -93,7 +93,7 @@ class MigraineAttackController extends Controller
 	/**
 	 * Show the specified resource.
 	 */
-	public function show(MigraineAttack $attack)
+	public function show(Attack $attack)
 	{
 		return view('migrainediary::attacks.show', compact('attack'));
 	}
@@ -101,17 +101,17 @@ class MigraineAttackController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 */
-	public function edit(MigraineAttack $attack): View
+	public function edit(Attack $attack): View
 	{
 		$userId = auth()->id();
 
 		return view('migrainediary::user.attacks._form', [
-			'symptoms' => MigraineSymptom::getListWithTranslations(),
-			'userSymptoms' => MigraineUserSymptom::getForUser($userId),
-			'triggers' => MigraineTrigger::getListWithTranslations(),
-			'userTriggers' => MigraineUserTrigger::getForUser($userId),
-			'meds' => MigraineMed::getListWithTranslations(),
-			'userMeds' => MigraineUserMed::getForUser($userId),
+			'symptoms' => Symptom::getListWithTranslations(),
+			'userSymptoms' => UserSymptom::getForUser($userId),
+			'triggers' => Trigger::getListWithTranslations(),
+			'userTriggers' => UserTrigger::getForUser($userId),
+			'meds' => Med::getListWithTranslations(),
+			'userMeds' => UserMed::getForUser($userId),
 			'attack' => $attack,
 			'mode' => 'edit',
 		]);
@@ -120,7 +120,7 @@ class MigraineAttackController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 */
-	public function update(Request $request, MigraineAttack $attack): JsonResponse
+	public function update(Request $request, Attack $attack): JsonResponse
 	{
 		if ($attack->user_id !== auth()->id()) {
 			abort(403, 'Unauthorized action.');
@@ -167,7 +167,7 @@ class MigraineAttackController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(MigraineAttack $attack)
+	public function destroy(Attack $attack)
 	{
 		if ($attack->user_id !== auth()->id()) {
 			abort(403, 'Unauthorized action.');
@@ -188,7 +188,7 @@ class MigraineAttackController extends Controller
 	 */
 	public function endAttack(int $id): RedirectResponse
 	{
-		$attack = MigraineAttack::where('user_id', auth()->id())
+		$attack = Attack::where('user_id', auth()->id())
 			->whereNull('end_time')
 			->findOrFail($id);
 
@@ -205,7 +205,7 @@ class MigraineAttackController extends Controller
 	 */
 	public function endAttackAjax(int $id): JsonResponse
 	{
-		$attack = MigraineAttack::where('user_id', auth()->id())
+		$attack = Attack::where('user_id', auth()->id())
 			->whereNull('end_time')
 			->findOrFail($id);
 
