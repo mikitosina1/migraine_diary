@@ -95,6 +95,14 @@
 						<div class="mt-2">
 							<strong>@lang('migrainediary::migraine_diary.symptoms'):</strong>
 							{{ $attack->symptoms->pluck('name')->join(', ') }}
+							@if($attack->userSymptoms->count())
+								, {{ $attack->userSymptoms->pluck('name')->join(', ') }}
+							@endif
+						</div>
+					@elseif($attack->userSymptoms->count())
+						<div class="mt-2">
+							<strong>@lang('migrainediary::migraine_diary.symptoms'):</strong>
+							{{ $attack->userSymptoms->pluck('name')->join(', ') }}
 						</div>
 					@endif
 
@@ -102,6 +110,14 @@
 						<div class="mt-2">
 							<strong>@lang('migrainediary::migraine_diary.triggers'):</strong>
 							{{ $attack->triggers->pluck('name')->join(', ') }}
+							@if($attack->userTriggers->count())
+								, {{ $attack->userTriggers->pluck('name')->join(', ') }}
+							@endif
+						</div>
+					@elseif($attack->userTriggers->count())
+						<div class="mt-2">
+							<strong>@lang('migrainediary::migraine_diary.triggers'):</strong>
+							{{ $attack->userTriggers->pluck('name')->join(', ') }}
 						</div>
 					@endif
 
@@ -109,6 +125,14 @@
 						<div class="mt-2">
 							<strong>@lang('migrainediary::migraine_diary.meds'):</strong>
 							{{ $attack->meds->pluck('name')->join(', ') }}
+							@if($attack->userMeds->count())
+								, {{ $attack->userMeds->pluck('name')->join(', ') }}
+							@endif
+						</div>
+					@elseif($attack->userMeds->count())
+						<div class="mt-2">
+							<strong>@lang('migrainediary::migraine_diary.meds'):</strong>
+							{{ $attack->userMeds->pluck('name')->join(', ') }}
 						</div>
 					@endif
 

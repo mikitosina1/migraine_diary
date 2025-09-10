@@ -12,7 +12,7 @@
 	@if(isset($userSymptoms))
 		@foreach($userSymptoms as $userSymptom)
 			<label class="text-white">
-				<input type="checkbox" name="symptoms[]" value="{{ $userSymptom['id'] }}"
+				<input type="checkbox" name="userSymptoms[]" value="{{ $userSymptom['id'] }}"
 					   @if(isset($attack) && $attack->userSymptoms->contains($userSymptom['id'])) checked @endif
 				>
 				{{ $userSymptom['name'] }}

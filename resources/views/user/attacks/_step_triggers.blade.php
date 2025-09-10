@@ -12,8 +12,8 @@
 	@if(isset($userTriggers))
 		@foreach($userTriggers as $userTrigger)
 			<label class="text-white">
-				<input type="checkbox" name="triggers[]" value="{{ $trigger['id'] }}"
-					   @if(isset($attack) && $attack->triggers->contains($trigger['id'])) checked @endif
+				<input type="checkbox" name="userTriggers[]" value="{{ $userTrigger['id'] }}"
+					   @if(isset($attack) && $attack->userTrigger->contains($userTrigger['id'])) checked @endif
 				>
 				{{ $userTrigger['name'] }}
 			</label>
