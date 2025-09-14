@@ -39,6 +39,7 @@ return [
 	'delete'         => 'Löschen',
 	'delete_confirm' => 'Sind Sie sicher, dass Sie löschen möchten?',
 	'end_attack'     => 'Angriff enden',
+	'reset_filters'  => 'Zurücksetzen',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',
@@ -51,6 +52,9 @@ return [
 	'pain_level_8'   => 'Sehr starke Schmerzen',
 	'pain_level_9'   => 'Äußerst starke Schmerzen',
 	'pain_level_10'  => 'Unerträgliche Schmerzen',
+
+	'level'          => 'Stufe',
+	'all_pain_lvl'   => 'Alle Schmerzstufen',
 
 	//successes
 	'attack_ended'   => 'Angriff beendet',

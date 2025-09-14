@@ -39,6 +39,7 @@ return [
 	'delete'         => 'Delete',
 	'delete_confirm' => 'Are you sure you want to delete?',
 	'end_attack'     => 'End Attack',
+	'reset_filters'  => 'Reset filters',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',
@@ -51,6 +52,9 @@ return [
 	'pain_level_8'   => 'Very severe pain',
 	'pain_level_9'   => 'Extremely severe pain',
 	'pain_level_10'  => 'Unbearable pain',
+
+	'level'          => 'Level',
+	'all_pain_lvl'   => 'All Pain Levels',
 
 	//successes
 	'attack_ended'   => 'Attack ended',

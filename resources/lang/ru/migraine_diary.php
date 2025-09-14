@@ -38,6 +38,7 @@ return [
 	'delete'         => 'Удаление',
 	'delete_confirm' => 'Вы уверены, что хотите удалить?',
 	'end_attack'     => 'Окончить Атаку',
+	'reset_filters'  => 'Сбросить',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',
@@ -51,6 +52,9 @@ return [
 	'pain_level_8'   => 'Очень сильная боль',
 	'pain_level_9'   => 'Крайне сильная боль',
 	'pain_level_10'  => 'Невыносимая боль',
+
+	'level'          => 'Уровень',
+	'all_pain_lvl'   => 'Все ур-ни боли',
 
 	//successes
 	'attack_ended'   => 'Атака окончена',

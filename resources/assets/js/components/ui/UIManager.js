@@ -1,6 +1,7 @@
 class UIManager {
 	constructor(translationService) {
 		this.translationService = translationService;
+		this.setupModalListeners();
 	}
 
 	// Tab management
@@ -100,6 +101,33 @@ class UIManager {
 			const message = this.translationService.translate('no_rec_found', 'No records found');
 			listContainer.innerHTML = `<p class="text-center py-8">${message}</p>`;
 		}
+	}
+
+	setupModalListeners() {
+		document.addEventListener('click', (e) => {
+			if (e.target.closest('.modal-close')) {
+				const modal = e.target.closest('dialog');
+				if (modal) {
+					this.closeModal(modal.id);
+				}
+			}
+		});
+
+		document.querySelectorAll('dialog').forEach(modal => {
+			modal.addEventListener('click', (e) => {
+				if (e.target === modal) {
+					this.closeModal(modal.id);
+				}
+			});
+		});
+
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') {
+				document.querySelectorAll('dialog[open]').forEach(modal => {
+					this.closeModal(modal.id);
+				});
+			}
+		});
 	}
 }
 

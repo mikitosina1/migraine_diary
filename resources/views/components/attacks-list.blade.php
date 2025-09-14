@@ -22,18 +22,18 @@
 			@if($currentPainLevel)
 				<!-- Pain Level Filter -->
 				<select id="list-pain-level" class="bg-gray-800 text-white py-2 rounded">
-					<option value="all">All Pain Levels</option>
+					<option value="all">@lang('migrainediary::migraine_diary.all_pain_lvl')</option>
 					@for($i = 1; $i <= 10; $i++)
 						<option value="{{ $i }}" {{ $currentPainLevel == $i ? 'selected' : '' }}>
-							Level {{ $i }}
+							@lang('migrainediary::migraine_diary.level') {{ $i }}
 						</option>
 					@endfor
 				</select>
 			@endif
 
 			<!-- Reset Filters Button -->
-			<button id="reset-filters" class="bg-gray-600 text-white px-3 py-2 rounded hover:bg-gray-700">
-				Reset Filters
+			<button id="reset-filters" class="bg-gray-600 text-white rounded hover:bg-gray-700">
+				@lang('migrainediary::migraine_diary.reset_filters')
 			</button>
 		</div>
 	</div>
@@ -60,8 +60,8 @@
 					</div>
 					<div class="short-info flex items-center gap-3">
 						{{-- pain level span --}}
-						<span class="px-2 py-1 rounded text-sm"
-							  style="background-color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
+						<span class="px-2 py-1 rounded text-sm border-2"
+							  style="border-color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
 							@lang('migrainediary::migraine_diary.pain_level'): {{ $attack->pain_level }}
 						</span>
 						{{-- expand/collapse button --}}
@@ -128,7 +128,7 @@
 								</div>
 							@endif
 						</div>
-						<div class="controls flex flex-col items-center space-x-2 mt-4">
+						<div class="controls flex flex-col items-center space-x-2">
 							<!-- Delete -->
 							<button
 								type="button"

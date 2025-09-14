@@ -81,6 +81,16 @@ dialog {
 	&::backdrop {
 		background: rgba(0, 0, 0, 0.5);
 	}
+
+	.dialog-content {
+		.slot {
+			form {
+				div.step {
+					width: 500px;
+				}
+			}
+		}
+	}
 }
 
 .modal-content {
@@ -152,7 +162,13 @@ dialog {
 				}
 
 				#list-pain-level {
+					margin: 0 0 0 .5em;
 					padding: .5em 2em .5em .5em;
+				}
+
+				#reset-filters {
+					margin: 0 0 0 .5em;
+					padding: .5em;
 				}
 			}
 		}
@@ -170,12 +186,33 @@ dialog {
 
 						}
 						.controls {
+							button {
+								transition: all 0.3s ease;
+
+								&:hover {
+									transform: translateY(-1px);
+								}
+							}
+
+							.delete-btn:hover {
+								box-shadow: 0 0 0 5px rgba(orangered, 0.3);
+							}
+
+							.edit-btn:hover {
+								box-shadow: 0 0 0 5px rgba(dodgerblue, 0.3);
+							}
+
+							.end-attack-button:hover {
+								box-shadow: 0 0 0 5px rgba(mediumseagreen, 0.3);
+							}
+
 							.delete-btn {
 								margin: 1em 0;
 								width: 40px;
 								height: 28px;
 								border-radius: 10px;
-								background: orangered;
+								color: orangered;
+								border: 1px solid orangered;
 							}
 
 							.edit-btn {
@@ -183,7 +220,8 @@ dialog {
 								width: 40px;
 								height: 28px;
 								border-radius: 10px;
-								background: dodgerblue;
+								color: dodgerblue;
+								border: 1px solid dodgerblue;
 							}
 
 							.end-attack-button {
@@ -191,7 +229,8 @@ dialog {
 								width: 40px;
 								height: 28px;
 								border-radius: 10px;
-								background: mediumseagreen;
+								color: mediumseagreen;
+								border: 1px solid mediumseagreen;
 							}
 						}
 					}
