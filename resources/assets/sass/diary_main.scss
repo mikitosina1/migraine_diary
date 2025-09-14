@@ -1,8 +1,8 @@
 /* variables comes from resources/css/app.css */
 .dashboard-widget.migraine-diary {
 	color: var(--main-text-color);
-	min-width: 540px;
-	width: 545px;
+	min-width: 415px;
+	width: 430px;
 
 	.attacks-box {
 		.active-attacks {
@@ -31,10 +31,14 @@
 					}
 
 					.end-attack-button {
-						padding: 0 .5em;
-						border: 1px solid mediumseagreen;
+
+						margin: 1em 0;
+						width: 40px;
+						height: 28px;
 						border-radius: 10px;
+						padding: 0 .5em;
 						color: mediumseagreen;
+						border: 1px solid mediumseagreen;
 					}
 				}
 			}
@@ -157,19 +161,38 @@ dialog {
 			.migraine-list-item {
 				.statistic-header {
 					.short-info {
-						.end-attack-button {
-							width: 20px;
-							height: 20px;
-							border-radius: 10px;
-							color: mediumseagreen;
-						}
 					}
 				}
 
 				.list-item-content {
-					.list-item-buttons {
-						form {
-							margin: 0 1em 0 1em;
+					.main-content-block {
+						.content-block {
+
+						}
+						.controls {
+							.delete-btn {
+								margin: 1em 0;
+								width: 40px;
+								height: 28px;
+								border-radius: 10px;
+								background: orangered;
+							}
+
+							.edit-btn {
+								margin: 1em 0;
+								width: 40px;
+								height: 28px;
+								border-radius: 10px;
+								background: dodgerblue;
+							}
+
+							.end-attack-button {
+								margin: 1em 0;
+								width: 40px;
+								height: 28px;
+								border-radius: 10px;
+								background: mediumseagreen;
+							}
 						}
 					}
 				}

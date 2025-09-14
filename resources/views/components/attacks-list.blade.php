@@ -64,15 +64,6 @@
 							  style="background-color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
 							@lang('migrainediary::migraine_diary.pain_level'): {{ $attack->pain_level }}
 						</span>
-						{{-- end attack button --}}
-						@if($attack->end_time == null)
-							<button
-								data-attack-id="{{ $attack->id }}"
-								class="end-attack-button flex flex-row gap-2 items-center"
-								title=" {{ __('migrainediary::migraine_diary.end_attack') }}">
-								<i class="fas fa-check-circle"></i>
-							</button>
-						@endif
 						{{-- expand/collapse button --}}
 						<svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
 							 viewBox="0 0 24 24" stroke="currentColor">
@@ -90,72 +81,82 @@
 					@if($attack->notes)
 						<div class="mt-2 italic">"{{ $attack->notes }}"</div>
 					@endif
+					<div class="main-content-block flex flex-row justify-between">
+						<div class="content-block flex flex-col">
+							@if($attack->symptoms->count())
+								<div class="mt-2">
+									<strong>@lang('migrainediary::migraine_diary.symptoms'):</strong>
+									{{ $attack->symptoms->pluck('name')->join(', ') }}
+									@if($attack->userSymptoms->count())
+										, {{ $attack->userSymptoms->pluck('name')->join(', ') }}
+									@endif
+								</div>
+							@elseif($attack->userSymptoms->count())
+								<div class="mt-2">
+									<strong>@lang('migrainediary::migraine_diary.symptoms'):</strong>
+									{{ $attack->userSymptoms->pluck('name')->join(', ') }}
+								</div>
+							@endif
 
-					@if($attack->symptoms->count())
-						<div class="mt-2">
-							<strong>@lang('migrainediary::migraine_diary.symptoms'):</strong>
-							{{ $attack->symptoms->pluck('name')->join(', ') }}
-							@if($attack->userSymptoms->count())
-								, {{ $attack->userSymptoms->pluck('name')->join(', ') }}
+							@if($attack->triggers->count())
+								<div class="mt-2">
+									<strong>@lang('migrainediary::migraine_diary.triggers'):</strong>
+									{{ $attack->triggers->pluck('name')->join(', ') }}
+									@if($attack->userTriggers->count())
+										, {{ $attack->userTriggers->pluck('name')->join(', ') }}
+									@endif
+								</div>
+							@elseif($attack->userTriggers->count())
+								<div class="mt-2">
+									<strong>@lang('migrainediary::migraine_diary.triggers'):</strong>
+									{{ $attack->userTriggers->pluck('name')->join(', ') }}
+								</div>
+							@endif
+
+							@if($attack->meds->count())
+								<div class="mt-2">
+									<strong>@lang('migrainediary::migraine_diary.meds'):</strong>
+									{{ $attack->meds->pluck('name')->join(', ') }}
+									@if($attack->userMeds->count())
+										, {{ $attack->userMeds->pluck('name')->join(', ') }}
+									@endif
+								</div>
+							@elseif($attack->userMeds->count())
+								<div class="mt-2">
+									<strong>@lang('migrainediary::migraine_diary.meds'):</strong>
+									{{ $attack->userMeds->pluck('name')->join(', ') }}
+								</div>
 							@endif
 						</div>
-					@elseif($attack->userSymptoms->count())
-						<div class="mt-2">
-							<strong>@lang('migrainediary::migraine_diary.symptoms'):</strong>
-							{{ $attack->userSymptoms->pluck('name')->join(', ') }}
-						</div>
-					@endif
+						<div class="controls flex flex-col items-center space-x-2 mt-4">
+							<!-- Delete -->
+							<button
+								type="button"
+								class="delete-btn rounded-md"
+								data-attack-id="{{ $attack->id }}"
+								title="@lang('migrainediary::migraine_diary.delete')"
+							>
+								<i class="fas fa-trash"></i>
+							</button>
+							<!-- Edit -->
+							<button
+								class="edit-btn rounded-md"
+								data-attack-id="{{ $attack->id }}"
+								title="@lang('migrainediary::migraine_diary.update')"
+							>
+								<i class="fas fa-edit"></i>
+							</button>
 
-					@if($attack->triggers->count())
-						<div class="mt-2">
-							<strong>@lang('migrainediary::migraine_diary.triggers'):</strong>
-							{{ $attack->triggers->pluck('name')->join(', ') }}
-							@if($attack->userTriggers->count())
-								, {{ $attack->userTriggers->pluck('name')->join(', ') }}
+							<!-- end attack button -->
+							@if($attack->end_time == null)
+								<button
+									data-attack-id="{{ $attack->id }}"
+									class="end-attack-button"
+									title=" {{ __('migrainediary::migraine_diary.end_attack') }}">
+									<i class="fas fa-check-double"></i>
+								</button>
 							@endif
 						</div>
-					@elseif($attack->userTriggers->count())
-						<div class="mt-2">
-							<strong>@lang('migrainediary::migraine_diary.triggers'):</strong>
-							{{ $attack->userTriggers->pluck('name')->join(', ') }}
-						</div>
-					@endif
-
-					@if($attack->meds->count())
-						<div class="mt-2">
-							<strong>@lang('migrainediary::migraine_diary.meds'):</strong>
-							{{ $attack->meds->pluck('name')->join(', ') }}
-							@if($attack->userMeds->count())
-								, {{ $attack->userMeds->pluck('name')->join(', ') }}
-							@endif
-						</div>
-					@elseif($attack->userMeds->count())
-						<div class="mt-2">
-							<strong>@lang('migrainediary::migraine_diary.meds'):</strong>
-							{{ $attack->userMeds->pluck('name')->join(', ') }}
-						</div>
-					@endif
-
-					<div class="list-item-buttons flex flex-row items-center justify-end space-x-2 mt-4">
-						<!-- Delete -->
-						<button
-							type="button"
-							class="delete-btn mr-2"
-							data-attack-id="{{ $attack->id }}"
-							title="@lang('migrainediary::migraine_diary.delete')"
-						>
-							@lang('migrainediary::migraine_diary.delete')
-							<i class="fas fa-trash text-red-500"></i>
-						</button>
-						<!-- Edit -->
-						<button
-							class="edit-btn px-2 py-1 bg-gray-500 rounded-md"
-							data-attack-id="{{ $attack->id }}"
-							title="@lang('migrainediary::migraine_diary.update')"
-						>
-							@lang('migrainediary::migraine_diary.update')
-							<i class="fas fa-edit text-green-600"></i>
-						</button>
 					</div>
 				</div>
 			</div>

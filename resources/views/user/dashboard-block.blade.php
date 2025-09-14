@@ -38,8 +38,8 @@
 						<li>
 							{{ $attack->created_at->format('d.m.Y') }} -
 							<span class="attack-loading">
-							<span>.</span><span>.</span><span>.</span>
-						</span>
+								<span>.</span><span>.</span><span>.</span>
+							</span>
 							{{-- finish migraine --}}
 							<form action="{{ route('user.migraine-diary.attacks.end', $attack->id) }}"
 								  method="POST"
@@ -48,8 +48,7 @@
 								<button type="submit" class="end-attack-button flex flex-row gap-2 items-center"
 										title=" {{ __('migrainediary::migraine_diary.end_attack') }}"
 								>
-									<i class="fas fa-check-circle"></i>
-									<p>@lang('migrainediary::migraine_diary.end_attack')</p>
+									<i class="fas fa-check-double"></i>
 								</button>
 							</form>
 						</li>
