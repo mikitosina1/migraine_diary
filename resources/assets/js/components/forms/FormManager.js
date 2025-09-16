@@ -31,8 +31,7 @@ class FormManager {
 			nextBtn.addEventListener('click', () => {
 				if (this.currentStep < steps.length) {
 					navigateToStep('next');
-				}
-				else {
+				} else {
 					if (this.onSubmit) {
 						this.onSubmit(form);
 					}

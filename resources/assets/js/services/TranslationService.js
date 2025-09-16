@@ -66,7 +66,7 @@ class TranslationService {
 	 * @returns {Object}
 	 */
 	getAll() {
-		return { ...this.translations };
+		return {...this.translations};
 	}
 }
 

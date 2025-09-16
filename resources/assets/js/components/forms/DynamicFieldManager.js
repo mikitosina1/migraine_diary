@@ -153,7 +153,7 @@ class DynamicFieldManager {
 				const fieldType = match[2];
 
 				if (!fieldMap[fieldId]) {
-					fieldMap[fieldId] = { id: fieldId };
+					fieldMap[fieldId] = {id: fieldId};
 				}
 				fieldMap[fieldId][fieldType] = input.value;
 			}
