@@ -36,7 +36,7 @@
 				<ul class="text-white">
 					@forelse($activeAttacks as $attack)
 						<li>
-							{{ $attack->created_at->format('d.m.Y') }} -
+							{{ $attack->created_at->format('H:i') }} -
 							<span class="attack-loading">
 								<span>.</span><span>.</span><span>.</span>
 							</span>

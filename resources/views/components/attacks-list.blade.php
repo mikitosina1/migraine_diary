@@ -46,13 +46,13 @@
 					@click="open = !open"
 					class="statistic-header w-full flex justify-between items-center p-4 text-left focus:outline-none"
 				>
-					<div class="flex flex-col gap-2 mr-2">
-						<span>
-							<strong>@lang('migrainediary::migraine_diary.start_time'):</strong>
+					<div class="date-block flex flex-col gap-2 mr-2">
+						<span class="flex flex-row justify-between">
+							<strong class="mr-1">@lang('migrainediary::migraine_diary.start_time'):</strong>
 							{{ Carbon::parse($attack->start_time)->format('d.m.Y H:i') }}
 						</span>
 						@if($attack->end_time)
-							<span>
+							<span class="flex flex-row justify-between">
 								<strong>@lang('migrainediary::migraine_diary.end_time'):</strong>
 								{{ Carbon::parse($attack->end_time)->format('d.m.Y H:i') }}
 							</span>

@@ -13,7 +13,7 @@
 	@endif
 	@if(isset($userSymptoms))
 		@foreach($userSymptoms as $userSymptom)
-			<label class="inline-flex items-center cursor-pointer ">
+			<label class="inline-flex items-center cursor-pointer">
 				<input type="checkbox" class="hidden peer" name="userSymptoms[]" value="{{ $userSymptom['id'] }}"
 					   @if(isset($attack) && $attack->userSymptoms->contains($userSymptom['id'])) checked @endif>
 				<span class="px-3 py-1 rounded-full border border-white text-white
