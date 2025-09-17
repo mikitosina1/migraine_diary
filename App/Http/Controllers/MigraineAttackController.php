@@ -17,6 +17,9 @@ use Modules\MigraineDiary\App\Models\UserMed;
 use Modules\MigraineDiary\App\Models\UserSymptom;
 use Modules\MigraineDiary\App\Models\UserTrigger;
 
+/**
+ * TODO: reformat code.
+ */
 class MigraineAttackController extends Controller
 {
 	/**
@@ -34,25 +37,49 @@ class MigraineAttackController extends Controller
 	 */
 	public function store(Request $request): JsonResponse
 	{
-		$validated = $request->validate([
-			'start_time'         => 'required|date',
-			'pain_level'         => 'required|integer|min:1|max:10',
-			'notes'              => 'nullable|string',
-			'symptoms'           => 'array',
-			'symptoms.*'         => 'integer|exists:migraine_symptoms,id',
-			'userSymptoms'      => 'array',
-			'userSymptoms.*'    => 'integer',
-			'meds'               => 'array',
-			'meds.*.id'          => 'required|integer|exists:migraine_meds,id',
-			'meds.*.dosage'      => 'nullable|string',
-			'userMeds'          => 'array',
-			'userMeds.*.id'     => 'required|integer',
-			'userMeds.*.dosage' => 'nullable|string',
-			'triggers'           => 'array',
-			'triggers.*'         => 'integer|exists:migraine_triggers,id',
-			'userTriggers'      => 'array',
-			'userTriggers.*'    => 'integer',
-		]);
+		$validated = $this->getValid($request);
+
+		$newSymptomsIds = [];
+		foreach ($validated['userSymptomsNew'] ?? [] as $symptomName) {
+			$symptom = UserSymptom::firstOrCreate(
+				['user_id' => auth()->id(), 'name' => $symptomName],
+				['name' => $symptomName]
+			);
+			$newSymptomsIds[] = $symptom->id;
+		}
+
+		$allUserSymptoms = array_merge(
+			$validated['userSymptoms'] ?? [],
+			$newSymptomsIds
+		);
+
+		$newTriggersIds = [];
+		foreach ($validated['userTriggersNew'] ?? [] as $triggerName) {
+			$trigger = UserTrigger::firstOrCreate(
+				['user_id' => auth()->id(), 'name' => $triggerName],
+				['name' => $triggerName]
+			);
+			$newTriggersIds[] = $trigger->id;
+		}
+
+		$allUserTriggers = array_merge(
+			$validated['userTriggers'] ?? [],
+			$newTriggersIds
+		);
+
+		$newMedsData = [];
+		foreach ($validated['userMedsNew'] ?? [] as $medName) {
+			$med = UserMed::firstOrCreate(
+				['user_id' => auth()->id(), 'name' => $medName],
+				['name' => $medName]
+			);
+			$newMedsData[$med->id] = ['dosage' => null];
+		}
+
+		$allUserMeds = array_merge(
+			$validated['userMeds'] ?? [],
+				$newMedsData
+		);
 
 		$attack = Attack::create([
 			'user_id'    => auth()->id(),
@@ -69,11 +96,11 @@ class MigraineAttackController extends Controller
 		}
 
 		$attack->symptoms()->sync(array_map('intval', $validated['symptoms']));
-		$attack->userSymptoms()->sync(array_map('intval', $validated['userSymptoms']));
+		$attack->userSymptoms()->sync(array_map('intval', $allUserSymptoms));
 		$attack->triggers()->sync(array_map('intval', $validated['triggers']));
-		$attack->userTriggers()->sync(array_map('intval', $validated['userTriggers']));
+		$attack->userTriggers()->sync(array_map('intval', $allUserTriggers));
 		$attack->meds()->sync($meds);
-		$attack->userMeds()->sync($validated['userMeds']);
+		$attack->userMeds()->sync($allUserMeds);
 
 		return response()->json([
 			'success'   => true,
@@ -220,6 +247,34 @@ class MigraineAttackController extends Controller
 				'end_time' => $attack->end_time->format('Y-m-d H:i:s'),
 				'end_time_formatted' => $attack->end_time->format('d.m.Y H:i')
 			]
+		]);
+	}
+
+	protected function getValid($request): array
+	{
+		return $request->validate([
+			'start_time'         => 'required|date',
+			'pain_level'         => 'required|integer|min:1|max:10',
+			'notes'              => 'nullable|string',
+			'symptoms'           => 'array',
+			'symptoms.*'         => 'integer|exists:migraine_symptoms,id',
+			'userSymptoms'       => 'array',
+			'userSymptoms.*'     => 'integer|exists:migraine_user_symptoms,id',
+			'userSymptomsNew'    => 'array',
+			'userSymptomsNew.*'  => 'string|distinct|max:255',
+			'meds'               => 'array',
+			'meds.*.id'          => 'required|integer|exists:migraine_meds,id',
+			'meds.*.dosage'      => 'nullable|string',
+			'userMeds'           => 'array',
+			'userMeds.*'         => 'integer|exists:migraine_user_meds,id',
+			'userMedsNew'        => 'array',
+			'userMedsNew.*'      => 'string|distinct|max:255',
+			'triggers'           => 'array',
+			'triggers.*'         => 'integer|exists:migraine_triggers,id',
+			'userTriggers'       => 'array',
+			'userTriggers.*'     => 'integer|exists:migraine_user_triggers,id',
+			'userTriggersNew'    => 'array',
+			'userTriggersNew.*'  => 'string|distinct|max:255',
 		]);
 	}
 

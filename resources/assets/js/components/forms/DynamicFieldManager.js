@@ -1,167 +1,167 @@
 class DynamicFieldManager {
 	constructor(translationService) {
 		this.translationService = translationService;
+		this.initEventDelegation();
 	}
 
-	// Initialize dynamic fields
-	initDynamicFields() {
-		this.initSymptomFields();
-		this.initTriggerFields();
-		this.initMedicationFields();
+	// Delegation of events to handle dynamic fields
+	initEventDelegation() {
+		document.addEventListener('click', (e) => {
+			// Delete
+			if (e.target.closest('.remove-field')) {
+				this.handleRemoveField(e.target.closest('.remove-field'));
+			}
+
+			// add symptom
+			if (e.target.closest('.add-new-symptom')) {
+				this.addSymptomField(e.target.closest('.add-new-symptom'));
+			}
+
+			// add trigger
+			if (e.target.closest('.add-new-trigger')) {
+				this.addTriggerField(e.target.closest('.add-new-trigger'));
+			}
+
+			// add medication
+			if (e.target.closest('.add-new-med')) {
+				this.addMedicationField(e.target.closest('.add-new-med'));
+			}
+		});
+
+		// blur event for temp input
+		document.addEventListener('blur', (e) => {
+			if (e.target.matches('.temp-input')) {
+				if (e.relatedTarget && e.relatedTarget.closest('.remove-field')) {
+					return; // Ignore if the related target is a remove button
+				}
+				this.handleTempInputBlur(e.target);
+			}
+		}, true);
+
+		// keydown event for temp input
+		document.addEventListener('keydown', (e) => {
+			if (e.target.matches('.temp-input') && e.key === 'Enter') {
+				e.preventDefault();
+				e.target.blur();
+			}
+		});
 	}
 
 	// Symptoms
-	initSymptomFields() {
-		const addSymptomButtons = document.querySelectorAll('.add-new-symptom');
-		addSymptomButtons.forEach(button => {
-			button.addEventListener('click', () => this.addSymptomField(button));
+	addSymptomField(button) {
+		button.style.display = 'none';
+		this.addField(button, {
+			fieldType: 'userSymptomsNew',
+			placeholderKey: 'symptom'
 		});
 	}
 
 	// Triggers
-	initTriggerFields() {
-		const addTriggerButtons = document.querySelectorAll('.add-new-trigger');
-		addTriggerButtons.forEach(button => {
-			button.addEventListener('click', () => this.addTriggerField(button));
+	addTriggerField(button) {
+		button.style.display = 'none';
+		this.addField(button, {
+			fieldType: 'userTriggersNew',
+			placeholderKey: 'trigger'
 		});
 	}
 
 	// Meds
-	initMedicationFields() {
-		const addMedButtons = document.querySelectorAll('.add-new-med');
-		addMedButtons.forEach(button => {
-			button.addEventListener('click', () => this.addMedicationField(button));
+	addMedicationField(button) {
+		button.style.display = 'none';
+		this.addField(button, {
+			fieldType: 'userMedsNew',
+			placeholderKey: 'med'
 		});
 	}
 
-	// Add the symptom field
-	addSymptomField(button) {
-		const container = button.closest('.flex.flex-col.gap-2');
+	// Add field global method
+	addField(button, fieldData = {}) {
 		const fieldId = Date.now();
-
 		const fieldHtml = `
-			<div class="dynamic-field bg-gray-700 p-3 rounded-md mb-2" data-field-id="${fieldId}">
-				<label class="text-white flex items-center gap-2">
-					<input type="text"
-						   name="userSymptoms[${fieldId}][name]"
-						   placeholder="${this.translationService.translate('symptom_name', 'Symptom name')}"
-						   class="flex-1 p-2 rounded bg-gray-600 text-white">
-					<button type="button" class="remove-field text-red-500 px-2">
-						<i class="fas fa-times"></i>
-					</button>
-				</label>
-				<textarea
-					name="userSymptoms[${fieldId}][description]"
-					placeholder="${this.translationService.translate('description', 'Description')}"
-					class="w-full p-2 rounded bg-gray-600 text-white mt-2"
-					rows="2"></textarea>
+			<div class="dynamic-field inline-flex items-center gap-2" data-field-id="${fieldId}">
+				<input type="text"
+					   class="temp-input flex-1 p-2 rounded bg-gray-600 text-white"
+					   placeholder="${this.translationService.translate(fieldData.placeholderKey, 'Name')}"
+					   autofocus>
+				<button type="button" class="remove-field text-red-500 px-3 py-2 bg-red-600 rounded hover:bg-red-700">
+					<i class="fas fa-times"></i>
+				</button>
 			</div>
 		`;
 
 		button.insertAdjacentHTML('beforebegin', fieldHtml);
-
-		const removeBtn = container.querySelector(`[data-field-id="${fieldId}"] .remove-field`);
-		removeBtn.addEventListener('click', () => this.removeField(removeBtn));
 	}
 
-	// Add the trigger field
-	addTriggerField(button) {
-		const container = button.closest('.flex.flex-col.gap-2');
-		const fieldId = Date.now();
+	// handle dynamic fields for blur event
+	handleTempInputBlur(input) {
+		const value = input.value.trim();
+		const fieldContainer = input.closest('.dynamic-field');
+		const addButton = fieldContainer.nextElementSibling;
 
-		const fieldHtml = `
-			<div class="dynamic-field bg-gray-700 p-3 rounded-md mb-2" data-field-id="${fieldId}">
-				<label class="text-white flex items-center gap-2">
-					<input type="text"
-						   name="userTriggers[${fieldId}][name]"
-						   placeholder="${this.translationService.translate('trigger', 'Symptom name')}"
-						   class="flex-1 p-2 rounded bg-gray-600 text-white">
-					<button type="button" class="remove-field text-red-500 px-2">
-						<i class="fas fa-times"></i>
-					</button>
-				</label>
-				<textarea
-					name="userTriggers[${fieldId}][description]"
-					placeholder="${this.translationService.translate('description', 'Description')}"
-					class="w-full p-2 rounded bg-gray-600 text-white mt-2"
-					rows="2"></textarea>
-			</div>
+		if (!value) {
+			fieldContainer.remove();
+			if (addButton && addButton.matches('.add-new-symptom, .add-new-trigger, .add-new-med')) {
+				addButton.style.display = '';
+			}
+			return;
+		}
+
+		// create a new field (final)
+		const fieldType = this.detectFieldType(fieldContainer);
+
+		fieldContainer.outerHTML = `
+			<label class="inline-flex items-center cursor-pointer">
+				<input type="checkbox"
+					   name="${fieldType}[]"
+					   value="${value}"
+					   checked
+					   class="hidden peer">
+				<span class="px-3 py-1 rounded-full border border-white text-white
+					   peer-checked:bg-blue-500 peer-checked:text-white transition-all">
+					${value}
+				</span>
+			</label>
 		`;
 
-		button.insertAdjacentHTML('beforebegin', fieldHtml);
-
-		const removeBtn = container.querySelector(`[data-field-id="${fieldId}"] .remove-field`);
-		removeBtn.addEventListener('click', () => this.removeField(removeBtn));
-	}
-
-	// Add the medication field
-	addMedicationField(button) {
-		const container = button.closest('.flex.flex-col.gap-2');
-		const fieldId = Date.now();
-
-		const fieldHtml = `
-			<div class="dynamic-field bg-gray-700 p-3 rounded-md mb-2" data-field-id="${fieldId}">
-				<label class="text-white flex items-center gap-2">
-					<input type="text"
-						   name="userMeds[${fieldId}][name]"
-						   placeholder="${this.translationService.translate('meds', 'Symptom name')}"
-						   class="flex-1 p-2 rounded bg-gray-600 text-white">
-					<button type="button" class="remove-field text-red-500 px-2">
-						<i class="fas fa-times"></i>
-					</button>
-				</label>
-				<textarea
-					name="userMeds[${fieldId}][description]"
-					placeholder="${this.translationService.translate('description', 'Description')}"
-					class="w-full p-2 rounded bg-gray-600 text-white mt-2"
-					rows="2"></textarea>
-			</div>
-		`;
-
-		button.insertAdjacentHTML('beforebegin', fieldHtml);
-
-		const removeBtn = container.querySelector(`[data-field-id="${fieldId}"] .remove-field`);
-		removeBtn.addEventListener('click', () => this.removeField(removeBtn));
-	}
-
-	// Delete dynamic field
-	removeField(button) {
-		const field = button.closest('.dynamic-field');
-		if (field) {
-			field.remove();
+		if (addButton && addButton.matches('.add-new-symptom, .add-new-trigger, .add-new-med')) {
+			addButton.style.display = '';
 		}
 	}
 
-	// Get data from dynamic fields
-	getDynamicFieldsData() {
-		return {
-			new_symptoms: this.getFieldData('new_symptoms'),
-			userTriggers: this.getFieldData('userTriggers'),
-			userMeds: this.getFieldData('userMeds')
-		};
+	// type of field
+	detectFieldType(fieldContainer) {
+		const addButton = fieldContainer.nextElementSibling;
+		if (addButton?.matches('.add-new-symptom')) return 'userSymptomsNew';
+		if (addButton?.matches('.add-new-trigger')) return 'userTriggersNew';
+		if (addButton?.matches('.add-new-med')) return 'userMedsNew';
+		return 'userSymptomsNew'; // fallback
 	}
 
-	getFieldData(fieldName) {
-		const fields = [];
-		const inputs = document.querySelectorAll(`[name^="${fieldName}["]`);
+	// handle dynamic fields for remove event
+	handleRemoveField(button) {
+		const fieldContainer = button.closest('.dynamic-field');
+		if (!fieldContainer) return;
 
-		const fieldMap = {};
-		inputs.forEach(input => {
-			const match = input.name.match(/\[(\d+)]\[(\w+)]/);
-			if (match) {
-				const fieldId = match[1];
-				const fieldType = match[2];
+		const addButton = fieldContainer.nextElementSibling;
+		fieldContainer.remove();
 
-				if (!fieldMap[fieldId]) {
-					fieldMap[fieldId] = {id: fieldId};
-				}
-				fieldMap[fieldId][fieldType] = input.value;
-			}
-		});
+		if (addButton && addButton.matches('.add-new-symptom, .add-new-trigger, .add-new-med')) {
+			addButton.style.display = '';
+		}
+	}
 
-		return Object.values(fieldMap).filter(field =>
-			field.name && field.name.trim() !== ''
-		);
+	// get dynamic fields data
+	getDynamicFieldsData() {
+		return {
+			userSymptomsNew: [...document.querySelectorAll('input[name="userSymptomsNew[]"]:checked')]
+				.map(el => el.value),
+
+			userTriggersNew: [...document.querySelectorAll('input[name="userTriggersNew[]"]:checked')]
+				.map(el => el.value),
+
+			userMedsNew: [...document.querySelectorAll('input[name="userMedsNew[]"]:checked')]
+				.map(el => el.value)
+		};
 	}
 }
 

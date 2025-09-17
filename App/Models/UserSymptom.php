@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|UserSymptom create(array $attributes = [])
+ * @method static Builder|UserSymptom firstOrCreate(array $attributes, array $values = [])
  * @method static Builder|UserSymptom find($id, $columns = ['*'])
  * @method static Builder|UserSymptom findOrFail($id, $columns = ['*'])
  * @method static Builder|UserSymptom where($column, $operator = null, $value = null, $boolean = 'and')

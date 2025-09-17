@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|UserTrigger create(array $attributes = [])
+ * @method static Builder|UserTrigger firstOrCreate(array $attributes, array $values = [])
  * @method static Builder|UserTrigger find($id, $columns = ['*'])
  * @method static Builder|UserTrigger findOrFail($id, $columns = ['*'])
  * @method static Builder|UserTrigger where($column, $operator = null, $value = null, $boolean = 'and')

@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
  * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|UserMed create(array $attributes = [])
+ * @method static Builder|UserMed firstOrCreate(array $attributes, array $values = [])
  * @method static Builder|UserMed find($id, $columns = ['*'])
  * @method static Builder|UserMed findOrFail($id, $columns = ['*'])
  * @method static Builder|UserMed where($column, $operator = null, $value = null, $boolean = 'and')

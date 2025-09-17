@@ -6,8 +6,7 @@ import NotificationManager from "./services/NotificationManager.js";
 import ApiService from "./services/ApiService.js";
 import UIManager from "./components/ui/UIManager.js";
 import FormManager from "./components/forms/FormManager.js";
-// TODO: uncomment when dynamic fields will be implemented
-// import DynamicFieldManager from "./components/forms/DynamicFieldManager.js";
+import DynamicFieldManager from "./components/forms/DynamicFieldManager.js";
 
 // Global configuration for axios
 window.$ = $;
@@ -20,7 +19,7 @@ class MigraineDiaryApp {
 		this.apiService = new ApiService();
 		this.translationService = new TranslationService();
 		this.notificationManager = new NotificationManager();
-		// this.dynamicFieldManager = new DynamicFieldManager(this.translationService);
+		this.dynamicFieldManager = null;
 		this.uiManager = null;
 		this.formManager = null;
 		this.listFilter = null;
@@ -35,7 +34,7 @@ class MigraineDiaryApp {
 
 			this.uiManager = new UIManager(this.translationService);
 			this.formManager = new FormManager(this.translationService, (form) => this.handleFormSubmit(form));
-			// this.dynamicFieldManager.initDynamicFields();
+			this.dynamicFieldManager = new DynamicFieldManager(this.translationService);
 
 			this.initializeFilters();
 			this.setupEventListeners();
@@ -275,9 +274,9 @@ class MigraineDiaryApp {
 	}
 
 	prepareFormData(form) {
-		// const dynamicData = this.dynamicFieldManager.getDynamicFieldsData();
+		const dynamicData = this.dynamicFieldManager.getDynamicFieldsData();
 
-		return {
+		let data = {
 			start_time: form.querySelector('input[name="start_time"]').value,
 			pain_level: form.querySelector('input[name="pain_level"]:checked')?.value,
 			notes: form.querySelector('textarea[name="notes"]')?.value || '',
@@ -289,9 +288,16 @@ class MigraineDiaryApp {
 				id: el.value,
 				dosage: el.dataset.dosage || ''
 			})),
-			userMeds: [...form.querySelectorAll('input[name="userMeds[]"]:checked')].map(el => el.value),
-			// ...dynamicData
+			userMeds: [...form.querySelectorAll('input[name="userMeds[]"]:checked')].map(el => ({
+				id: el.value,
+				dosage: el.dataset.dosage || ''
+			})),
+			userSymptomsNew: dynamicData.userSymptomsNew,
+			userTriggersNew: dynamicData.userTriggersNew,
+			userMedsNew: dynamicData.userMedsNew
 		};
+		console.log(data);
+		return data;
 	}
 }
 
