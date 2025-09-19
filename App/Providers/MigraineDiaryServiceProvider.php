@@ -9,6 +9,11 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\MigraineDiary\App\Livewire\Calendar;
 use Modules\MigraineDiary\App\Models\Attack;
+use Modules\MigraineDiary\App\Repositories\AttackRepository;
+use Modules\MigraineDiary\App\Repositories\UserMedRepository;
+use Modules\MigraineDiary\App\Repositories\UserSymptomRepository;
+use Modules\MigraineDiary\App\Repositories\UserTriggerRepository;
+use Modules\MigraineDiary\App\Services\AttackService;
 use Modules\MigraineDiary\Services\MigraineDiaryService;
 use Modules\ModuleManager\App\Services\ModuleAdminActionRegistrar;
 
@@ -152,6 +157,14 @@ class MigraineDiaryServiceProvider extends ServiceProvider
 	public function register(): void
 	{
 		$this->app->register(RouteServiceProvider::class);
+		$this->app->bind(AttackService::class, function ($app) {
+			return new AttackService(
+				$app->make(AttackRepository::class),
+				$app->make(UserSymptomRepository::class),
+				$app->make(UserTriggerRepository::class),
+				$app->make(UserMedRepository::class)
+			);
+		});
 	}
 
 	/**
