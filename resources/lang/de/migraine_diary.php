@@ -40,6 +40,7 @@ return [
 	'delete_confirm' => 'Sind Sie sicher, dass Sie löschen möchten?',
 	'end_attack'     => 'Angriff enden',
 	'reset_filters'  => 'Zurücksetzen',
+	'name'           => 'Titel',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Kaum spürbarer Schmerz',

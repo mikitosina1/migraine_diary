@@ -103,7 +103,8 @@ class FormManager {
 		updateSummary('summary-symptoms',
 			[
 				...form.querySelectorAll('input[name="symptoms[]"]:checked'),
-				...form.querySelectorAll('input[name="userSymptoms[]"]:checked')
+				...form.querySelectorAll('input[name="userSymptoms[]"]:checked'),
+				...form.querySelectorAll('input[name="userSymptomsNew[]"]:checked')
 			],
 			'symptoms',
 			true
@@ -112,7 +113,8 @@ class FormManager {
 		updateSummary('summary-triggers',
 			[
 				...form.querySelectorAll('input[name="triggers[]"]:checked'),
-				...form.querySelectorAll('input[name="userTriggers[]"]:checked')
+				...form.querySelectorAll('input[name="userTriggers[]"]:checked'),
+				...form.querySelectorAll('input[name="userTriggersNew[]"]:checked')
 			],
 			'triggers',
 			true
@@ -121,7 +123,8 @@ class FormManager {
 		updateSummary('summary-meds',
 			[
 				...form.querySelectorAll('input[name="meds[]"]:checked'),
-				...form.querySelectorAll('input[name="userMeds[]"]:checked')
+				...form.querySelectorAll('input[name="userMeds[]"]:checked'),
+				...form.querySelectorAll('input[name="userMedsNew[]"]:checked')
 			],
 			'meds',
 			true

@@ -39,6 +39,7 @@ return [
 	'delete_confirm' => 'Вы уверены, что хотите удалить?',
 	'end_attack'     => 'Окончить Атаку',
 	'reset_filters'  => 'Сбросить',
+	'name'           => 'Название',
 
 	//Pain level on a details step
 	'pain_level'     => 'Уровень боли',

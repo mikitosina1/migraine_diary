@@ -45,7 +45,7 @@
 								  method="POST"
 								  class="inline-block ml-2">
 								@csrf
-								<button type="submit" class="end-attack-button flex flex-row gap-2 items-center"
+								<button type="submit" class="end-attack-button flex flex-row items-center"
 										title=" {{ __('migrainediary::migraine_diary.end_attack') }}"
 								>
 									<i class="fas fa-check-double"></i>

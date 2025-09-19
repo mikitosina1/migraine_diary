@@ -15,7 +15,7 @@
 		@foreach($userTriggers as $userTrigger)
 			<label class="inline-flex items-center cursor-pointer">
 				<input type="checkbox" class="hidden peer" name="userTriggers[]" value="{{ $userTrigger['id'] }}"
-					   @if(isset($attack) && $attack->userTrigger->contains($userTrigger['id'])) checked @endif>
+					   @if(isset($attack) && $attack->userTriggers->contains($userTrigger['id'])) checked @endif>
 				<span class="px-3 py-1 rounded-full border border-white text-white
 					peer-checked:bg-blue-500 peer-checked:text-white transition-all">
 					{{ $userTrigger['name'] }}

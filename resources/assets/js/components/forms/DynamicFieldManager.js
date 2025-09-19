@@ -52,7 +52,7 @@ class DynamicFieldManager {
 		button.style.display = 'none';
 		this.addField(button, {
 			fieldType: 'userSymptomsNew',
-			placeholderKey: 'symptom'
+			placeholderKey: 'name'
 		});
 	}
 
@@ -61,7 +61,7 @@ class DynamicFieldManager {
 		button.style.display = 'none';
 		this.addField(button, {
 			fieldType: 'userTriggersNew',
-			placeholderKey: 'trigger'
+			placeholderKey: 'name'
 		});
 	}
 
@@ -70,7 +70,7 @@ class DynamicFieldManager {
 		button.style.display = 'none';
 		this.addField(button, {
 			fieldType: 'userMedsNew',
-			placeholderKey: 'med'
+			placeholderKey: 'name'
 		});
 	}
 

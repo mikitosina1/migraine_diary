@@ -40,6 +40,7 @@ return [
 	'delete_confirm' => 'Are you sure you want to delete?',
 	'end_attack'     => 'End Attack',
 	'reset_filters'  => 'Reset filters',
+	'name'           => 'Title',
 
 	//Pain level on a details step
 	'pain_level_1'   => 'Barely noticeable pain',
