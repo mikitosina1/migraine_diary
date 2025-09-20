@@ -119,6 +119,28 @@ class MigraineAttackController extends Controller
 		]);
 	}
 
+	/**
+	 * endAttack
+	 *
+	 * Used in router.
+	 * Finishing attack method for form.
+	 *
+	 * @param int $id
+	 * @return Attack
+	 */
+	public function endAttack(int $id): Attack
+	{
+		return $this->attackService->endAttack($id, auth()->id());
+	}
+
+	/**
+	 * endAttackAjax
+	 *
+	 * finishing attack method for Ajax.
+	 *
+	 * @param int $id
+	 * @return JsonResponse
+	 */
 	public function endAttackAjax(int $id): JsonResponse
 	{
 		$attack = $this->attackService->endAttack($id, auth()->id());

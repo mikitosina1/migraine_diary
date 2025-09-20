@@ -112,7 +112,6 @@ class AttackService
 	 *
 	 * @throws ModelNotFoundException
 	 */
-
 	public function endAttack(int $id, int $userId): Attack
 	{
 		$attack = $this->attackRepository->findOrFailForUser($id, $userId);

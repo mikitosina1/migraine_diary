@@ -7,9 +7,19 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * StoreAttackRequest
  *
- * 
+ * Handles HTTP requests for migraine attack management, including CRUD operations and AJAX endpoints.
  *
  * @package Modules\MigraineDiary\App\Http\Requests
+ *
+ * @property-read array|null $symptoms Basic symptoms, created by the admin
+ * @property-read array|null $userSymptoms User symptoms, created by the user
+ * @property-read array|null $userSymptomsNew New user symptoms, created by the user
+ * @property-read array|null $meds Basic medications, created by the admin
+ * @property-read array|null $userMeds User medications, created by the user
+ * @property-read array|null $userMedsNew New user medications, created by the user
+ * @property-read array|null $triggers Basic triggers, created by the admin
+ * @property-read array|null $userTriggers User triggers, created by the user
+ * @property-read array|null $userTriggersNew New user triggers, created by the user
  */
 class StoreAttackRequest extends FormRequest
 {

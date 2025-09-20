@@ -6,8 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * UpdateAttackRequest
+ *
+ *  Handles HTTP requests for update migraine attack management, including CRUD operations and AJAX endpoints.
+ *
  * @package Modules\MigraineDiary\App\Http\Requests
  *
+ * @property-read array|null $symptoms Basic symptoms, created by the admin
+ * @property-read array|null $userSymptoms User symptoms, created by the user
+ * @property-read array|null $meds Basic medications, created by the admin
+ * @property-read array|null $userMeds User medications, created by the user
+ * @property-read array|null $triggers Basic triggers, created by the admin
+ * @property-read array|null $userTriggers User triggers, created by the user
  */
 class UpdateAttackRequest extends FormRequest
 {
@@ -72,8 +81,11 @@ class UpdateAttackRequest extends FormRequest
 	{
 		$this->merge([
 			'symptoms' => $this->symptoms ?: [],
+			'userSymptoms' => $this->userSymptoms ?: [],
 			'meds' => $this->meds ?: [],
+			'userMeds' => $this->userMeds ?: [],
 			'triggers' => $this->triggers ?: [],
+			'userTriggers' => $this->userTriggers ?: [],
 		]);
 	}
 }
