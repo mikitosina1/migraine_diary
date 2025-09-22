@@ -6,79 +6,39 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\MigraineDiary\App\Http\Requests\AttackFilterRequest;
 use Modules\MigraineDiary\App\Models\Attack;
-use Modules\MigraineDiary\App\Models\Med;
-use Modules\MigraineDiary\App\Models\Symptom;
-use Modules\MigraineDiary\App\Models\Trigger;
-use Modules\MigraineDiary\App\Models\UserMed;
-use Modules\MigraineDiary\App\Models\UserSymptom;
-use Modules\MigraineDiary\App\Models\UserTrigger;
+use Modules\MigraineDiary\App\Repositories\AttackListRepository;
+use Modules\MigraineDiary\App\Services\AttackFilterService;
 
 class MigraineDiaryController extends Controller
 {
+	public function __construct(
+		private readonly AttackFilterService $filterService,
+		private readonly AttackListRepository $listRepository
+	) {}
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index(Request $request)
+	public function index(AttackFilterRequest $request)
 	{
-		$validated = $request->validate([
-			'range' => 'nullable|string|in:month,3months,year',
-			'pain_level' => 'nullable|string|in:all,1,2,3,4,5,6,7,8,9,10'
-		]);
-
-		$range = $validated['range'] ?? 'year';
-		$painLevel = $validated['pain_level'] ?? 'all';
-
-		$attacks = $this->getFilteredAttacks($range, $painLevel);
+		$range = $request->getRange();
+		$painLevel = $request->getPainLevel();
+		$attacks = $this->filterService->getFilteredAttacks($range, $painLevel);
 
 		// For AJAX requests, return only the list partial
 		if ($request->ajax()) {
-			return view('migrainediary::components.attacks-list', [
-				'attacks' => $attacks,
-				'currentRange' => $range,
-				'currentPainLevel' => $painLevel
-			]);
+			return view('migrainediary::components.attacks-list', compact('attacks', 'range', 'painLevel'));
 		}
 
 		// For full page requests
-		return view('migrainediary::user.index', [
-			'symptoms' => Symptom::getListWithTranslations(),
-			'userSymptoms' => UserSymptom::getForUser(auth()->id()),
-			'triggers' => Trigger::getListWithTranslations(),
-			'userTriggers' => UserTrigger::getForUser(auth()->id()),
-			'meds' => Med::getListWithTranslations(),
-			'userMeds' => UserMed::getForUser(auth()->id()),
+		return view('migrainediary::user.index', array_merge($this->listRepository->getEntities(auth()->id()), [
 			'locales' => config('app.locales'),
 			'attacks' => $attacks,
 			'currentRange' => $range,
 			'currentPainLevel' => $painLevel,
 			'mode' => 'show',
-		]);
-	}
-
-	/**
-	 * Get filtered attacks based on range
-	 */
-	private function getFilteredAttacks(string $range, string $painLevel = 'all')
-	{
-		$query = Attack::where('user_id', auth()->id())
-			->orderBy('start_time', 'desc');
-
-		// Apply date range filter
-		$startDate = match($range) {
-			'month' => Carbon::now()->subMonth(),
-			'3months' => Carbon::now()->subMonths(3),
-			'year' => Carbon::now()->subYear()
-		};
-
-		$query->where('start_time', '>=', $startDate);
-
-		// Apply pain level filter only if not 'all'
-		if ($painLevel !== 'all') {
-			$query->where('pain_level', (int)$painLevel);
-		}
-
-		return $query->get();
+		]));
 	}
 
 	/**
@@ -94,7 +54,7 @@ class MigraineDiaryController extends Controller
 	 */
 	public function create()
 	{
-		return view('migrainediary::create');
+//		return view('migrainediary::create');
 	}
 
 	/**
@@ -102,7 +62,7 @@ class MigraineDiaryController extends Controller
 	 */
 	public function show($id)
 	{
-		return view('migrainediary::show');
+//		return view('migrainediary::show');
 	}
 
 	/**
@@ -110,7 +70,7 @@ class MigraineDiaryController extends Controller
 	 */
 	public function edit($id)
 	{
-		return view('migrainediary::edit');
+//		return view('migrainediary::edit');
 	}
 
 	/**
@@ -134,9 +94,8 @@ class MigraineDiaryController extends Controller
 		$locale = $request->header('Accept-Language') ?? app()->getLocale();
 		$locale = substr($locale, 0, 2);
 
-		$availableLocales = ['en', 'de', 'ru'];
-		if (!in_array($locale, $availableLocales)) {
-			$locale = 'en'; // basic translation
+		if (!in_array($locale, ['en', 'de', 'ru'])) {
+			$locale = 'en'; // basic locale fallback
 		}
 
 		$translations = trans('migrainediary::migraine_diary', [], $locale);

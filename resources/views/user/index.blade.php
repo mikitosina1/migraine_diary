@@ -2,9 +2,9 @@
 <x-app-layout>
 	<div class="cloud migraine-diary mt-8 mx-auto max-w-7xl dark:bg-gray-900 sm:rounded-lg">
 		<!-- Calendar Section -->
-		<div class="calendar-container p-4">
+		<div class="tab-controllers-container p-4">
 			<!-- Calendar buttons -->
-			<div class="flex justify-between items-center mb-4 calendar-buttons">
+			<div class="flex justify-between items-center mb-4 tab-controllers">
 				<div class="tabs flex space-x-4">
 					<button class="tab-btn px-4 py-2 text-white" data-tab="calendar">
 						@lang('migrainediary::migraine_diary.calendar')

@@ -107,14 +107,14 @@ dialog {
 	width: 535px;
 	max-width: 535px;
 
-	.calendar-container {
+	.tab-controllers-container {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		height: 100%;
 
-		.calendar-buttons {
+		.tab-controllers {
 			.tabs {
 				.tab-btn {
 					@apply border-b-2 border-transparent transition;

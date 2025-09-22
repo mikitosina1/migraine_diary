@@ -1,6 +1,6 @@
 @php
 	use Carbon\Carbon;
-	$currentRange = $currentRange ?? 'year';
+	$currentRange = $currentRange ?? 'month';
 	$currentPainLevel = $currentPainLevel ?? 'all';
 @endphp
 
@@ -8,14 +8,14 @@
 	<div class="list-header flex flex-row justify-between items-center p-4">
 		<div class="filter-block mb-4">
 			<select id="list-attack-range" class="bg-gray-800 text-white py-2 rounded">
-				<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_year')
+				<option value="month" {{ $currentRange === 'month' ? 'selected' : '' }}>
+					@lang('migrainediary::migraine_diary.last_month')
 				</option>
 				<option value="3months" {{ $currentRange === '3months' ? 'selected' : '' }}>
 					@lang('migrainediary::migraine_diary.last_3_months')
 				</option>
-				<option value="month" {{ $currentRange === 'month' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_month')
+				<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
+					@lang('migrainediary::migraine_diary.last_year')
 				</option>
 			</select>
 

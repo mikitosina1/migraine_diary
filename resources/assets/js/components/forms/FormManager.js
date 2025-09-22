@@ -1,17 +1,16 @@
 class FormManager {
 	constructor(translationService = {}, onSubmitCallback, dynamicFieldManager = null) {
 		this.translationService = translationService;
-		this.dynamicFieldManager = dynamicFieldManager;
 		this.onSubmit = onSubmitCallback;
 		this.currentStep = 1;
 	}
 
 	initFormSteps(form) {
-		if (!form) return;
-
-		if (this.dynamicFieldManager) {
-			this.dynamicFieldManager.initDynamicFields(form);
+		if (!form || form.dataset.initialized) {
+			return;
 		}
+		this.currentStep = parseInt(form.dataset.currentStep) || 1;
+		form.dataset.initialized = 'true';
 
 		const steps = form.querySelectorAll('.step');
 		const prevBtn = form.querySelector('.prev-btn');

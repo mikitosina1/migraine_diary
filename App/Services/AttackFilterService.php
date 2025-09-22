@@ -25,9 +25,9 @@ class AttackFilterService
 	private function applyDateFilter($query, string $range): void
 	{
 		$startDate = match($range) {
-			'month' => Carbon::now()->subMonth(),
+			'year' => Carbon::now()->subYear(),
 			'3months' => Carbon::now()->subMonths(3),
-			default => Carbon::now()->subYear()
+			default => Carbon::now()->subMonth()
 		};
 
 		$query->where('start_time', '>=', $startDate);

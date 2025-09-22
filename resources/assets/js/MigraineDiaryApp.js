@@ -156,7 +156,7 @@ class MigraineDiaryApp {
 		const applyListFiltersDebounced = () => {
 			clearTimeout(filterTimeout);
 			filterTimeout = setTimeout(() => {
-				const range = listSelect?.value || 'year';
+				const range = listSelect?.value || 'month';
 				const painLevel = painLevelSelect?.value || 'all';
 
 				this.applyListFilters({range, pain_level: painLevel});
@@ -165,7 +165,7 @@ class MigraineDiaryApp {
 		const applyStatisticFiltersDebounced = () => {
 			clearTimeout(filterTimeout);
 			filterTimeout = setTimeout(() => {
-				const range = statisticSelect?.value || 'year';
+				const range = statisticSelect?.value || 'month';
 				const painLevel = statisticPainLevelSelect?.value || 'all';
 
 				this.applyStatisticFilters({range, pain_level: painLevel});
@@ -236,15 +236,15 @@ class MigraineDiaryApp {
 
 	resetAllFilters() {
 		document.querySelectorAll('#list-attack-range, #statistic-attack-range').forEach(select => {
-			select.value = 'year';
+			select.value = 'month';
 		});
 
 		document.querySelectorAll('#list-pain-level, #statistic-pain-level').forEach(select => {
 			select.value = 'all';
 		});
 
-		this.applyListFilters({range: 'year', pain_level: 'all'});
-		this.applyStatisticFilters({range: 'year', pain_level: 'all'});
+		this.applyListFilters({range: 'month', pain_level: 'all'});
+		this.applyStatisticFilters({range: 'month', pain_level: 'all'});
 	}
 
 	async handleFormSubmit(form) {

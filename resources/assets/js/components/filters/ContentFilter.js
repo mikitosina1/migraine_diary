@@ -15,7 +15,7 @@ class ContentFilter {
 		this.translateFn = config.translateFn || ((key, fallback) => fallback);
 
 		this.currentFilters = {
-			range: 'year',
+			range: 'month',
 			pain_level: 'all'
 		};
 	}

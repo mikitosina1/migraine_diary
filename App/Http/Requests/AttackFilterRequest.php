@@ -24,7 +24,7 @@ class AttackFilterRequest extends FormRequest
 
 	public function getRange(): string
 	{
-		return $this->input('range', 'year');
+		return $this->input('range', 'month');
 	}
 
 	public function getPainLevel(): string

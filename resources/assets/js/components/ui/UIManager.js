@@ -34,6 +34,7 @@ class UIManager {
 		const modal = document.getElementById(modalId);
 		if (modal) {
 			modal.close();
+			this.resetForm(modal);
 		}
 	}
 
@@ -45,8 +46,6 @@ class UIManager {
 		this.removeEndButton(attackElement);
 		this.updateEndTime(attackElement, attackData);
 		attackElement.classList.add('attack-ended');
-		// TODO remove after testing
-		console.log('Attack UI updated successfully:', attackId);
 	}
 
 	getAttackElement(attackId) {
@@ -129,6 +128,63 @@ class UIManager {
 			}
 		});
 	}
+
+	resetForm(modal) {
+		const form = modal.querySelector('form');
+		if (!form) return;
+
+		form.reset();
+
+		this.resetFormSteps(form);
+
+		this.clearDynamicFields(modal);
+
+		const titleElement = modal.querySelector('.attack-modal-title');
+		if (titleElement) {
+			titleElement.innerHTML = this.translationService.translate('add_attack');
+		}
+	}
+
+	resetFormSteps(form) {
+		const steps = form.querySelectorAll('.step');
+		steps.forEach((step, index) => {
+			step.classList.toggle('hidden', index !== 0);
+		});
+
+		this.resetStepIndicators();
+
+		const nextBtn = form.querySelector('.next-btn');
+		if (nextBtn) {
+			nextBtn.textContent = this.translationService.translate('next');
+		}
+	}
+
+	resetStepIndicators() {
+		const stepCircles = document.querySelectorAll('.step-circle');
+		stepCircles.forEach((circle, index) => {
+			circle.classList.remove(
+				'bg-blue-500', 'text-white', 'border-blue-500',
+				'bg-green-500', 'text-white'
+			);
+
+			if (index === 0) {
+				circle.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
+			} else {
+				circle.classList.add('bg-gray-200', 'text-gray-600', 'border-gray-300');
+			}
+		});
+	}
+
+	clearDynamicFields(modal) {
+		const dynamicFields = modal.querySelectorAll('.dynamic-field');
+		dynamicFields.forEach(field => field.remove());
+
+		const addButtons = modal.querySelectorAll('.add-new-symptom, .add-new-trigger, .add-new-med');
+		addButtons.forEach(btn => {
+			btn.style.display = '';
+		});
+	}
+
 }
 
 export default UIManager;

@@ -1,6 +1,6 @@
 @php
 	use Carbon\Carbon;
-	$currentRange = $currentRange ?? 'year';
+	$currentRange = $currentRange ?? 'month';
 @endphp
 @if($attacks)
 	<div class="statistic-header flex flex-row justify-between items-center p-4">
