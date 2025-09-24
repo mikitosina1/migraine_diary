@@ -55,7 +55,7 @@ return [
 	'pain_level_10'  => 'Невыносимая боль',
 
 	// Statistic-specific translations
-	'generate_xml'   => 'Скачать в виде таблицы',
+	'generate_sheet' => 'Скачать в виде таблицы',
 	'send_to_email'  => 'Отправить на почту',
 	'add_to_google_sheets' => 'Отправить в гугл таблицы',
 

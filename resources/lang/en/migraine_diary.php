@@ -55,7 +55,7 @@ return [
 	'pain_level_10'  => 'Unbearable pain',
 
 	// Statistic-specific translations
-	'generate_xml'   => 'Download as table',
+	'generate_sheet' => 'Download as table',
 	'send_to_email'  => 'Send to email',
 	'add_to_google_sheets' => 'Send to Google Sheets',
 

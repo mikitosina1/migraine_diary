@@ -120,20 +120,6 @@ class MigraineAttackController extends Controller
 	}
 
 	/**
-	 * endAttack
-	 *
-	 * Used in router.
-	 * Finishing attack method for form.
-	 *
-	 * @param int $id
-	 * @return Attack
-	 */
-	public function endAttack(int $id): Attack
-	{
-		return $this->attackService->endAttack($id, auth()->id());
-	}
-
-	/**
 	 * endAttackAjax
 	 *
 	 * finishing attack method for Ajax.
@@ -154,5 +140,19 @@ class MigraineAttackController extends Controller
 				'end_time_formatted' => $attack->end_time->format('d.m.Y H:i')
 			]
 		]);
+	}
+
+	/**
+	 * endAttack
+	 *
+	 * Used in router.
+	 * Finishing attack method for form.
+	 *
+	 * @param int $id
+	 * @return Attack
+	 */
+	public function endAttack(int $id): Attack
+	{
+		return $this->attackService->endAttack($id, auth()->id());
 	}
 }

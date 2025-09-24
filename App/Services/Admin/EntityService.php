@@ -30,6 +30,26 @@ class EntityService
 	}
 
 	/**
+	 * get model class by type
+	 * @param string $type
+	 * @return string
+	 */
+	private function getModelByType(string $type): string
+	{
+		$map = [
+			'symptoms' => Symptom::class,
+			'triggers' => Trigger::class,
+			'meds'     => Med::class,
+		];
+
+		if (!isset($map[$type])) {
+			abort(404, 'Unknown type');
+		}
+
+		return $map[$type];
+	}
+
+	/**
 	 * Create a new entity of the specified type.
 	 * @param string $type
 	 * @param mixed $data
@@ -95,25 +115,5 @@ class EntityService
 		$item->translations()->delete();
 		$item->delete();
 		return $code;
-	}
-
-	/**
-	 * get model class by type
-	 * @param string $type
-	 * @return string
-	 */
-	private function getModelByType(string $type): string
-	{
-		$map = [
-			'symptoms' => Symptom::class,
-			'triggers' => Trigger::class,
-			'meds'     => Med::class,
-		];
-
-		if (!isset($map[$type])) {
-			abort(404, 'Unknown type');
-		}
-
-		return $map[$type];
 	}
 }

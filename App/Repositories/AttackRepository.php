@@ -40,11 +40,6 @@ class AttackRepository
 		return Attack::create($data);
 	}
 
-	public function update(Attack $attack, array $data): bool
-	{
-		return $attack->update($data);
-	}
-
 	public function delete(Attack $attack): bool
 	{
 		return $attack->delete();
@@ -53,5 +48,10 @@ class AttackRepository
 	public function endAttack(Attack $attack): bool
 	{
 		return $attack->update(['end_time' => now()]);
+	}
+
+	public function update(Attack $attack, array $data): bool
+	{
+		return $attack->update($data);
 	}
 }

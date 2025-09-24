@@ -21,9 +21,12 @@
 	<div class="statistic flex flex-row justify-between items-center">
 		<div class="controls share-content flex flex-row justify-between items-center m-2">
 			<!-- XML Download -->
-			<form action="{{ route('user.migraine-diary.download-xml') }}" method="POST" class="mr-2 text-white rounded bg-blue-500 hover:bg-blue-700 p-1 mb-0">
+			<form action="{{ route('user.migraine-diary.download-sheet') }}" method="POST" class="mr-2
+				text-white rounded bg-blue-500 hover:bg-blue-700 p-1 mb-0">
 				@csrf
-				<button type="submit">@lang('migrainediary::migraine_diary.generate_xml')</button>
+				<button type="submit">
+					@lang('migrainediary::migraine_diary.generate_sheet')
+				</button>
 			</form>
 			<!-- Send Email -->
 			<button class="send-to-email text-white rounded bg-blue-500 hover:bg-blue-700 mr-2 p-1">
