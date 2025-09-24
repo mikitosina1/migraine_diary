@@ -54,6 +54,11 @@ return [
 	'pain_level_9'   => 'Extremely severe pain',
 	'pain_level_10'  => 'Unbearable pain',
 
+	// Statistic-specific translations
+	'generate_xml'   => 'Download as table',
+	'send_to_email'  => 'Send to email',
+	'add_to_google_sheets' => 'Send to Google Sheets',
+
 	'level'          => 'Level',
 	'all_pain_lvl'   => 'All Pain Levels',
 

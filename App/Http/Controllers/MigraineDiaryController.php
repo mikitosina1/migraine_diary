@@ -3,11 +3,9 @@
 namespace Modules\MigraineDiary\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\MigraineDiary\App\Http\Requests\AttackFilterRequest;
-use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Repositories\AttackListRepository;
 use Modules\MigraineDiary\App\Services\AttackFilterService;
 

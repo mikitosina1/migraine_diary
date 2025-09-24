@@ -54,6 +54,11 @@ return [
 	'pain_level_9'   => 'Крайне сильная боль',
 	'pain_level_10'  => 'Невыносимая боль',
 
+	// Statistic-specific translations
+	'generate_xml'   => 'Скачать в виде таблицы',
+	'send_to_email'  => 'Отправить на почту',
+	'add_to_google_sheets' => 'Отправить в гугл таблицы',
+
 	'level'          => 'Уровень',
 	'all_pain_lvl'   => 'Все ур-ни боли',
 

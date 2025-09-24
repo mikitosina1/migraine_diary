@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\MigraineDiary\App\Http\Controllers\Admin\MigraineDiaryAdminController;
 use Modules\MigraineDiary\App\Http\Controllers\MigraineAttackController;
 use Modules\MigraineDiary\App\Http\Controllers\MigraineDiaryController;
+use Modules\MigraineDiary\App\Http\Controllers\MigraineDiaryStatisticController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,9 @@ Route::middleware(['web', 'auth'])
 	->group(function () {
 		Route::resource('/', MigraineDiaryController::class)->names('resource');
 
-		Route::resource('/attacks', MigraineAttackController::class)->names('attacks');
-
 		Route::get('/translations', [MigraineDiaryController::class, 'getTranslations']);
+
+		Route::resource('/attacks', MigraineAttackController::class)->names('attacks');
 
 		Route::post('/attacks/{id}/end', [MigraineAttackController::class, 'endAttack'])
 			->where('id', '[0-9]+')
@@ -33,6 +34,15 @@ Route::middleware(['web', 'auth'])
 		Route::post('attacks/{id}/end-ajax', [MigraineAttackController::class, 'endAttackAjax'])
 			->where('id', '[0-9]+')
 			->name('attacks.end.ajax');
+
+		Route::post('/download-sheet', [MigraineDiaryStatisticController::class, 'sheetDownload'])
+			->name('download-sheet');
+		Route::post('/download-pdf', [MigraineDiaryStatisticController::class, 'pdfDownload'])
+			->name('download-pdf');
+		Route::post('/send-to-email', [MigraineDiaryStatisticController::class, 'sendToEmail'])
+			->name('sendToEmail');
+		Route::post('/send-to-goosh', [MigraineDiaryStatisticController::class, 'sendToGoogleSheets'])
+			->name('sendToGoogleSheets');
 	});
 
 Route::middleware(['web', 'auth'])

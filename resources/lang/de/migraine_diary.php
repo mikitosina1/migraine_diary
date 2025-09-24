@@ -54,6 +54,11 @@ return [
 	'pain_level_9'   => 'Äußerst starke Schmerzen',
 	'pain_level_10'  => 'Unerträgliche Schmerzen',
 
+	// Statistic-specific translations
+	'generate_xml'   => 'Als Tabelle herunterladen',
+	'send_to_email'  => 'Per E-Mail senden',
+	'add_to_google_sheets' => 'In Google Sheets senden',
+
 	'level'          => 'Stufe',
 	'all_pain_lvl'   => 'Alle Schmerzstufen',
 
