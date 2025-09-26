@@ -20,20 +20,21 @@ class MigraineDiaryController extends Controller
 	 */
 	public function index(AttackFilterRequest $request)
 	{
-		$range = $request->getRange();
+		$currentRange = $request->getRange();
 		$painLevel = $request->getPainLevel();
-		$attacks = $this->filterService->getFilteredAttacks($range, $painLevel);
+		$container = $request->getContainer();
+		$attacks = $this->filterService->getFilteredAttacks($currentRange, $painLevel);
 
 		// For AJAX requests, return only the list partial
 		if ($request->ajax()) {
-			return view('migrainediary::components.attacks-list', compact('attacks', 'range', 'painLevel'));
+			return view('migrainediary::components.attacks-'.$container, compact('attacks', 'currentRange', 'painLevel'));
 		}
 
 		// For full page requests
 		return view('migrainediary::user.index', array_merge($this->listRepository->getEntities(auth()->id()), [
 			'locales' => config('app.locales'),
 			'attacks' => $attacks,
-			'currentRange' => $range,
+			'currentRange' => $currentRange,
 			'currentPainLevel' => $painLevel,
 			'mode' => 'show',
 		]));

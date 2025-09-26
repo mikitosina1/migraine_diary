@@ -39,6 +39,11 @@ class MigraineExportService
 			->get();
 	}
 
+	/**
+	 *
+	 * @param Collection $attacks
+	 * @return array
+	 */
 	private function formatDataForExcel(Collection $attacks): array
 	{
 		$rows = [];
@@ -58,6 +63,11 @@ class MigraineExportService
 		return $rows;
 	}
 
+	/**
+	 *
+	 * @param Attack $attack
+	 * @return string
+	 */
 	private function mergeSymptoms(Attack $attack): string
 	{
 		$symptoms = $attack->symptoms->pluck('name')->toArray();
@@ -66,6 +76,11 @@ class MigraineExportService
 		return implode(', ', array_merge($symptoms, $userSymptoms));
 	}
 
+	/**
+	 *
+	 * @param Attack $attack
+	 * @return string
+	 */
 	private function mergeTriggers(Attack $attack): string
 	{
 		$triggers = $attack->triggers->pluck('name')->toArray();
@@ -74,6 +89,11 @@ class MigraineExportService
 		return implode(', ', array_merge($triggers, $userTriggers));
 	}
 
+	/**
+	 *
+	 * @param Attack $attack
+	 * @return string
+	 */
 	private function mergeMeds(Attack $attack): string
 	{
 		$symptoms = $attack->meds->pluck('name')->toArray();
@@ -82,6 +102,11 @@ class MigraineExportService
 		return implode(', ', array_merge($symptoms, $userSymptoms));
 	}
 
+	/**
+	 *
+	 * @param Attack $attack
+	 * @return string
+	 */
 	private function getDuration(Attack $attack): string
 	{
 		if (!$attack->end_time) {
@@ -95,11 +120,4 @@ class MigraineExportService
 			$duration->i
 		);
 	}
-
-	private function createExcelFile(array $data)
-	{
-
-	}
-
-
 }

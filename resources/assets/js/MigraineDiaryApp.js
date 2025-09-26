@@ -159,7 +159,8 @@ class MigraineDiaryApp {
 				const range = listSelect?.value || 'month';
 				const painLevel = painLevelSelect?.value || 'all';
 
-				this.applyListFilters({range, pain_level: painLevel});
+				this.applyListFilters({range: range, pain_level: painLevel, container: '.list'});
+				this.listFilter.setFilter('container', '.list');
 			}, 300);
 		};
 		const applyStatisticFiltersDebounced = () => {
@@ -168,7 +169,8 @@ class MigraineDiaryApp {
 				const range = statisticSelect?.value || 'month';
 				const painLevel = statisticPainLevelSelect?.value || 'all';
 
-				this.applyStatisticFilters({range, pain_level: painLevel});
+				this.applyStatisticFilters({range: range, pain_level: painLevel, container: '.statistic'});
+				this.statisticFilter.setFilter('container', '.statistic');
 			}, 300);
 		};
 

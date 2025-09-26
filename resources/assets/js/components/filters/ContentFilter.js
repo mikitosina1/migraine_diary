@@ -16,7 +16,8 @@ class ContentFilter {
 
 		this.currentFilters = {
 			range: 'month',
-			pain_level: 'all'
+			pain_level: 'all',
+			container: '.list'
 		};
 	}
 

@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ExcelExportService implements FromArray, WithHeadings, WithStyles
 {
-	public function __construct(private array $data) {}
+	public function __construct(private readonly array $data) {}
 
 	public function array(): array
 	{
@@ -21,7 +21,7 @@ class ExcelExportService implements FromArray, WithHeadings, WithStyles
 		return ['Date', 'Pain Level', 'Duration', 'Symptoms', 'Triggers', 'Medications', 'Notes'];
 	}
 
-	public function styles(Worksheet $sheet)
+	public function styles(Worksheet $sheet): array
 	{
 		$sheet->getStyle('A1:G1')->getFont()->setBold(true);
 

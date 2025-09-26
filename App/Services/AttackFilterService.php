@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class AttackFilterService
 {
+	public function __construct(
+		private readonly DateRangeService $dateRangeService
+	)
+	{}
+
 	public function getFilteredAttacks(string $range, string $painLevel = 'all'): Collection
 	{
 		$query = Attack::where('user_id', auth()->id())
@@ -24,13 +29,9 @@ class AttackFilterService
 
 	private function applyDateFilter($query, string $range): void
 	{
-		$startDate = match($range) {
-			'year' => Carbon::now()->subYear(),
-			'3months' => Carbon::now()->subMonths(3),
-			default => Carbon::now()->subMonth()
-		};
+		[$startDate, $endDate] = $this->dateRangeService->getRange($range);
 
-		$query->where('start_time', '>=', $startDate);
+		$query->whereBetween('start_time', [$startDate, $endDate]);
 	}
 
 	private function applyPainLevelFilter($query, string $painLevel): void

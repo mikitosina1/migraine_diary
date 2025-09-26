@@ -31,4 +31,9 @@ class AttackFilterRequest extends FormRequest
 	{
 		return $this->input('pain_level', 'all');
 	}
+
+	public function getContainer(): string
+	{
+		return ltrim($this->input('container', '.list'), '.');
+	}
 }
