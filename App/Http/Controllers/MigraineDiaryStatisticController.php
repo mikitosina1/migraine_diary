@@ -3,6 +3,12 @@
 namespace Modules\MigraineDiary\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\MigraineDiary\App\Services\ExcelExportService;
+use Modules\MigraineDiary\App\Services\MigraineExportService;
+use PhpOffice\PhpSpreadsheet\Exception;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * MigraineDiaryStatisticController
@@ -14,10 +20,18 @@ class MigraineDiaryStatisticController extends Controller
 {
 	/**
 	 * Download data in .xlsx format
+	 * @param Request $request
+	 * @return BinaryFileResponse
+	 * @throws Exception
 	 */
-	public function sheetDownload()
+	public function sheetDownload(Request $request): BinaryFileResponse
 	{
+		$data = app(MigraineExportService::class)->prepareData(
+			auth()->user(),
+			$request->input('period', 'month')
+		);
 
+		return Excel::download(new ExcelExportService($data), 'migraine-report.xlsx');
 	}
 
 	/**

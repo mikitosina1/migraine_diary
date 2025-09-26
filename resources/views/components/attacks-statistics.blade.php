@@ -24,6 +24,7 @@
 			<form action="{{ route('user.migraine-diary.download-sheet') }}" method="POST" class="mr-2
 				text-white rounded bg-blue-500 hover:bg-blue-700 p-1 mb-0">
 				@csrf
+				<input type="hidden" name="period" value="{{ $currentRange }}">
 				<button type="submit">
 					@lang('migrainediary::migraine_diary.generate_sheet')
 				</button>

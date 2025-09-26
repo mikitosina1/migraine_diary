@@ -47,9 +47,9 @@ class Attack extends Model
 	 *
 	 * @use self::scopeForUser()
 	 * @param int $userId
-	 * @return mixed
+	 * @return Collection
 	 */
-	public static function getForUser(int $userId): mixed
+	public static function getForUser(int $userId): Collection
 	{
 		return self::forUser($userId)->get();
 	}
