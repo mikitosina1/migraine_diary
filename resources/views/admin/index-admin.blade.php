@@ -1,4 +1,4 @@
-@vite(['Modules/MigraineDiary/resources/assets/js/diary_admin.js', 'Modules/MigraineDiary/resources/assets/sass/diary_admin.scss'])
+@vite(['Modules/MigraineDiary/resources/assets/js/admin/diary_admin.js', 'Modules/MigraineDiary/resources/assets/sass/diary_admin.scss'])
 <x-app-layout>
 	<div class="cloud mx-auto max-w-7xl px-4 py-6">
 		<!-- Tab-buttons -->
