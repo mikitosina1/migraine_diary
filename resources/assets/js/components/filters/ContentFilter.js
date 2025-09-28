@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 /**
  * Class for content filtering
  */
@@ -84,7 +82,7 @@ class ContentFilter {
 		if (!container) return;
 
 		try {
-			const response = await axios.get(this.endpoint, {
+			const response = await window.axios.get(this.endpoint, {
 				params: this.getFilters()
 			});
 

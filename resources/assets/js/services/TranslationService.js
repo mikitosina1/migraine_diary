@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 /**
  * Handles application translations and internationalization
  */
@@ -18,7 +16,7 @@ class TranslationService {
 		if (this.loaded) return this.translations;
 
 		try {
-			const response = await axios.get(this.endpoint);
+			const response = await window.axios.get(this.endpoint);
 
 			if (response.data?.success && response.data.translations) {
 				this.translations = response.data.translations;
