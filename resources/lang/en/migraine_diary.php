@@ -5,7 +5,7 @@ return [
 	'widget_title'   => 'Migraine Diary',
 	'to_diary'       => 'To Migraine Diary',
 	'attacks_this_year'  => 'Attacks this year',
-	'no_attacks_this_month'  => 'No attacks this year',
+	'no_attacks_this_month'  => 'No attacks this month',
 	'active_attacks_this_month'  => 'Active attacks',
 
 	//general

@@ -5,7 +5,7 @@ return [
 	'widget_title'   => 'Дневник мигреней',
 	'to_diary'       => 'Перейти в дневник мигреней',
 	'attacks_this_year'  => 'Атак в этом году',
-	'no_attacks_this_month'  => 'Нет атак в этом году',
+	'no_attacks_this_month'  => 'Нет атак в этом месяце',
 	'active_attacks_this_month'  => 'Активные атаки',
 
 	//general
