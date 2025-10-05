@@ -12,7 +12,6 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
  * Main application class for admin interface
  *
- * @TODO: Add error handling, translations, including added classes
  * @class MigraineDiaryAppAdmin
  * @description Manages all admin-related functionality
  */
