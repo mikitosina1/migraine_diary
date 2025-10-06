@@ -4,40 +4,40 @@
 	$currentPainLevel = $currentPainLevel ?? 'all';
 @endphp
 
-@if($attacks->count())
-	<div class="list-header flex flex-row justify-between items-center p-4">
-		<div class="filter-block mb-4">
-			<select id="list-attack-range" class="bg-gray-800 text-white py-2 rounded">
-				<option value="month" {{ $currentRange === 'month' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_month')
-				</option>
-				<option value="3months" {{ $currentRange === '3months' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_3_months')
-				</option>
-				<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_year')
-				</option>
+<div class="list-header flex flex-row justify-between items-center p-4">
+	<div class="filter-block mb-4">
+		<select id="list-attack-range" class="bg-gray-800 text-white py-2 rounded">
+			<option value="month" {{ $currentRange === 'month' ? 'selected' : '' }}>
+				@lang('migrainediary::migraine_diary.last_month')
+			</option>
+			<option value="3months" {{ $currentRange === '3months' ? 'selected' : '' }}>
+				@lang('migrainediary::migraine_diary.last_3_months')
+			</option>
+			<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
+				@lang('migrainediary::migraine_diary.last_year')
+			</option>
+		</select>
+
+		@if($currentPainLevel)
+			<!-- Pain Level Filter -->
+			<select id="list-pain-level" class="bg-gray-800 text-white py-2 rounded">
+				<option value="all">@lang('migrainediary::migraine_diary.all_pain_lvl')</option>
+				@for($i = 1; $i <= 10; $i++)
+					<option value="{{ $i }}" {{ $currentPainLevel == $i ? 'selected' : '' }}>
+						@lang('migrainediary::migraine_diary.level') {{ $i }}
+					</option>
+				@endfor
 			</select>
+		@endif
 
-			@if($currentPainLevel)
-				<!-- Pain Level Filter -->
-				<select id="list-pain-level" class="bg-gray-800 text-white py-2 rounded">
-					<option value="all">@lang('migrainediary::migraine_diary.all_pain_lvl')</option>
-					@for($i = 1; $i <= 10; $i++)
-						<option value="{{ $i }}" {{ $currentPainLevel == $i ? 'selected' : '' }}>
-							@lang('migrainediary::migraine_diary.level') {{ $i }}
-						</option>
-					@endfor
-				</select>
-			@endif
-
-			<!-- Reset Filters Button -->
-			<button id="reset-filters" class="bg-gray-600 text-white rounded hover:bg-gray-700">
-				@lang('migrainediary::migraine_diary.reset_filters')
-			</button>
-		</div>
+		<!-- Reset Filters Button -->
+		<button id="reset-filters" class="bg-gray-600 text-white rounded hover:bg-gray-700">
+			@lang('migrainediary::migraine_diary.reset_filters')
+		</button>
 	</div>
+</div>
 
+@if($attacks->count())
 	<div class="list grid gap-4 p-4">
 		@foreach($attacks as $attack)
 			<div x-data="{ open: false }" class="migraine-list-item rounded-md bg-gray-800 text-white shadow">
@@ -163,5 +163,7 @@
 		@endforeach
 	</div>
 @else
-	@lang('migrainediary::migraine_diary.no_rec_found')
+	<div class="list grid justify-center items-center gap-4 p-4 text-gray-400">
+		@lang('migrainediary::migraine_diary.no_rec_found')
+	</div>
 @endif

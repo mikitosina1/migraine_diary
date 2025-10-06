@@ -20,6 +20,7 @@ class MigraineDiaryStatisticController extends Controller
 {
 	/**
 	 * Download data in .xlsx format
+	 *
 	 * @param Request $request
 	 * @return BinaryFileResponse
 	 * @throws Exception
