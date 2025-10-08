@@ -57,7 +57,11 @@ return [
 	// Statistic-specific translations
 	'generate_sheet' => 'Als Tabelle herunterladen',
 	'send_to_email'  => 'Per E-Mail senden',
+	'send'           => 'Senden',
 	'add_to_google_sheets' => 'In Google Sheets senden',
+	'to_your_email' => 'Per E-Mail an Sie senden',
+	'to_docs_email' => 'Per E-Mail an den Doktor senden',
+	'doctor_email'  => 'Doktor E-Mail',
 
 	'level'          => 'Stufe',
 	'all_pain_lvl'   => 'Alle Schmerzstufen',

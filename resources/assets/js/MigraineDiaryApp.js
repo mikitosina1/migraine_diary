@@ -14,6 +14,12 @@ window.axios = axios;
 window.axios.defaults.withCredentials = true;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+/**
+ * Main application class for managing the Migraine Diary frontend logic.
+ *
+ * Handles UI interactions, API communication, filtering, form management,
+ * and user notifications for the migraine diary system.
+ */
 class MigraineDiaryApp {
 	constructor() {
 		this.apiService = new ApiService();
@@ -64,6 +70,12 @@ class MigraineDiaryApp {
 		});
 	}
 
+	/**
+	 * Edit (end) attack query
+	 *
+	 * @param {number} attackId id of attack to edit
+	 * @returns {Promise<void>}
+	 */
 	async endAttackAjax(attackId) {
 		try {
 			const response = await this.apiService.post(`/migraine-diary/attacks/${attackId}/end-ajax`);
@@ -81,6 +93,12 @@ class MigraineDiaryApp {
 		}
 	}
 
+	/**
+	 * Delete attack query
+	 *
+	 * @param {number} attackId id of attack to delete
+	 * @returns {Promise<void>}
+	 */
 	async deleteAttack(attackId) {
 		const confirmMessage = this.translationService.translate('delete_confirm', 'Are you sure you want to delete this attack?');
 		if (!confirm(confirmMessage)) return;
@@ -97,6 +115,12 @@ class MigraineDiaryApp {
 		}
 	}
 
+	/**
+	 * Edit attack query
+	 *
+	 * @param {number} attackId id of attack to edit
+	 * @returns {Promise<void>}
+	 */
 	async editAttack(attackId) {
 		try {
 			const response = await this.apiService.get(`/migraine-diary/attacks/${attackId}/edit`);
@@ -114,6 +138,12 @@ class MigraineDiaryApp {
 		}
 	}
 
+	/**
+	 * Handle delete error
+	 *
+	 * @param {import('axios').AxiosError} error - The error object
+	 * @returns {void}
+	 */
 	handleDeleteError(error) {
 		console.error('Delete error:', error);
 
@@ -124,6 +154,11 @@ class MigraineDiaryApp {
 		}
 	}
 
+	/**
+	 * Setup event listeners
+	 *
+	 * @returns {void}
+	 */
 	setupEventListeners() {
 		// Tab navigation
 		document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -142,8 +177,25 @@ class MigraineDiaryApp {
 
 		// Global click handlers
 		document.addEventListener('click', (e) => this.handleGlobalClick(e));
+
+		// Statistic toggle buttons
+		document.querySelectorAll('.bordered-block-toggler').forEach(btn => {
+			btn.addEventListener('click', (e) => this.uiManager.handleStatisticToggle(e.target));
+		});
+
+		// Statistic radio buttons
+		document.addEventListener('change', (e) => {
+			if (e.target.classList.contains('recipient-radio')) {
+				this.uiManager.handleRecipientTypeChange(e.target);
+			}
+		});
 	}
 
+	/**
+	 * Setup filter listeners
+	 *
+	 * @returns {void}
+	 */
 	setupFilterListeners() {
 		const listSelect = document.getElementById('list-attack-range');
 		const painLevelSelect = document.getElementById('list-pain-level');
@@ -201,6 +253,12 @@ class MigraineDiaryApp {
 		}
 	}
 
+	/**
+	 * Handle global click events
+	 *
+	 * @param {Event} event - Click event
+	 * @returns {void}
+	 */
 	handleGlobalClick(event) {
 		if (event.target.closest('.end-attack-button')) {
 			const attackId = event.target.closest('.end-attack-button').dataset.attackId;
@@ -216,9 +274,18 @@ class MigraineDiaryApp {
 			const attackId = event.target.closest('.edit-btn').dataset.attackId;
 			this.editAttack(attackId);
 		}
+
+		if (event.target.closest('.send-email-btn')) {
+			this.handleEmailSend();
+		}
 	}
 
-	// Apply filter to attack a list
+	/**
+	 * Apply filter to attack a list
+	 *
+	 * @param {Object} filters - Filters to apply
+	 * @returns {void}
+	 */
 	applyListFilters(filters) {
 		if (!this.listFilter) {
 			console.warn(this.translationService.translate('filtr_err', 'List filter not initialized'));
@@ -227,7 +294,12 @@ class MigraineDiaryApp {
 		this.listFilter.apply(filters);
 	}
 
-	// Apply filter to statistics
+	/**
+	 * Apply filter to statistics
+	 *
+	 * @param {Object} filters - Filters to apply
+	 * @returns {void}
+	 */
 	applyStatisticFilters(filters) {
 		if (!this.statisticFilter) {
 			console.warn(this.translationService.translate('filtr_err', 'Statistic filter not initialized'));
@@ -236,6 +308,11 @@ class MigraineDiaryApp {
 		this.statisticFilter.apply(filters);
 	}
 
+	/**
+	 * Reset all filters
+	 *
+	 * @returns {void}
+	 */
 	resetAllFilters() {
 		document.querySelectorAll('#list-attack-range, #statistic-attack-range').forEach(select => {
 			select.value = 'month';
@@ -249,6 +326,12 @@ class MigraineDiaryApp {
 		this.applyStatisticFilters({range: 'month', pain_level: 'all'});
 	}
 
+	/**
+	 * Handle form submission
+	 *
+	 * @param {HTMLFormElement} form - Form to submit
+	 * @returns {Promise<void>}
+	 */
 	async handleFormSubmit(form) {
 		try {
 			const formData = this.prepareFormData(form);
@@ -275,10 +358,16 @@ class MigraineDiaryApp {
 		}
 	}
 
+	/**
+	 * Prepare form data for submission
+	 *
+	 * @param {HTMLFormElement} form - Form to prepare data for
+	 * @returns {Object} Prepared form data
+	 */
 	prepareFormData(form) {
 		const dynamicData = this.dynamicFieldManager.getDynamicFieldsData();
 
-		let data = {
+		return {
 			start_time: form.querySelector('input[name="start_time"]').value,
 			pain_level: form.querySelector('input[name="pain_level"]:checked')?.value,
 			notes: form.querySelector('textarea[name="notes"]')?.value || '',
@@ -298,9 +387,36 @@ class MigraineDiaryApp {
 			userTriggersNew: dynamicData.userTriggersNew,
 			userMedsNew: dynamicData.userMedsNew
 		};
-		console.log(data);
-		return data;
 	}
+
+	/**
+	 * Handle sending email to a user or doctor
+	 */
+	async handleEmailSend() {
+		const period = document.getElementById('statistic-attack-range').value;
+		const recipientType = document.querySelector('input[name="recipient_type"]:checked').value;
+		let data = {
+			recipient_type: recipientType,
+			period: period
+		};
+		if (recipientType === 'doctor') {
+			 data.doctor_email = document.querySelector('input[name="doctor_email"]').value;
+		}
+
+		try {
+			const response = await this.apiService.post('/migraine-diary/send-to-email', data);
+
+			if (response.data.success) {
+				this.notificationManager.show(response.data.message, 'success');
+			}
+		} catch (error) {
+			this.notificationManager.show(
+				error.response?.data?.message || 'Error sending email',
+				'error'
+			);
+		}
+	}
+
 }
 
 export default MigraineDiaryApp;

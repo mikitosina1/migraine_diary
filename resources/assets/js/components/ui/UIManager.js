@@ -92,6 +92,9 @@ class UIManager {
 		}, 300);
 	}
 
+	/**
+	 * Check if the list is empty and display a message if it is
+	 */
 	checkEmptyList() {
 		const listContainer = document.querySelector('.list');
 		const hasItems = document.querySelectorAll('.migraine-list-item').length > 0;
@@ -102,6 +105,9 @@ class UIManager {
 		}
 	}
 
+	/**
+	 * Setup event listeners for modal windows
+	 */
 	setupModalListeners() {
 		document.addEventListener('click', (e) => {
 			if (e.target.closest('.modal-close')) {
@@ -129,6 +135,11 @@ class UIManager {
 		});
 	}
 
+	/**
+	 * Reset the form in a modal window
+	 *
+	 * @param {HTMLDialogElement} modal - The modal window element
+	 */
 	resetForm(modal) {
 		const form = modal.querySelector('form');
 		if (!form) return;
@@ -183,6 +194,48 @@ class UIManager {
 		addButtons.forEach(btn => {
 			btn.style.display = '';
 		});
+	}
+
+	/**
+	 * Handle changes in statistic recipient type radio buttons
+	 *
+	 * @param {HTMLInputElement} radio - The radio button element
+	 */
+	handleRecipientTypeChange(radio) {
+		const emailField = document.querySelector('.doctor-email-field');
+		const emailInput = document.querySelector('input[name="doctor_email"]');
+
+		if (radio.value === 'doctor') {
+			emailField.classList.remove('hidden');
+			emailInput.disabled = false;
+			emailInput.required = true;
+		} else {
+			emailField.classList.add('hidden');
+			emailInput.disabled = true;
+			emailInput.required = false;
+			emailInput.value = '';
+		}
+	}
+
+	/**
+	 * Handle changes in statistic toggle buttons
+	 *
+	 * @param {HTMLButtonElement} button - The button element
+	 */
+	handleStatisticToggle(button) {
+		const toggleClass = Array.from(button.classList).find(className =>
+			className.startsWith('to-email') || className.startsWith('google-sheets')
+		);
+
+		if (toggleClass) {
+			const targetClass = toggleClass + '-target';
+			const targetBlock = document.querySelector('.' + targetClass);
+
+			if (targetBlock) {
+				targetBlock.classList.toggle('hidden');
+				targetBlock.classList.toggle('flex');
+			}
+		}
 	}
 
 }

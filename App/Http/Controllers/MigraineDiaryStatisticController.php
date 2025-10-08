@@ -46,9 +46,9 @@ class MigraineDiaryStatisticController extends Controller
 	/**
 	 * Send data to email
 	 */
-	public function sendToEmail()
+	public function sendToEmail(Request $request)
 	{
-
+		//
 	}
 
 	/**

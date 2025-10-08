@@ -2,7 +2,6 @@
 	use Carbon\Carbon;
 	$currentRange = $currentRange ?? 'month';
 @endphp
-@if($attacks)
 	<div class="statistic-header flex flex-row justify-between items-center p-4">
 		<div class="filter-block mb-4">
 			<select id="statistic-attack-range" class="bg-gray-800 text-white py-2 rounded">
@@ -18,26 +17,63 @@
 			</select>
 		</div>
 	</div>
-	<div class="statistic flex flex-row justify-between items-center">
-		<div class="controls share-content flex flex-row justify-between items-center m-2">
-			<!-- XML Download -->
-			<form action="{{ route('user.migraine-diary.download-sheet') }}" method="POST" class="mr-2
-				text-white rounded bg-blue-500 hover:bg-blue-700 p-1 mb-0">
-				@csrf
-				<input type="hidden" name="period" value="{{ $currentRange }}">
-				<button type="submit">
-					@lang('migrainediary::migraine_diary.generate_sheet')
-				</button>
-			</form>
-			<!-- Send Email -->
-			<button class="send-to-email text-white rounded bg-blue-500 hover:bg-blue-700 mr-2 p-1">
-				@lang('migrainediary::migraine_diary.send_to_email')
+@if($attacks)
+	<div class="statistic-send flex flex-col">
+		<!-- XML Download -->
+		<form action="{{ route('user.migraine-diary.download-sheet') }}" method="POST" class="xml-download-form
+				text-white m-2 text-white dark:bg-gray-900">
+			@csrf
+			<input type="hidden" name="period" value="{{ $currentRange }}">
+			<button type="submit">
+				@lang('migrainediary::migraine_diary.generate_sheet')
 			</button>
-			<!-- Google Sheets -->
-			<button class="add-to-google-sheets text-white rounded bg-blue-500 hover:bg-blue-700 p-1">
-				@lang('migrainediary::migraine_diary.add_to_google_sheets')
+		</form>
+		<!-- Send Email -->
+		<div class="bordered-block-toggler to-email m-2 text-white dark:bg-gray-900">
+			@lang('migrainediary::migraine_diary.send_to_email')
+		</div>
+		<!-- Send Email -->
+		<div class="bordered-block to-email-target flex-col justify-between m-2 p-1 text-white hidden">
+			<div class="form-group mb-4">
+				<label class="flex items-center space-x-2">
+					<input type="radio" name="recipient_type" value="self" checked class="radio recipient-radio">
+					<span>@lang('migrainediary::migraine_diary.to_your_email')</span>
+				</label>
+				<label class="flex items-center space-x-2 mt-2">
+					<input type="radio" name="recipient_type" value="doctor" class="radio recipient-radio">
+					<span>@lang('migrainediary::migraine_diary.to_docs_email')</span>
+				</label>
+			</div>
+
+			<!-- Email input (for doctor) -->
+			<div class="form-group doctor-email-field hidden">
+				<label class="block text-sm font-medium mb-1">
+					@lang('migrainediary::migraine_diary.doctor_email')
+				</label>
+				<input
+					type="email"
+					name="doctor_email"
+					placeholder="doctor@example.com"
+					class="w-full p-2 border rounded text-gray-800"
+					disabled
+				>
+			</div>
+
+			<button type="button" class="send-email-btn mt-2 p-1">
+				@lang('migrainediary::migraine_diary.send')
 			</button>
 		</div>
+
+		<!-- Google Sheets -->
+		<div class="bordered-block-toggler google-sheets m-2 text-white dark:bg-gray-900">
+			@lang('migrainediary::migraine_diary.add_to_google_sheets')
+		</div>
+		<div class="bordered-block google-sheets-target flex-row justify-between items-center m-2 p-1 text-white hidden">
+
+		</div>
+	</div>
+	<div class="statistic">
+
 	</div>
 @else
 	@lang('migrainediary::migraine_diary.no_rec_found')
