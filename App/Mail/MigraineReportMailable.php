@@ -18,7 +18,7 @@ class MigraineReportMailable extends Mailable
 		public string $period
 	) {}
 
-	public function build()
+	public function build(): MigraineReportMailable
 	{
 		return $this->subject($this->getSubject())
 			->view($this->template)
@@ -29,13 +29,11 @@ class MigraineReportMailable extends Mailable
 			]);
 	}
 
-	public function attachExcel(array $reportData)
+	public function attachExcel(array $reportData): static
 	{
-		$fileName = 'migraine-report-' . now()->format('Y-m-d') . '.xlsx';
-
-		$this->attach(
+		$this->attachData(
 			Excel::raw(new ExcelExportService($reportData), \Maatwebsite\Excel\Excel::XLSX),
-			$fileName
+			'migraine-report-' . now()->format('YmHdms') . '.xlsx'
 		);
 
 		return $this;

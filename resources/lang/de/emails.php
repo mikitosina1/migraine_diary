@@ -1,17 +1,26 @@
 <?php
 
 return [
-	'subject' => 'Migränebericht :date',
-
-	// for patient
-	'personal_report' => [
-		'title' => 'Ihr Migränebericht',
-		'introduction' => 'Her ist Ihr Migränebericht für den ausgewählten Traumatize.',
+	'subject' => 'Migränebericht: Datum',
+	'footer_disclaimer' => 'Dies ist eine automatisierte Nachricht. Bitte nicht antworten.',
+	'labels' => [
+		'period' => 'Zeitraum',
+		'total_attacks' => 'Anfälle gesamt',
 	],
 
-	// for doctor
+	'personal_report' => [
+		'header' => 'Ihr Migränebericht',
+		'title' => 'Ihr Migränebericht',
+		'introduction' => 'Hier ist Ihr Migränebericht für den ausgewählten Zeitraum.',
+		'summary' => 'Zusammenfassung',
+		'closing' => 'Der vollständige Bericht ist als Excel-Datei angehängt.',
+	],
+
 	'doctor_report' => [
-		'title' => 'Migränebericht des Patienten',
-		'introduction' => 'Bitte beachten Sie die angehängte Datei, die für den Patienten erstellt wurde.',
+		'header' => 'Migränebericht des Patienten',
+		'title' => 'Migränetagebuchbericht des Patienten',
+		'introduction' => 'Sehr geehrte/r Doktor/in, nachstehend finden Sie die Zusammenfassung Ihres Patienten :name.',
+		'summary' => 'Zusammenfassung',
+		'closing' => 'Die detaillierten Daten sind der Excel-Datei beigefügt.',
 	],
 ];

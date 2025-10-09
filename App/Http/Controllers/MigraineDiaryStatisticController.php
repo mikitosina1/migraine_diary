@@ -3,7 +3,6 @@
 namespace Modules\MigraineDiary\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,7 +35,7 @@ class MigraineDiaryStatisticController extends Controller
 			$request->input('period', 'month')
 		);
 
-		return Excel::download(new ExcelExportService($data), 'migraine-report-'. Carbon::now()->format('YmHdms') .'.xlsx');
+		return Excel::download(new ExcelExportService($data), 'migraine-report-'. now()->format('YmHdms') .'.xlsx');
 	}
 
 	/**
