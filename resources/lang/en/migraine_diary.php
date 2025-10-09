@@ -67,14 +67,16 @@ return [
 	'all_pain_lvl'   => 'All Pain Levels',
 
 	//successes
-	'attack_ended'   => 'Attack ended',
-	'add_success'    => 'Attack successfully added',
+	'attack_ended'   => 'Attack ended.',
+	'add_success'    => 'Attack successfully added.',
+	'email_sent_success' => 'Email successfully sent.',
+	'email_sent_error' => 'Error sending email.',
 
 	//errors
 	'form_send_err'  => 'Error on sending #md form. Please try again later.',
 	'filtr_err'      => 'Error on filtration. Please try again later.',
 	'delete_error'   => 'An error occurred during deletion.',
-	'unauthorized'   => 'Unauthorized action',
+	'unauthorized'   => 'Unauthorized action.',
 
 	//date translations
 	'short_days' => [

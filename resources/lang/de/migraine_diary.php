@@ -67,14 +67,16 @@ return [
 	'all_pain_lvl'   => 'Alle Schmerzstufen',
 
 	//successes
-	'attack_ended'   => 'Angriff beendet',
-	'add_success'    => 'Angriff erfolgreich hinzugefügt',
+	'attack_ended'   => 'Angriff beendet.',
+	'add_success'    => 'Angriff erfolgreich hinzugefügt.',
+	'email_sent_success' => 'E-Mail erfolgreich gesendet.',
 
 	//errors
 	'form_send_err'  => 'Fehler beim Senden des #md Form. Bitte versuchen Sie es später erneut.',
 	'filtr_err'      => 'Fehler beim Filtration. Bitte versuchen Sie es später erneut.',
 	'delete_error'   => 'Beim Löschen ist ein Fehler aufgetreten.',
-	'unauthorized'   => 'Unbefugte Aktion',
+	'unauthorized'   => 'Unbefugte Aktion.',
+	'email_sent_error' => 'Fehler beim Senden der E-Mail.',
 
 	//date translations
 	'short_days' => [

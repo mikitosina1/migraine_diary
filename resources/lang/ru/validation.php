@@ -9,4 +9,21 @@ return [
 	'symptom_name_max' => 'Название симптома должно быть не более 255 символов',
 	'med_name_max' => 'Название Med должно быть не более 255 символов',
 	'trigger_name_max' => 'Название триггера должно быть не более 255 символов',
+
+	// Validation errors for the sending email request
+	'recipient_type_required' => 'Требуется указать тип получателя.',
+	'recipient_type_invalid' => 'Выбран неверный тип получателя.',
+	'period_required' => 'Требуется указать период.',
+	'period_invalid' => 'Выбран неверный период.',
+	'doctor_email_required' => 'При отправке врачу требуется указать адрес электронной почты врача.',
+	'doctor_email_invalid' => 'Введите действительный адрес электронной почты врача.',
+	'formats_array' => 'Форматы должны быть массивом.',
+	'formats_invalid' => 'Выбран неверный формат.',
+
+	'attributes' => [
+		'recipient_type' => 'тип получателя',
+		'period' => 'период',
+		'doctor_email' => 'электронная почта врача',
+		'formats' => 'форматы',
+	],
 ];
