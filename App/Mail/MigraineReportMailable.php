@@ -18,6 +18,11 @@ class MigraineReportMailable extends Mailable
 		public string $period
 	) {}
 
+	/**
+	 * Build the message.
+	 *
+	 * @return $this
+	 */
 	public function build(): MigraineReportMailable
 	{
 		return $this->subject($this->getSubject())
@@ -29,6 +34,12 @@ class MigraineReportMailable extends Mailable
 			]);
 	}
 
+	/**
+	 * Attach an Excel report to the email
+	 *
+	 * @param array $reportData
+	 * @return $this
+	 */
 	public function attachExcel(array $reportData): static
 	{
 		$this->attachData(
@@ -39,6 +50,11 @@ class MigraineReportMailable extends Mailable
 		return $this;
 	}
 
+	/**
+	 * Get the email subject
+	 *
+	 * @return string
+	 */
 	protected function getSubject(): string
 	{
 		return trans('migrainediary::emails.subject', [
