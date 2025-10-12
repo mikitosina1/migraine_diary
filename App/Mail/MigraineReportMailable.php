@@ -15,7 +15,9 @@ class MigraineReportMailable extends Mailable
 	public function __construct(
 		public array $reportData,
 		public string $template,
-		public string $period
+		public string $period,
+		public string $userName,
+		public string $userLastname
 	) {}
 
 	/**
@@ -31,6 +33,8 @@ class MigraineReportMailable extends Mailable
 				'data' => $this->reportData,
 				'period' => $this->period,
 				'user' => auth()->user(),
+				'userName' => $this->userName ?? auth()->user()->name,
+				'userLastname' => $this->userLastname ?? auth()->user()->lastname,
 			]);
 	}
 
@@ -58,7 +62,7 @@ class MigraineReportMailable extends Mailable
 	protected function getSubject(): string
 	{
 		return trans('migrainediary::emails.subject', [
-			'date' => now()->format('d.m.Y')
+			'date' => $this->period
 		]);
 	}
 }

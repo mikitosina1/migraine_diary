@@ -62,6 +62,8 @@ return [
 	'to_your_email' => 'Per E-Mail an Sie senden',
 	'to_docs_email' => 'Per E-Mail an den Doktor senden',
 	'doctor_email'  => 'Doktor E-Mail',
+	'user_name'     => 'Vorname',
+	'user_lastname' => 'Nachname',
 
 	'level'          => 'Stufe',
 	'all_pain_lvl'   => 'Alle Schmerzstufen',

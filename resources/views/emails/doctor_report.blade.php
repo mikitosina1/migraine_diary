@@ -7,11 +7,11 @@
 @section('content')
 	<h1>@lang('migrainediary::emails.doctor_report.title')</h1>
 
-	<p>@lang('migrainediary::emails.doctor_report.introduction', ['name' => $data['user']['name'] ?? ''])</p>
+	<p>@lang('migrainediary::emails.doctor_report.introduction', ['name' => $userName .' '. $userLastname])</p>
 
 	<div class="report-summary">
-		<p><strong>@lang('migrainediary::emails.labels.period'):</strong> {{ ucfirst($period) }}</p>
-		<p><strong>@lang('migrainediary::emails.labels.total_attacks'):</strong> {{ count($data['attacks'] ?? []) }}</p>
+		<p><strong>@lang('migrainediary::emails.labels.period'):</strong> {{ $period }}</p>
+		<p><strong>@lang('migrainediary::emails.labels.total_attacks'):</strong> {{ count($data ?? []) }}</p>
 	</div>
 
 	@if(!empty($data['summary']))

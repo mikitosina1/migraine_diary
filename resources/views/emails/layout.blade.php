@@ -57,7 +57,7 @@
 	</div>
 
 	<div class="email-footer">
-		<p>&copy; {{ date('Y.m.d') }} Migraine Diary. @lang('migrainediary::emails.footer_disclaimer')</p>
+		<p>&copy; {{ date('Y.m.d') }} mikitosina migraine diary. @lang('migrainediary::emails.footer_disclaimer')</p>
 	</div>
 </div>
 </body>

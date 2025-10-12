@@ -13,19 +13,22 @@ class MigraineEmailService
 	 *
 	 * @param mixed $user
 	 * @param array $data
-	 * @param string $recipientType
-	 * @param string|null $doctorEmail
+	 *
 	 * @return void
 	 */
-	public function sendReport(User $user, array $data, string $recipientType, string $doctorEmail = null): void
+	public function sendReport(User $user, array $data): void
 	{
 		$reportData = app(MigraineExportService::class)->prepareData($user, $data['period']);
 
-		$recipientEmail = $recipientType === 'doctor' ? $doctorEmail : $user->email;
+		$recipientEmail = $data['recipient_type'] === 'doctor' ? $data['doctor_email'] : $user->email;
 
-		$template = $this->getTemplateByRecipientType($recipientType);
+		$template = $this->getTemplateByRecipientType($data['recipient_type']);
 
-		$mailable = new MigraineReportMailable($reportData, $template, $data['period']);
+		$dateService = new DateRangeService();
+		$range = $dateService->getRange($data['period']);
+		$range = $range[0] . ' - ' . $range[1];
+
+		$mailable = new MigraineReportMailable($reportData, $template, $range, $data['user_name'], $data['user_lastname']);
 
 		$mailable->attachExcel($reportData);
 

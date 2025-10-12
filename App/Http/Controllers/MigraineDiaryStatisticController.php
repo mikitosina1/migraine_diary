@@ -57,12 +57,7 @@ class MigraineDiaryStatisticController extends Controller
 		try {
 			$validated = $request->validated();
 
-			app(MigraineEmailService::class)->sendReport(
-				auth()->user(),
-				$validated,
-				$validated['recipient_type'],
-				$validated['doctor_email'] ?? null
-			);
+			app(MigraineEmailService::class)->sendReport(auth()->user(), $validated);
 
 			return response()->json([
 				'success' => true,

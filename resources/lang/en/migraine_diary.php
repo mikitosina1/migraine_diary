@@ -62,6 +62,8 @@ return [
 	'to_your_email' => 'Send to your email',
 	'to_docs_email' => 'Send to doctor email',
 	'doctor_email'  => 'Doctor email',
+	'user_name'     => 'User name',
+	'user_lastname' => 'User last name',
 
 	'level'          => 'Level',
 	'all_pain_lvl'   => 'All Pain Levels',

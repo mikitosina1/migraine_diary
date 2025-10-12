@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'subject' => 'Migraine Report :date',
+	'subject' => 'Migraine Report: :date',
 	'footer_disclaimer' => 'This is an automated message. Please do not reply.',
 	'labels' => [
 		'period' => 'Period',

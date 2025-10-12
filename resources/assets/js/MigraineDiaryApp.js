@@ -395,9 +395,13 @@ class MigraineDiaryApp {
 	async handleEmailSend() {
 		const period = document.getElementById('statistic-attack-range').value;
 		const recipientType = document.querySelector('input[name="recipient_type"]:checked').value;
+		const user_name = document.getElementById("user_name").value;
+		const user_lastname = document.getElementById("user_lastname").value;
 		let data = {
 			recipient_type: recipientType,
-			period: period
+			period: period,
+			user_name: user_name,
+			user_lastname: user_lastname,
 		};
 		if (recipientType === 'doctor') {
 			 data.doctor_email = document.querySelector('input[name="doctor_email"]').value;

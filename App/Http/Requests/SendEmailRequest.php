@@ -15,13 +15,21 @@ class SendEmailRequest extends FormRequest
 	{
 		return [
 			'recipient_type' => 'required|in:self,doctor',
-			'period' => 'required|in:month,3months,year',
-			'doctor_email' => 'required_if:recipient_type,doctor|email',
-			'formats' => 'sometimes|array',
-			'formats.*' => 'in:pdf,excel',
+			'period'         => 'required|in:month,3months,year',
+			'doctor_email'   => 'required_if:recipient_type,doctor|email',
+			'user_name'      => 'nullable|string|max:64',
+			'user_lastname'  => 'nullable|string|max:64',
+			'formats'        => 'sometimes|array',
+			'formats.*'      => 'in:pdf,excel',
 		];
 	}
 
+	/**
+	 * Get custom messages for validator errors.
+	 *
+	 * @TODO translate messages for user name and last name
+	 * @return array
+	 */
 	public function messages(): array
 	{
 		return [

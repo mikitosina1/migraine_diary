@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'subject' => 'Migränebericht: Datum',
+	'subject' => 'Migränebericht: :date',
 	'footer_disclaimer' => 'Dies ist eine automatisierte Nachricht. Bitte nicht antworten.',
 	'labels' => [
 		'period' => 'Zeitraum',

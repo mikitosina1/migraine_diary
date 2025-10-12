@@ -57,6 +57,28 @@
 					class="w-full p-2 border rounded text-gray-800"
 					disabled
 				>
+				<label class="block text-sm font-medium mb-1" for="user_name">
+					@lang('migrainediary::migraine_diary.user_name')
+				</label>
+				<input
+					type="text"
+					name="user_name"
+					id="user_name"
+					value="{{ auth()->user()->name }}"
+					placeholder="{{ auth()->user()->name }}"
+					class="w-full p-2 border rounded text-gray-800"
+				>
+				<label class="block text-sm font-medium mb-1" for="user_lastname">
+					@lang('migrainediary::migraine_diary.user_lastname')
+				</label>
+				<input
+					type="text"
+					name="user_lastname"
+					id="user_lastname"
+					value="{{ auth()->user()->lastname }}"
+					placeholder="{{ auth()->user()->lastname }}"
+					class="w-full p-2 border rounded text-gray-800"
+				>
 			</div>
 
 			<button type="button" class="send-email-btn mt-2 p-1">
