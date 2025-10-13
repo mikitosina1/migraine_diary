@@ -17,10 +17,16 @@ class NotificationManager {
 	show(message, type = 'success', duration = this.defaultDuration) {
 		const notification = this.createNotificationElement(message, type);
 
-		document.body.appendChild(notification);
+		const mainElement = document.querySelector('main');
+		if (mainElement) {
+			mainElement.insertBefore(notification, mainElement.firstChild);
+		} else {
+			// fallback on the body
+			document.body.appendChild(notification);
+		}
+
 		this.notifications.push(notification);
 
-		// Auto-remove after duration
 		if (duration > 0) {
 			setTimeout(() => this.remove(notification), duration);
 		}
@@ -36,9 +42,10 @@ class NotificationManager {
 	 */
 	createNotificationElement(message, type) {
 		const notification = document.createElement('div');
-		const bgClass = this.getBackgroundClass(type);
+		notification.className = `notification-block border rounded text-white z-50`;
 
-		notification.className = `fixed top-4 right-4 p-4 rounded-md text-white z-50 transition-opacity duration-300 ${bgClass}`;
+		this.applyStyles(notification, type);
+
 		notification.textContent = message;
 
 		// Add a close button
@@ -50,21 +57,6 @@ class NotificationManager {
 		notification.appendChild(closeBtn);
 
 		return notification;
-	}
-
-	/**
-	 * Get CSS background class for a notification type
-	 * @param {string} type
-	 * @returns {string}
-	 */
-	getBackgroundClass(type) {
-		const classes = {
-			success: 'bg-green-500',
-			error: 'bg-red-500',
-			warning: 'bg-yellow-500',
-			info: 'bg-blue-500'
-		};
-		return classes[type] || classes.success;
 	}
 
 	/**
@@ -87,6 +79,38 @@ class NotificationManager {
 	 */
 	clear() {
 		this.notifications.forEach(notification => this.remove(notification));
+	}
+
+	/**
+	 * Apply styles to a notification element
+	 * @param {HTMLElement} notification
+	 * @param {string} type
+	 *
+	 * @returns {HTMLElement} notification - with styles
+	 */
+	applyStyles(notification, type) {
+		notification.style.position = 'fixed';
+		notification.style.top = '6em';
+		notification.style.padding = '1em';
+		notification.style.transition = 'opacity 0.3s ease-in-out';
+		notification.style.backgroundColor = this.getBackgroundColor(type);
+
+		return notification;
+	}
+
+	/**
+	 * Get CSS background for a notification type
+	 * @param {string} type
+	 * @returns {string}
+	 */
+	getBackgroundColor(type) {
+		const classes = {
+			success: '#93e4c1',
+			error: '#f95959',
+			warning: '#f8f398',
+			info: '#8dc6ff'
+		};
+		return classes[type] || classes.success;
 	}
 }
 
