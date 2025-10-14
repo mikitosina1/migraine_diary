@@ -51,7 +51,7 @@ class NotificationManager {
 		// Add a close button
 		const closeBtn = document.createElement('button');
 		closeBtn.className = 'ml-4 text-white hover:text-gray-200';
-		closeBtn.innerHTML = '&times;';
+		closeBtn.innerHTML = '<i class="fa-solid fa-x"></i>';
 		closeBtn.onclick = () => this.remove(notification);
 
 		notification.appendChild(closeBtn);

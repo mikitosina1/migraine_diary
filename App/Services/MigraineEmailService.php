@@ -3,6 +3,7 @@
 namespace Modules\MigraineDiary\App\Services;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Modules\MigraineDiary\App\Mail\MigraineReportMailable;
 
@@ -26,7 +27,7 @@ class MigraineEmailService
 
 		$dateService = new DateRangeService();
 		$range = $dateService->getRange($data['period']);
-		$range = $range[0] . ' - ' . $range[1];
+		$range = $range[0]->format('d.m.Y') . ' - ' . $range[1]->format('d.m.Y');
 
 		$mailable = new MigraineReportMailable($reportData, $template, $range, $data['user_name'], $data['user_lastname']);
 
