@@ -104,13 +104,13 @@ class NotificationManager {
 	 * @returns {string}
 	 */
 	getBackgroundColor(type) {
-		const classes = {
+		const colors = {
 			success: '#93e4c1',
 			error: '#f95959',
 			warning: '#f8f398',
 			info: '#8dc6ff'
 		};
-		return classes[type] || classes.success;
+		return colors[type] || colors.success;
 	}
 }
 
