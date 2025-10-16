@@ -5,8 +5,6 @@
 @endsection
 
 @section('content')
-	<h1>@lang('migrainediary::emails.doctor_report.title')</h1>
-
 	<p>@lang('migrainediary::emails.doctor_report.introduction', ['name' => $userName .' '. $userLastname])</p>
 
 	<div class="report-summary">

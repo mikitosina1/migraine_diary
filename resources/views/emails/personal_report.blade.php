@@ -5,8 +5,6 @@
 @endsection
 
 @section('content')
-	<h1>@lang('migrainediary::emails.personal_report.title')</h1>
-
 	<p>@lang('migrainediary::emails.personal_report.introduction')</p>
 
 	<div class="report-summary">

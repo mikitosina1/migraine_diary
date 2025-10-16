@@ -18,7 +18,6 @@ return [
 
 	'doctor_report' => [
 		'header' => 'Patient Migraine Report',
-		'title' => 'Migraine Diary Report for Patient',
 		'introduction' => 'Dear Doctor, please find below the summary for your patient :name.',
 		'summary' => 'Summary',
 		'closing' => 'The detailed data is attached in the Excel file.',

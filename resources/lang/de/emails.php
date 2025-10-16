@@ -18,7 +18,6 @@ return [
 
 	'doctor_report' => [
 		'header' => 'Migränebericht des Patienten',
-		'title' => 'Migränetagebuchbericht des Patienten',
 		'introduction' => 'Sehr geehrte/r Doktor/in, nachstehend finden Sie die Zusammenfassung Ihres Patienten :name.',
 		'summary' => 'Zusammenfassung',
 		'closing' => 'Die detaillierten Daten sind der Excel-Datei beigefügt.',
