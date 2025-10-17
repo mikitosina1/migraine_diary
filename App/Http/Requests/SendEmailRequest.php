@@ -27,20 +27,21 @@ class SendEmailRequest extends FormRequest
 	/**
 	 * Get custom messages for validator errors.
 	 *
-	 * @TODO translate messages for user name and last name
 	 * @return array
 	 */
 	public function messages(): array
 	{
 		return [
-			'recipient_type.required' => trans('migrainediary::validation.recipient_type_required'),
-			'recipient_type.in' => trans('migrainediary::validation.recipient_type_invalid'),
-			'period.required' => trans('migrainediary::validation.period_required'),
-			'period.in' => trans('migrainediary::validation.period_invalid'),
-			'doctor_email.required_if' => trans('migrainediary::validation.doctor_email_required'),
-			'doctor_email.email' => trans('migrainediary::validation.doctor_email_invalid'),
-			'formats.array' => trans('migrainediary::validation.formats_array'),
-			'formats.*.in' => trans('migrainediary::validation.formats_invalid'),
+			'recipient_type.required' => trans('migrainediary::validation.email.recipient_type_required'),
+			'recipient_type.in' => trans('migrainediary::validation.email.recipient_type_invalid'),
+			'period.required' => trans('migrainediary::validation.email.period_required'),
+			'period.in' => trans('migrainediary::validation.email.period_invalid'),
+			'doctor_email.required_if' => trans('migrainediary::validation.email.doctor_email_required'),
+			'doctor_email.email' => trans('migrainediary::validation.email.doctor_email_invalid'),
+			'formats.array' => trans('migrainediary::validation.email.formats_array'),
+			'formats.*.in' => trans('migrainediary::validation.email.formats_invalid'),
+			'user_name.max' => trans('migrainediary::validation.email.user_name_max'),
+			'user_lastname.max' => trans('migrainediary::validation.email.user_lastname_max'),
 		];
 	}
 

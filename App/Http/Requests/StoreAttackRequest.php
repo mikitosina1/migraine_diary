@@ -87,13 +87,13 @@ class StoreAttackRequest extends FormRequest
 	public function messages(): array
 	{
 		return [
-			'start_time.required' => __('migrainediary::validation.start_time_required'),
-			'pain_level.required' => __('migrainediary::validation.pain_level_required'),
-			'pain_level.min' => __('migrainediary::validation.pain_level_min'),
-			'pain_level.max' => __('migrainediary::validation.pain_level_max'),
-			'userSymptomsNew.*.max' => __('migrainediary::validation.symptom_name_max'),
-			'userMedsNew.*.max' => __('migrainediary::validation.med_name_max'),
-			'userTriggersNew.*.max' => __('migrainediary::validation.trigger_name_max'),
+			'start_time.required' => __('migrainediary::validation.attack.start_time_required'),
+			'pain_level.required' => __('migrainediary::validation.attack.pain_level_required'),
+			'pain_level.min' => __('migrainediary::validation.attack.pain_level_min'),
+			'pain_level.max' => __('migrainediary::validation.attack.pain_level_max'),
+			'userSymptomsNew.*.max' => __('migrainediary::validation.attack.symptom_name_max'),
+			'userMedsNew.*.max' => __('migrainediary::validation.attack.med_name_max'),
+			'userTriggersNew.*.max' => __('migrainediary::validation.attack.trigger_name_max'),
 		];
 	}
 

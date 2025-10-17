@@ -13,10 +13,13 @@ use Illuminate\Foundation\Http\FormRequest;
  *
  * @property-read array|null $symptoms Basic symptoms, created by the admin
  * @property-read array|null $userSymptoms User symptoms, created by the user
+ * @property-read array|null $userSymptomsNew New user symptoms, created by the user
  * @property-read array|null $meds Basic medications, created by the admin
  * @property-read array|null $userMeds User medications, created by the user
+ * @property-read array|null $userMedsNew New user medications, created by the user
  * @property-read array|null $triggers Basic triggers, created by the admin
  * @property-read array|null $userTriggers User triggers, created by the user
+ * @property-read array|null $userTriggersNew New user triggers, created by the user
  */
 class UpdateAttackRequest extends FormRequest
 {
@@ -64,11 +67,14 @@ class UpdateAttackRequest extends FormRequest
 	public function messages(): array
 	{
 		return [
-			'start_time.required' => __('migrainediary::validation.start_time_required'),
-			'end_time.after_or_equal' => __('migrainediary::validation.end_time_after_start'),
-			'pain_level.required' => __('migrainediary::validation.pain_level_required'),
-			'pain_level.min' => __('migrainediary::validation.pain_level_min'),
-			'pain_level.max' => __('migrainediary::validation.pain_level_max'),
+			'start_time.required' => __('migrainediary::validation.attack.start_time_required'),
+			'end_time.after_or_equal' => __('migrainediary::validation.attack.end_time_after_start'),
+			'pain_level.required' => __('migrainediary::validation.attack.pain_level_required'),
+			'pain_level.min' => __('migrainediary::validation.attack.pain_level_min'),
+			'pain_level.max' => __('migrainediary::validation.attack.pain_level_max'),
+			'userSymptomsNew.*.max' => __('migrainediary::validation.attack.symptom_name_max'),
+			'userMedsNew.*.max' => __('migrainediary::validation.attack.med_name_max'),
+			'userTriggersNew.*.max' => __('migrainediary::validation.attack.trigger_name_max'),
 		];
 	}
 
@@ -82,10 +88,13 @@ class UpdateAttackRequest extends FormRequest
 		$this->merge([
 			'symptoms' => $this->symptoms ?: [],
 			'userSymptoms' => $this->userSymptoms ?: [],
+			'userSymptomsNew' => $this->userSymptomsNew ?: [],
 			'meds' => $this->meds ?: [],
 			'userMeds' => $this->userMeds ?: [],
+			'userMedsNew' => $this->userMedsNew ?: [],
 			'triggers' => $this->triggers ?: [],
 			'userTriggers' => $this->userTriggers ?: [],
+			'userTriggersNew' => $this->userTriggersNew ?: [],
 		]);
 	}
 }
