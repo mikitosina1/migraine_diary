@@ -79,8 +79,10 @@ class MigraineDiaryStatisticController extends Controller
 
 	/**
 	 * Send data to Google Sheets
+	 *
+	 * @param Request $request
 	 */
-	public function sendToGoogleSheets()
+	public function sendToGoogleSheets(Request $request)
 	{
 
 	}
