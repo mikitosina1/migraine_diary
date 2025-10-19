@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Modules\MigraineDiary\App\Http\Requests\GoogleSheetsRequest;
 use Modules\MigraineDiary\App\Http\Requests\SendEmailRequest;
+use Modules\MigraineDiary\App\Models\UserOauthToken;
 use Modules\MigraineDiary\App\Services\ExcelExportService;
+use Modules\MigraineDiary\App\Services\GoogleSheetsService;
 use Modules\MigraineDiary\App\Services\MigraineEmailService;
 use Modules\MigraineDiary\App\Services\MigraineExportService;
 use PhpOffice\PhpSpreadsheet\Exception;
@@ -80,10 +83,53 @@ class MigraineDiaryStatisticController extends Controller
 	/**
 	 * Send data to Google Sheets
 	 *
-	 * @param Request $request
+	 * @param GoogleSheetsRequest $request
+	 * @return JsonResponse
 	 */
-	public function sendToGoogleSheets(Request $request)
+	public function sendToGoogleSheets(GoogleSheetsRequest $request): JsonResponse
 	{
+		$user = auth()->user();
 
+		/** @var UserOauthToken|null $token */
+		$token = $user->oauthTokens()->where('provider', 'google')->first();
+
+		if (!$token) {
+			return response()->json([
+				'success' => false,
+				'message' => 'Google аккаунт не подключён.',
+			], 400);
+		}
+
+		$accessToken = $token->getValidAccessToken();
+
+		if (!$accessToken) {
+			return response()->json([
+				'success' => false,
+				'message' => 'Не удалось получить действительный токен доступа.',
+			], 401);
+		}
+
+		$data = app(MigraineExportService::class)->prepareData(
+			$user,
+			$request->input('period', 'month')
+		);
+
+		try {
+			app(GoogleSheetsService::class)->uploadData($accessToken, $data, $token->metadata);
+			return response()->json([
+				'success' => true,
+				'message' => 'Данные успешно отправлены в Google Sheets',
+			]);
+		} catch (\Throwable $e) {
+			\Log::error('Google Sheets upload failed', [
+				'user_id' => $user->id,
+				'error' => $e->getMessage(),
+			]);
+			return response()->json([
+				'success' => false,
+				'message' => 'Ошибка при отправке данных в Google Sheets',
+			], 500);
+		}
 	}
+
 }
