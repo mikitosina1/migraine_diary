@@ -85,14 +85,6 @@
 				@lang('migrainediary::migraine_diary.send')
 			</button>
 		</div>
-
-		<!-- Google Sheets -->
-		<div class="bordered-block-toggler google-sheets m-2 text-white dark:bg-gray-900">
-			@lang('migrainediary::migraine_diary.add_to_google_sheets')
-		</div>
-		<div class="bordered-block google-sheets-target flex-row justify-between items-center m-2 p-1 text-white hidden">
-
-		</div>
 	</div>
 	<div class="statistic">
 
