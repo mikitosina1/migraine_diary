@@ -87,7 +87,15 @@
 		</div>
 	</div>
 	<div class="statistic">
-
+		@if($attacks->count())
+			<div class="chart-container mb-6">
+				<canvas id="migraineFrequencyChart" width="400" height="200"></canvas>
+			</div>
+		@else
+			<div class="text-center p-4 text-gray-400">
+				@lang('migrainediary::migraine_diary.no_rec_found')
+			</div>
+		@endif
 	</div>
 @else
 	@lang('migrainediary::migraine_diary.no_rec_found')
