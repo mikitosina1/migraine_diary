@@ -40,4 +40,20 @@ class AttackFilterService
 			$query->where('pain_level', (int)$painLevel);
 		}
 	}
+
+	public function getChartData(Collection $attacks): array
+	{
+		if($attacks->count() > 0) {
+			foreach ($attacks as $attack) {
+				$date = $attack->start_time->format('Y-m-d');
+				if (!isset($chartData[$date])) {
+					$chartData[$date] = 0;
+				}
+				$chartData[$date]++;
+			}
+			ksort($chartData);
+			return $chartData;
+		}
+		return [];
+	}
 }

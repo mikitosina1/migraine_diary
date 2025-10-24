@@ -31,10 +31,11 @@ class MigraineDiaryController extends Controller
 		$painLevel = $request->getPainLevel();
 		$container = $request->getContainer();
 		$attacks = $this->filterService->getFilteredAttacks($currentRange, $painLevel);
+		$chartData = $this->filterService->getChartData($attacks);
 
 		// For AJAX requests, return only the list partial
 		if ($request->ajax()) {
-			return view('migrainediary::components.attacks-'.$container, compact('attacks', 'currentRange', 'painLevel'));
+			return view('migrainediary::components.attacks-'.$container, compact('attacks', 'currentRange', 'painLevel', 'chartData'));
 		}
 
 		// For full page requests
@@ -43,6 +44,7 @@ class MigraineDiaryController extends Controller
 			'attacks' => $attacks,
 			'currentRange' => $currentRange,
 			'currentPainLevel' => $painLevel,
+			'chartData' => $chartData,
 			'mode' => 'show',
 		]));
 	}

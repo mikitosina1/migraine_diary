@@ -32,12 +32,12 @@
 
 		<!-- list by default -->
 		<div id="tab-list" class="tab-content">
-			<x-migrainediary::attacks-list :attacks="$attacks"/>
+			<x-migrainediary::attacks-list :attacks="$attacks" :currentRange="$currentRange"/>
 		</div>
 
 		<!-- statistics -->
 		<div id="tab-statistic" class="tab-content hidden">
-			<x-migrainediary::attacks-statistic :attacks="$attacks"/>
+			<x-migrainediary::attacks-statistic :attacks="$attacks" :chartData="$chartData" :currentRange="$currentRange"/>
 		</div>
 
 		<!-- modal -->
