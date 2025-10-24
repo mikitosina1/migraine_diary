@@ -88,6 +88,17 @@
 	</div>
 	<div class="statistic">
 		@if($attacks->count())
+			@php
+				$chartData = [];
+				foreach ($attacks as $attack) {
+					$date = $attack->start_time->format('Y-m-d');
+					if (!isset($chartData[$date])) {
+						$chartData[$date] = 0;
+					}
+					$chartData[$date]++;
+				}
+				ksort($chartData);
+			@endphp
 			<div class="chart-container mb-6">
 				<canvas id="migraineFrequencyChart" width="400" height="200"></canvas>
 			</div>
@@ -96,6 +107,10 @@
 				@lang('migrainediary::migraine_diary.no_rec_found')
 			</div>
 		@endif
+		<script>
+			window.migraineChartData = @json($chartData);
+			window.migraineChartRange = "{{ $currentRange ?? 'month' }}";
+		</script>
 	</div>
 @else
 	@lang('migrainediary::migraine_diary.no_rec_found')
