@@ -276,5 +276,134 @@ dialog {
 				}
 			}
 		}
+
+		.css-chart {
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			height: 250px;
+			padding: 20px;
+			background: var(--block-background-color, #f8fafc);
+			border-radius: 8px;
+			gap: 8px;
+			border: 1px solid var(--block-border-color);
+
+			.chart-column {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-end;
+				flex: 1;
+				position: relative;
+				height: 100%;
+
+				&.has-data {
+					.chart-bar {
+						background: linear-gradient(to top, #3b82f6, #60a5fa);
+						cursor: pointer;
+
+						&:hover {
+							transform: scale(1.05);
+
+							.chart-tooltip {
+								opacity: 1;
+								visibility: visible;
+								transform: translateX(-50%) translateY(-5px);
+							}
+						}
+					}
+				}
+
+				&.no-data {
+					.chart-bar {
+						background: #e5e7eb;
+						min-height: 2px;
+					}
+
+					.chart-value {
+						opacity: 0.5;
+					}
+				}
+			}
+
+			.chart-bar {
+				width: 30px;
+				background: linear-gradient(to top, #3b82f6, #60a5fa);
+				border-radius: 4px 4px 0 0;
+				transition: all 0.3s ease;
+				cursor: pointer;
+				min-height: 2px;
+
+				&:hover {
+					transform: scale(1.05);
+					opacity: 0.9;
+				}
+			}
+
+			.chart-tooltip {
+				position: absolute;
+				bottom: 100%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-10px);
+				background: rgba(0, 0, 0, 0.9);
+				color: white;
+				padding: 12px;
+				border-radius: 6px;
+				font-size: 12px;
+				white-space: nowrap;
+				opacity: 0;
+				visibility: hidden;
+				transition: all 0.3s ease;
+				z-index: 1000;
+				min-width: 200px;
+
+				&::after {
+					content: '';
+					position: absolute;
+					top: 100%;
+					left: 50%;
+					transform: translateX(-50%);
+					border: 6px solid transparent;
+					border-top-color: rgba(0, 0, 0, 0.9);
+				}
+			}
+
+			.chart-label {
+				font-size: 11px;
+				margin-top: 8px;
+				color: var(--main-text-color);
+				text-align: center;
+				white-space: nowrap;
+				opacity: 0.8;
+			}
+
+			.chart-value {
+				font-size: 12px;
+				font-weight: bold;
+				color: var(--main-text-color);
+				margin-bottom: 4px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.css-chart {
+				height: 200px;
+				gap: 4px;
+				padding: 10px;
+				overflow-x: scroll;
+			}
+
+			.chart-bar {
+				width: 20px;
+			}
+
+			.chart-label {
+				font-size: 9px;
+			}
+
+			.chart-value {
+				font-size: 10px;
+			}
+		}
 	}
 }

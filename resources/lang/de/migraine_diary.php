@@ -55,15 +55,18 @@ return [
 	'pain_level_10'  => 'Unerträgliche Schmerzen',
 
 	// Statistic-specific translations
-	'generate_sheet' => 'Als Tabelle herunterladen',
-	'send_to_email'  => 'Per E-Mail senden',
-	'send'           => 'Senden',
-	'add_to_google_sheets' => 'In Google Sheets senden',
-	'to_your_email' => 'Per E-Mail an Sie senden',
-	'to_docs_email' => 'Per E-Mail an den Doktor senden',
-	'doctor_email'  => 'Doktor E-Mail',
-	'user_name'     => 'Vorname',
-	'user_lastname' => 'Nachname',
+	'statistic_specific' => [
+		'generate_sheet' => 'Als Tabelle herunterladen',
+		'send_to_email'  => 'Per E-Mail senden',
+		'send'           => 'Senden',
+		'add_to_google_sheets' => 'In Google Sheets senden',
+		'to_your_email' => 'Per E-Mail an Sie senden',
+		'to_docs_email' => 'Per E-Mail an den Doktor senden',
+		'doctor_email'  => 'Doktor E-Mail',
+		'user_name'     => 'Vorname',
+		'user_lastname' => 'Nachname',
+		'attack'        => '{1} Angriff|[2,4] Angriffe|[5,*] Angriffe',
+	],
 
 	'level'          => 'Stufe',
 	'all_pain_lvl'   => 'Alle Schmerzstufen',

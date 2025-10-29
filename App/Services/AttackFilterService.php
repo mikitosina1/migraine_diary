@@ -43,17 +43,49 @@ class AttackFilterService
 
 	public function getChartData(Collection $attacks): array
 	{
+		$chartData = [];
+		$monthNames = $this->getMonthNames();
+
+		foreach ($monthNames as $monthNum => $monthName) {
+			$chartData[$monthNum] = [
+				'name' => $monthName,
+				'count' => 0,
+				'dates' => []
+			];
+		}
+
 		if($attacks->count() > 0) {
 			foreach ($attacks as $attack) {
-				$date = $attack->start_time->format('Y-m-d');
-				if (!isset($chartData[$date])) {
-					$chartData[$date] = 0;
-				}
-				$chartData[$date]++;
+				$month = $attack->start_time->format('m');
+				$date = $attack->start_time->format('d.m.Y');
+				$painLevel = $attack->pain_level;
+
+				$chartData[$month]['count']++;
+				$chartData[$month]['dates'][] = [
+					'date' => $date,
+					'pain_level' => $painLevel
+				];
 			}
-			ksort($chartData);
-			return $chartData;
 		}
-		return [];
+
+		return $chartData;
+	}
+
+	private function getMonthNames(): array
+	{
+		return [
+			'01' => trans('migrainediary::migraine_diary.short_months.january'),
+			'02' => trans('migrainediary::migraine_diary.short_months.february'),
+			'03' => trans('migrainediary::migraine_diary.short_months.march'),
+			'04' => trans('migrainediary::migraine_diary.short_months.april'),
+			'05' => trans('migrainediary::migraine_diary.short_months.may'),
+			'06' => trans('migrainediary::migraine_diary.short_months.june'),
+			'07' => trans('migrainediary::migraine_diary.short_months.july'),
+			'08' => trans('migrainediary::migraine_diary.short_months.august'),
+			'09' => trans('migrainediary::migraine_diary.short_months.september'),
+			'10' => trans('migrainediary::migraine_diary.short_months.october'),
+			'11' => trans('migrainediary::migraine_diary.short_months.november'),
+			'12' => trans('migrainediary::migraine_diary.short_months.december'),
+		];
 	}
 }

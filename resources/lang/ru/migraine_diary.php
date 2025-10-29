@@ -55,15 +55,18 @@ return [
 	'pain_level_10'  => 'Невыносимая боль',
 
 	// Statistic-specific translations
-	'generate_sheet' => 'Скачать в виде таблицы',
-	'send_to_email'  => 'Отправить на почту',
-	'send'           => 'Отправить',
-	'add_to_google_sheets' => 'Отправить в гугл таблицы',
-	'to_your_email' => 'Отправить на вашу почту',
-	'to_docs_email' => 'Отправить на почту врача',
-	'doctor_email'  => 'Имейл вашего врача',
-	'user_name'     => 'Имя пользователя',
-	'user_lastname' => 'Фамилия пользователя',
+	'statistic_specific' => [
+		'generate_sheet' => 'Скачать в виде таблицы',
+		'send_to_email'  => 'Отправить на почту',
+		'send'           => 'Отправить',
+		'add_to_google_sheets' => 'Отправить в гугл таблицы',
+		'to_your_email' => 'Отправить на вашу почту',
+		'to_docs_email' => 'Отправить на почту врача',
+		'doctor_email'  => 'Имейл вашего врача',
+		'user_name'     => 'Имя пользователя',
+		'user_lastname' => 'Фамилия пользователя',
+		'attack'        => '{1} приступ|[2,4] приступа|[5,*] приступов',
+	],
 
 	'level'          => 'Уровень',
 	'all_pain_lvl'   => 'Все ур-ни боли',

@@ -26,30 +26,30 @@
 			@csrf
 			<input type="hidden" name="period" value="{{ $currentRange }}">
 			<button type="submit">
-				@lang('migrainediary::migraine_diary.generate_sheet')
+				@lang('migrainediary::migraine_diary.statistic_specific.generate_sheet')
 			</button>
 		</form>
 		<!-- Send Email -->
 		<div class="bordered-block-toggler to-email m-2 text-white dark:bg-gray-900">
-			@lang('migrainediary::migraine_diary.send_to_email')
+			@lang('migrainediary::migraine_diary.statistic_specific.send_to_email')
 		</div>
 		<!-- Send Email -->
 		<div class="bordered-block to-email-target flex-col justify-between m-2 p-1 text-white hidden">
 			<div class="form-group mb-4">
 				<label class="flex items-center space-x-2">
 					<input type="radio" name="recipient_type" value="self" checked class="radio recipient-radio">
-					<span>@lang('migrainediary::migraine_diary.to_your_email')</span>
+					<span>@lang('migrainediary::migraine_diary.statistic_specific.to_your_email')</span>
 				</label>
 				<label class="flex items-center space-x-2 mt-2">
 					<input type="radio" name="recipient_type" value="doctor" class="radio recipient-radio">
-					<span>@lang('migrainediary::migraine_diary.to_docs_email')</span>
+					<span>@lang('migrainediary::migraine_diary.statistic_specific.to_docs_email')</span>
 				</label>
 			</div>
 
 			<!-- Email input (for doctor) -->
 			<div class="form-group doctor-email-field hidden">
 				<label class="block text-sm font-medium mb-1">
-					@lang('migrainediary::migraine_diary.doctor_email')
+					@lang('migrainediary::migraine_diary.statistic_specific.doctor_email')
 				</label>
 				<input
 					type="email"
@@ -59,7 +59,7 @@
 					disabled
 				>
 				<label class="block text-sm font-medium mb-1" for="user_name">
-					@lang('migrainediary::migraine_diary.user_name')
+					@lang('migrainediary::migraine_diary.statistic_specific.user_name')
 				</label>
 				<input
 					type="text"
@@ -70,7 +70,7 @@
 					class="w-full p-2 border rounded text-gray-800"
 				>
 				<label class="block text-sm font-medium mb-1" for="user_lastname">
-					@lang('migrainediary::migraine_diary.user_lastname')
+					@lang('migrainediary::migraine_diary.statistic_specific.user_lastname')
 				</label>
 				<input
 					type="text"
@@ -83,14 +83,50 @@
 			</div>
 
 			<button type="button" class="send-email-btn mt-2 p-1">
-				@lang('migrainediary::migraine_diary.send')
+				@lang('migrainediary::migraine_diary.statistic_specific.send')
 			</button>
 		</div>
 	</div>
 	<div class="statistic">
 		@if($attacks->count())
 			<div class="chart-container mb-6">
-				<canvas id="migraineFrequencyChart" width="400" height="200"></canvas>
+				<div class="css-chart">
+					@php
+						$maxCount = max(array_column($chartData, 'count'));
+						$chartHeight = 200;
+					@endphp
+
+					@foreach($chartData as $monthData)
+						@php
+							$height = $maxCount > 0 ? ($monthData['count'] / $maxCount) * $chartHeight : 0;
+							$hasData = $monthData['count'] > 0;
+						@endphp
+
+						<div class="chart-column {{ $hasData ? 'has-data' : 'no-data' }}">
+							<div class="chart-bar" style="height: {{ $height }}px;">
+								@if($hasData)
+									<div class="chart-tooltip">
+										<div class="tooltip-title">
+											{{ $monthData['name'] }} -
+											{{ $monthData['count'] }}
+											{{ trans_choice('migrainediary::migraine_diary.statistic_specific.attack', $monthData['count']) }}
+										</div>
+										@foreach($monthData['dates'] as $dateInfo)
+											<div class="tooltip-date">
+												{{ $dateInfo['date'] }}
+												<span class="pain-level">
+                                                ({{ $dateInfo['pain_level'] }}/10)
+                                            </span>
+											</div>
+										@endforeach
+									</div>
+								@endif
+							</div>
+							<span class="chart-value">{{ $monthData['count'] }}</span>
+							<span class="chart-label">{{ $monthData['name'] }}</span>
+						</div>
+					@endforeach
+				</div>
 			</div>
 		@else
 			<div class="text-center p-4 text-gray-400">

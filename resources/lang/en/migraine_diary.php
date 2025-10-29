@@ -55,15 +55,18 @@ return [
 	'pain_level_10'  => 'Unbearable pain',
 
 	// Statistic-specific translations
-	'generate_sheet' => 'Download as table',
-	'send_to_email'  => 'Send to email',
-	'send'           => 'Send',
-	'add_to_google_sheets' => 'Send to Google Sheets',
-	'to_your_email' => 'Send to your email',
-	'to_docs_email' => 'Send to doctor email',
-	'doctor_email'  => 'Doctor email',
-	'user_name'     => 'User name',
-	'user_lastname' => 'User last name',
+	'statistic_specific' => [
+		'generate_sheet' => 'Download as table',
+		'send_to_email'  => 'Send to email',
+		'send'           => 'Send',
+		'add_to_google_sheets' => 'Send to Google Sheets',
+		'to_your_email' => 'Send to your email',
+		'to_docs_email' => 'Send to doctor email',
+		'doctor_email'  => 'Doctor email',
+		'user_name'     => 'User name',
+		'user_lastname' => 'User last name',
+		'attack'        => '{1} attack|[2,4] attacks|[5,*] attacks',
+	],
 
 	'level'          => 'Level',
 	'all_pain_lvl'   => 'All Pain Levels',
