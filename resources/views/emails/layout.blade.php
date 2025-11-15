@@ -12,24 +12,28 @@
 			padding: 0;
 			color: #333;
 		}
+
 		.email-wrapper {
 			max-width: 600px;
 			margin: 30px auto;
 			background: #fff;
 			border-radius: 10px;
 			overflow: hidden;
-			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 		}
+
 		.email-header {
 			background-color: #4a90e2;
 			color: white;
 			padding: 20px;
 			text-align: center;
 		}
+
 		.email-content {
 			padding: 25px;
 			line-height: 1.6;
 		}
+
 		.report-summary {
 			background-color: #f0f4f8;
 			border-left: 4px solid #4a90e2;
@@ -37,6 +41,7 @@
 			margin: 15px 0;
 			border-radius: 6px;
 		}
+
 		.email-footer {
 			font-size: 12px;
 			color: #777;

@@ -15,10 +15,8 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * @class MigraineDiaryAppAdmin
  * @description Manages all admin-related functionality
  */
-export default class MigraineDiaryAppAdmin
-{
-	constructor()
-	{
+export default class MigraineDiaryAppAdmin {
+	constructor() {
 		this.modalManager = new ModalManager();
 		this.tabManager = new TabManager();
 		this.searchManager = new SearchManager();
@@ -26,8 +24,7 @@ export default class MigraineDiaryAppAdmin
 		this.init();
 	}
 
-	init()
-	{
+	init() {
 		this.tabManager.init();
 		this.modalManager.init();
 		this.searchManager.init();

@@ -248,6 +248,7 @@ dialog {
 				}
 			}
 		}
+
 		.statistic-send {
 			padding-bottom: 2.4em;
 
@@ -259,9 +260,11 @@ dialog {
 				border-radius: 10px;
 				padding: 0.5em;
 			}
+
 			.bordered-block-toggler:hover, form.xml-download-form:hover {
 				cursor: pointer;
 			}
+
 			.bordered-block {
 				border: 1px solid var(--block-border-color);
 				border-radius: 10px;
@@ -271,6 +274,7 @@ dialog {
 					border: 1px solid var(--block-border-color);
 					border-radius: 10px;
 				}
+
 				.send-email-btn:hover {
 					cursor: pointer;
 				}

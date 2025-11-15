@@ -41,7 +41,7 @@ export default class ModalManager {
 			this.modalSaveBtn.textContent = this.modalSaveBtn.dataset.update;
 
 			try {
-				const { data } = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`);
+				const {data} = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`);
 				this.itemCode.value = data.code || '';
 
 				document.querySelectorAll('[id^="name_"]').forEach(input => input.value = '');
@@ -75,8 +75,8 @@ export default class ModalManager {
 		if (!this.itemCode.value) return;
 
 		try {
-			const { data } = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`, {
-				params: { code: this.itemCode.value }
+			const {data} = await axios.get(`/admin/migraine-diary/${type}/${id}/edit`, {
+				params: {code: this.itemCode.value}
 			});
 
 			if (data.exists) {

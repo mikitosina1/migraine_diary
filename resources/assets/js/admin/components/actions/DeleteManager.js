@@ -19,7 +19,7 @@ export default class DeleteManager {
 
 		try {
 			await axios.delete(`/admin/migraine-diary/${type}/${id}`, {
-				data: { _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') }
+				data: {_token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')}
 			});
 			location.reload();
 		} catch (err) {

@@ -68,6 +68,25 @@ class MigraineExportService
 	 * @param Attack $attack
 	 * @return string
 	 */
+	private function getDuration(Attack $attack): string
+	{
+		if (!$attack->end_time) {
+			return 'In progress';
+		}
+
+		$duration = $attack->start_time->diff($attack->end_time);
+
+		return sprintf('%dh %dm',
+			$duration->h + ($duration->days * 24),
+			$duration->i
+		);
+	}
+
+	/**
+	 *
+	 * @param Attack $attack
+	 * @return string
+	 */
 	private function mergeSymptoms(Attack $attack): string
 	{
 		$symptoms = $attack->symptoms->pluck('name')->toArray();
@@ -100,24 +119,5 @@ class MigraineExportService
 		$userSymptoms = $attack->userMeds->pluck('name')->toArray();
 
 		return implode(', ', array_merge($symptoms, $userSymptoms));
-	}
-
-	/**
-	 *
-	 * @param Attack $attack
-	 * @return string
-	 */
-	private function getDuration(Attack $attack): string
-	{
-		if (!$attack->end_time) {
-			return 'In progress';
-		}
-
-		$duration = $attack->start_time->diff($attack->end_time);
-
-		return sprintf('%dh %dm',
-			$duration->h + ($duration->days * 24),
-			$duration->i
-		);
 	}
 }

@@ -404,7 +404,7 @@ class MigraineDiaryApp {
 			user_lastname: user_lastname,
 		};
 		if (recipientType === 'doctor') {
-			 data.doctor_email = document.querySelector('input[name="doctor_email"]').value;
+			data.doctor_email = document.querySelector('input[name="doctor_email"]').value;
 		}
 
 		try {

@@ -39,6 +39,18 @@ class MigraineReportMailable extends Mailable
 	}
 
 	/**
+	 * Get the email subject
+	 *
+	 * @return string
+	 */
+	protected function getSubject(): string
+	{
+		return trans('migrainediary::emails.subject', [
+			'date' => $this->period
+		]);
+	}
+
+	/**
 	 * Attach an Excel report to the email
 	 *
 	 * @param array $reportData
@@ -52,17 +64,5 @@ class MigraineReportMailable extends Mailable
 		);
 
 		return $this;
-	}
-
-	/**
-	 * Get the email subject
-	 *
-	 * @return string
-	 */
-	protected function getSubject(): string
-	{
-		return trans('migrainediary::emails.subject', [
-			'date' => $this->period
-		]);
 	}
 }

@@ -5,6 +5,7 @@ namespace Modules\MigraineDiary\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\MigraineDiary\App\Http\Requests\SendEmailRequest;
 use Modules\MigraineDiary\App\Services\ExcelExportService;
@@ -65,7 +66,7 @@ class MigraineDiaryStatisticController extends Controller
 			]);
 
 		} catch (\Exception $e) {
-			\Log::error('Email send error: ' . $e->getMessage(), [
+			Log::error('Email send error: ' . $e->getMessage(), [
 				'user_id' => auth()->id(),
 				'request' => $request->all()
 			]);

@@ -37,7 +37,8 @@
 
 		<!-- statistics -->
 		<div id="tab-statistic" class="tab-content hidden">
-			<x-migrainediary::attacks-statistic :attacks="$attacks" :chartData="$chartData" :currentRange="$currentRange"/>
+			<x-migrainediary::attacks-statistic :attacks="$attacks" :chartData="$chartData"
+												:currentRange="$currentRange"/>
 		</div>
 
 		<!-- modal -->
