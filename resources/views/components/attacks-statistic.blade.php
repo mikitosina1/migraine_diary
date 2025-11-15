@@ -3,21 +3,21 @@
 	$currentRange = $currentRange ?? 'month';
 	$chartData = $chartData ?? [];
 @endphp
-	<div class="statistic-header flex flex-row justify-between items-center p-4">
-		<div class="filter-block mb-4">
-			<select id="statistic-attack-range" class="bg-gray-800 text-white py-2 rounded">
-				<option value="month" {{ $currentRange === 'month' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_month')
-				</option>
-				<option value="3months" {{ $currentRange === '3months' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_3_months')
-				</option>
-				<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
-					@lang('migrainediary::migraine_diary.last_year')
-				</option>
-			</select>
-		</div>
+<div class="statistic-header flex flex-row justify-between items-center p-4">
+	<div class="filter-block mb-4">
+		<select id="statistic-attack-range" class="bg-gray-800 text-white py-2 rounded">
+			<option value="month" {{ $currentRange === 'month' ? 'selected' : '' }}>
+				@lang('migrainediary::migraine_diary.last_month')
+			</option>
+			<option value="3months" {{ $currentRange === '3months' ? 'selected' : '' }}>
+				@lang('migrainediary::migraine_diary.last_3_months')
+			</option>
+			<option value="year" {{ $currentRange === 'year' ? 'selected' : '' }}>
+				@lang('migrainediary::migraine_diary.last_year')
+			</option>
+		</select>
 	</div>
+</div>
 @if($attacks)
 	<div class="statistic-send flex flex-col">
 		<!-- XML Download -->
@@ -115,8 +115,8 @@
 											<div class="tooltip-date">
 												{{ $dateInfo['date'] }}
 												<span class="pain-level">
-                                                ({{ $dateInfo['pain_level'] }}/10)
-                                            </span>
+													({{ $dateInfo['pain_level'] }}/10)
+												</span>
 											</div>
 										@endforeach
 									</div>
