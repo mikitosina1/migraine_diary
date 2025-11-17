@@ -27,10 +27,6 @@ Route::middleware(['web', 'auth'])
 
 		Route::resource('/attacks', MigraineAttackController::class)->names('attacks');
 
-		Route::post('/attacks/{id}/end', [MigraineAttackController::class, 'endAttack'])
-			->where('id', '[0-9]+')
-			->name('attacks.end');
-
 		Route::post('attacks/{id}/end-ajax', [MigraineAttackController::class, 'endAttackAjax'])
 			->where('id', '[0-9]+')
 			->name('attacks.end.ajax');
@@ -41,8 +37,6 @@ Route::middleware(['web', 'auth'])
 			->name('download-pdf');
 		Route::post('/send-to-email', [MigraineDiaryStatisticController::class, 'sendToEmail'])
 			->name('sendToEmail');
-		Route::post('/send-to-goosh', [MigraineDiaryStatisticController::class, 'sendToGoogleSheets'])
-			->name('sendToGoogleSheets');
 	});
 
 Route::middleware(['web', 'auth'])
