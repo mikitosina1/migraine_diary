@@ -45,12 +45,13 @@ class UIManager {
 
 		this.removeEndButton(attackElement);
 		this.updateEndTime(attackElement, attackData);
-		attackElement.classList.add('attack-ended');
+		if (attackElement)
+			attackElement.classList.add('attack-ended');
 	}
 
 	getAttackElement(attackId) {
-		return document.querySelector(`.end-attack-button[data-attack-id="${attackId}"]`)
-			?.closest('.migraine-list-item');
+		let button = document.querySelector(`.end-attack-button[data-attack-id="${attackId}"]`);
+		return button?.closest('.dashboard-migraine-list-item') || button?.closest('.migraine-list-item');
 	}
 
 	removeEndButton(attackElement) {
@@ -59,8 +60,41 @@ class UIManager {
 	}
 
 	updateEndTime(attackElement, attackData) {
+		if (attackElement.classList.contains('dashboard-migraine-list-item')) {
+			const parentUl = attackElement.closest('ul');
+			attackElement.remove();
+
+			if (parentUl) {
+				const remainingItems = parentUl.querySelectorAll('.dashboard-migraine-list-item');
+				if (remainingItems.length === 0) {
+					const activeAttacksBlock = parentUl.closest('.active-attacks');
+					if (activeAttacksBlock) {
+						activeAttacksBlock.style.display = 'none';
+
+						// Search the widget if it's the only active attacks block
+						const attacksBox = activeAttacksBlock.closest('.attacks-box');
+						const widget = activeAttacksBlock.closest('.dashboard-widget');
+
+						if (attacksBox) {
+							const visibleBlocks = attacksBox.querySelectorAll('div[style*="display: none"]');
+							const allBlocks = attacksBox.querySelectorAll('div.attacks-list, div.active-attacks');
+
+							if (allBlocks.length === visibleBlocks.length || allBlocks.length === 1) {
+								attacksBox.style.display = 'none';
+							}
+						}
+
+						if (widget) {
+							widget.classList.add('minimized');
+						}
+					}
+				}
+			}
+			return;
+		}
+
 		const header = attackElement.querySelector('.statistic-header');
-		const startTimeSpan = header.querySelector('span:first-child');
+		const startTimeSpan = header?.querySelector('span:first-child');
 
 		if (startTimeSpan) {
 			let endTimeSpan = header.querySelector('span:nth-child(2)') ||
@@ -71,9 +105,9 @@ class UIManager {
 			}
 
 			endTimeSpan.innerHTML = `
-				<strong>${this.translationService.translate('end_time')}:</strong>
-				${attackData.end_time_formatted}
-			`;
+			<strong>${this.translationService.translate('end_time')}:</strong>
+			${attackData.end_time_formatted}
+		`;
 		}
 	}
 

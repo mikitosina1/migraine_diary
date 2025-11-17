@@ -261,17 +261,17 @@ class MigraineDiaryApp {
 	 */
 	handleGlobalClick(event) {
 		if (event.target.closest('.end-attack-button')) {
-			const attackId = event.target.closest('.end-attack-button').dataset.attackId;
+			const attackId = Number(event.target.closest('.end-attack-button').dataset.attackId);
 			this.endAttackAjax(attackId);
 		}
 
 		if (event.target.closest('.delete-btn')) {
-			const attackId = event.target.closest('.delete-btn').dataset.attackId;
+			const attackId = Number(event.target.closest('.delete-btn').dataset.attackId);
 			this.deleteAttack(attackId);
 		}
 
 		if (event.target.closest('.edit-btn')) {
-			const attackId = event.target.closest('.edit-btn').dataset.attackId;
+			const attackId = Number(event.target.closest('.edit-btn').dataset.attackId);
 			this.editAttack(attackId);
 		}
 

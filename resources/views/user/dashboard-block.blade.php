@@ -1,7 +1,6 @@
 @vite(['Modules/MigraineDiary/resources/assets/js/diary_main.js', 'Modules/MigraineDiary/resources/assets/sass/diary_main.scss'])
 <div class="dashboard-widget migraine-diary cloud-widget-item  {{ $activeAttacks->count() > 0 ? '' : 'minimized' }}">
 	<h3 class="text-white ">@lang('migrainediary::migraine_diary.widget_title')</h3>
-
 	<div class="attacks-box flex flex-row gap-4">
 		@if($thisMonth)
 			<div class="attacks-list p-2">
@@ -35,22 +34,19 @@
 				</div>
 				<ul class="text-white">
 					@forelse($activeAttacks as $attack)
-						<li>
+						<li class="dashboard-migraine-list-item mb-1 flex flex-row justify-between">
 							{{ $attack->created_at->format('H:i') }} -
 							<span class="attack-loading">
 								<span>.</span><span>.</span><span>.</span>
 							</span>
 							{{-- finish migraine --}}
-							<form action="{{ route('user.migraine-diary.attacks.end', $attack->id) }}"
-								  method="POST"
-								  class="inline-block ml-2">
-								@csrf
-								<button type="submit" class="end-attack-button flex flex-row items-center"
-										title=" {{ __('migrainediary::migraine_diary.end_attack') }}"
-								>
-									<i class="fas fa-check-double"></i>
-								</button>
-							</form>
+							<button type="button"
+									class="end-attack-button"
+									data-attack-id="{{ $attack->id }}"
+									title="{{ __('migrainediary::migraine_diary.end_attack') }}"
+							>
+								<i class="fas fa-check-double"></i>
+							</button>
 						</li>
 					@empty
 						<li>@lang('migrainediary::migraine_diary.no_attacks_this_month')</li>
@@ -60,8 +56,7 @@
 		@endif
 	</div>
 	<div class="module-link text-white flex flex-row gap-2 items-center justify-end px-3">
-		<a href="{{ route('user.migraine-diary.resource.index') }}"
-		   class="to-diary">
+		<a href="{{ route('user.migraine-diary.resource.index') }}" class="to-diary">
 			@lang('migrainediary::migraine_diary.to_diary')
 		</a>
 	</div>
