@@ -31,7 +31,7 @@ class MigraineDiaryController extends Controller
 		$painLevel = $request->getPainLevel();
 		$container = $request->getContainer();
 		$attacks = $this->filterService->getFilteredAttacks($currentRange, $painLevel);
-		$chartData = $this->filterService->getChartData($attacks);
+		$chartData = $this->filterService->getChartData($attacks, $currentRange);
 
 		// For AJAX requests, return only the list partial
 		if ($request->ajax()) {

@@ -173,16 +173,9 @@ dialog {
 
 		.list {
 			.migraine-list-item {
-				.statistic-header {
-					.short-info {
-					}
-				}
 
 				.list-item-content {
 					.main-content-block {
-						.content-block {
-
-						}
 
 						.controls {
 							button {
@@ -358,7 +351,7 @@ dialog {
 				opacity: 0;
 				visibility: hidden;
 				transition: all 0.3s ease;
-				z-index: 1000;
+				z-index: 2;
 				min-width: 200px;
 
 				&::after {
