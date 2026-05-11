@@ -38,7 +38,7 @@ class MigraineAttackController extends Controller
 
 	public function index(): View
 	{
-		return view('migrainediary::index');
+		return view('migrainediary::user.index');
 	}
 
 	public function create(): View

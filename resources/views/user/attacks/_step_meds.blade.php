@@ -14,7 +14,7 @@
 	@if(isset($userMeds))
 		@foreach($userMeds as $userMed)
 			<label class="inline-flex items-center cursor-pointer">
-				<input type="checkbox" class="hidden peer" name="userMed[]" value="{{ $userMed['id'] }}"
+				<input type="checkbox" class="hidden peer" name="userMeds[]" value="{{ $userMed['id'] }}"
 					   @if(isset($attack) && $attack->userMeds->contains($userMed['id'])) checked @endif>
 				<span class="px-3 py-1 rounded-full border border-white text-white
 					peer-checked:bg-blue-500 peer-checked:text-white transition-all">

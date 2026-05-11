@@ -379,10 +379,7 @@ class MigraineDiaryApp {
 				id: el.value,
 				dosage: el.dataset.dosage || ''
 			})),
-			userMeds: [...form.querySelectorAll('input[name="userMeds[]"]:checked')].map(el => ({
-				id: el.value,
-				dosage: el.dataset.dosage || ''
-			})),
+			userMeds: [...form.querySelectorAll('input[name="userMeds[]"]:checked')].map(el => el.value),
 			userSymptomsNew: dynamicData.userSymptomsNew,
 			userTriggersNew: dynamicData.userTriggersNew,
 			userMedsNew: dynamicData.userMedsNew

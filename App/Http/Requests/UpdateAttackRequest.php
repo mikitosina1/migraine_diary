@@ -46,16 +46,30 @@ class UpdateAttackRequest extends FormRequest
 			'pain_level'    => 'required|integer|min:1|max:10',
 			'notes'         => 'nullable|string|max:1000',
 
-			// No custom entities for update, only basic, created by admin
 			'symptoms'      => 'sometimes|array',
 			'symptoms.*'    => 'integer|exists:migraine_symptoms,id',
+
+			'userSymptoms'      => 'sometimes|array',
+			'userSymptoms.*'    => 'integer|exists:migraine_user_symptoms,id',
+			'userSymptomsNew'   => 'sometimes|array',
+			'userSymptomsNew.*' => 'string|distinct|max:255',
 
 			'meds'          => 'sometimes|array',
 			'meds.*.id'     => 'required_with:meds|integer|exists:migraine_meds,id',
 			'meds.*.dosage' => 'nullable|string|max:100',
 
+			'userMeds'      => 'sometimes|array',
+			'userMeds.*'    => 'integer|exists:migraine_user_meds,id',
+			'userMedsNew'   => 'sometimes|array',
+			'userMedsNew.*' => 'string|distinct|max:255',
+
 			'triggers'      => 'sometimes|array',
 			'triggers.*'    => 'integer|exists:migraine_triggers,id',
+
+			'userTriggers'      => 'sometimes|array',
+			'userTriggers.*'    => 'integer|exists:migraine_user_triggers,id',
+			'userTriggersNew'   => 'sometimes|array',
+			'userTriggersNew.*' => 'string|distinct|max:255',
 		];
 	}
 
