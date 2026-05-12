@@ -39,8 +39,8 @@ Route::middleware(['web', 'auth'])
 			->name('sendToEmail');
 	});
 
-Route::middleware(['web', 'auth'])
-	->prefix('admin/migraine-diary')
+Route::prefix('admin/migraine-diary')
+	->middleware(['auth:sanctum', 'is_admin'])
 	->name('admin.migraine-diary.')
 	->group(function () {
 		Route::get('/', [MigraineDiaryAdminController ::class, 'index'])->name('index');
