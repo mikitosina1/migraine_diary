@@ -136,7 +136,14 @@ class Attack extends Model
 	public function scopeForUser(Builder $query, int $userId): Builder
 	{
 		return $query->where('user_id', $userId)
-			->with(['symptoms', 'triggers', 'meds', 'userSymptoms', 'userTriggers', 'userMeds'])
+			->with([
+				'symptoms.translations',
+				'triggers.translations',
+				'meds.translations',
+				'userSymptoms',
+				'userTriggers',
+				'userMeds',
+			])
 			->orderBy('start_time', 'desc');
 	}
 }
