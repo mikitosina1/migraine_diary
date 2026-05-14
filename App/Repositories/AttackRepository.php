@@ -18,9 +18,9 @@ class AttackRepository
 		return Attack::forUser($userId)->findOrFail($id);
 	}
 
-	public function getActiveAttackForUser(int $userId): Attack
+	public function getActiveAttackForUser(int $userId): ?Attack
 	{
-		return Attack::where('user_id', $userId)
+		return Attack::forUser($userId)
 			->whereNull('end_time')
 			->first();
 	}
