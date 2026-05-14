@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\AttackController;
 
 /*
     |--------------------------------------------------------------------------
@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
     |
 */
 
-Route::middleware('auth:sanctum')->prefix('v1')->name('api.')->group(function () {
-	Route::get('migrainediary', fn(Request $request) => $request->user())->name('migrainediary');
-});
+Route::prefix('v1/migraine-diary')
+	->middleware('auth:sanctum')
+	->name('api.v1.migraine-diary.')
+	->group(function () {
+		Route::get('/attacks/active', [AttackController::class, 'active'])
+			->name('attacks.active');
+
+		Route::apiResource('/attacks', AttackController::class);
+
+		Route::post('/attacks/{attack}/end', [AttackController::class, 'end'])
+			->name('attacks.end');
+	});

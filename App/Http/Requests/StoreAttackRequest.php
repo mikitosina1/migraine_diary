@@ -3,6 +3,7 @@
 namespace Modules\MigraineDiary\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\MigraineDiary\App\Data\CreateAttackData;
 
 /**
  * StoreAttackRequest
@@ -114,4 +115,15 @@ class StoreAttackRequest extends FormRequest
 			'userTriggersNew' => $this->userTriggersNew ?: [],
 		]);
 	}
+
+	/**
+	 * Map validated request input to a create-attack DTO for actions / services.
+	 *
+	 * @return CreateAttackData
+	 */
+	public function toData(): CreateAttackData
+	{
+		return CreateAttackData::fromArray($this->validated());
+	}
+
 }

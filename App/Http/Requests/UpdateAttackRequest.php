@@ -3,6 +3,7 @@
 namespace Modules\MigraineDiary\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\MigraineDiary\App\Data\UpdateAttackData;
 
 /**
  * UpdateAttackRequest
@@ -41,7 +42,7 @@ class UpdateAttackRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'start_time'    => 'required|date',
+			'start_time'    => 'sometimes|date',
 			'end_time'      => 'nullable|date|after_or_equal:start_time',
 			'pain_level'    => 'required|integer|min:1|max:10',
 			'notes'         => 'nullable|string|max:1000',
@@ -110,5 +111,15 @@ class UpdateAttackRequest extends FormRequest
 			'userTriggers' => $this->userTriggers ?: [],
 			'userTriggersNew' => $this->userTriggersNew ?: [],
 		]);
+	}
+
+	/**
+	 * Map validated request input to an update-attack DTO for actions / services.
+	 *
+	 * @return UpdateAttackData
+	 */
+	public function toData(): UpdateAttackData
+	{
+		return UpdateAttackData::fromArray($this->validated());
 	}
 }
