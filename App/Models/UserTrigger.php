@@ -40,7 +40,7 @@ class UserTrigger extends Model
 	 * Get all custom triggers for a specific user
 	 *
 	 * @param int $userId
-	 * @return Collection
+	 * @return Collection<int, static>
 	 */
 	public static function getForUser(int $userId): Collection
 	{

@@ -5,6 +5,7 @@ namespace Modules\MigraineDiary\App\Http\Controllers\Api\V1\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Modules\MigraineDiary\App\Http\Requests\AttackFilterRequest;
 use Modules\MigraineDiary\App\Http\Resources\AttackResource;
 use Modules\MigraineDiary\App\Actions\CreateAttackAction;
 use Modules\MigraineDiary\App\Actions\DeleteAttackAction;
@@ -14,6 +15,7 @@ use Modules\MigraineDiary\App\Repositories\AttackRepository;
 use Modules\MigraineDiary\App\Http\Requests\StoreAttackRequest;
 use Modules\MigraineDiary\App\Actions\UpdateAttackAction;
 use Modules\MigraineDiary\App\Http\Requests\UpdateAttackRequest;
+use Modules\MigraineDiary\App\Services\AttackFilterService;
 
 /**
  * HTTP API for migraine attacks belonging to the authenticated user (v1).
@@ -34,11 +36,18 @@ class AttackController extends Controller
 	 *
 	 * @return AnonymousResourceCollection<int, AttackResource>
 	 */
-	public function index(): AnonymousResourceCollection
+	public function index(
+		AttackFilterRequest $request,
+		AttackFilterService $filterService
+	): AnonymousResourceCollection
 	{
-		return AttackResource::collection(
-			$this->attacks->getUserAttacks(auth()->id())
+		$attacks = $filterService->getFilteredAttacks(
+			auth()->id(),
+			$request->getRange(),
+			$request->getPainLevel()
 		);
+
+		return AttackResource::collection($attacks);
 	}
 
 	/**

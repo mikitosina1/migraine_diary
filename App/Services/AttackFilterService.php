@@ -15,9 +15,15 @@ class AttackFilterService
 	)
 	{}
 
-	public function getFilteredAttacks(string $range, string $painLevel = 'all'): Collection
+	/**
+	 * @param int $userId
+	 * @param string $range
+	 * @param string $painLevel
+	 * @return Collection<int, Attack>
+	 */
+	public function getFilteredAttacks(int $userId, string $range = 'month', string $painLevel = 'all'): Collection
 	{
-		$query = Attack::where('user_id', auth()->id())
+		$query = Attack::forUser($userId)
 			->orderBy('start_time', 'desc');
 
 		$this->applyDateFilter($query, $range);

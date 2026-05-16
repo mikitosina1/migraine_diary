@@ -17,6 +17,10 @@ use Modules\MigraineDiary\App\Models\TriggerTranslation;
  */
 class TranslationResource extends JsonResource
 {
+	/**
+	 * @param Request $request
+	 * @return array<string, mixed>
+	 */
 	public function toArray(Request $request): array
 	{
 		return [
