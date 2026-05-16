@@ -24,12 +24,12 @@ class AttackFilterRequest extends FormRequest
 
 	public function getRange(): string
 	{
-		return $this->input('range', 'month');
+		return $this->filled('range') ? (string) $this->input('range') : 'month';
 	}
 
 	public function getPainLevel(): string
 	{
-		return $this->input('pain_level', 'all');
+		return $this->filled('pain_level') ? (string) $this->input('pain_level') : 'all';
 	}
 
 	public function getContainer(): string

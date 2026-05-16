@@ -40,9 +40,9 @@ class UserSymptom extends Model
 	 * Get all custom symptoms for a specific user
 	 *
 	 * @param int $userId
-	 * @return Collection
+	 * @return Collection<int, static>
 	 */
-	public static function getForUser(int $userId)
+	public static function getForUser(int $userId): Collection
 	{
 		return self::where('user_id', $userId)
 			->orderBy('name')

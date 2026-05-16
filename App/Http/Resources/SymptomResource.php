@@ -13,6 +13,10 @@ use Modules\MigraineDiary\App\Models\Symptom;
  */
 class SymptomResource extends JsonResource
 {
+	/**
+	 * @param Request $request
+	 * @return array<string, mixed>
+	 */
 	public function toArray(Request $request): array
 	{
 		return [
@@ -23,6 +27,9 @@ class SymptomResource extends JsonResource
 		];
 	}
 
+	/**
+	 * Resolve display name from loaded translations or fall back to code.
+	 */
 	private function translatedName(): string
 	{
 		if (!$this->relationLoaded('translations')) {
