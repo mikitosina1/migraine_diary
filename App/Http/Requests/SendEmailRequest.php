@@ -3,14 +3,28 @@
 namespace Modules\MigraineDiary\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\MigraineDiary\App\Data\SendReportEmailData;
 
+/**
+ * Validates API requests that send migraine reports by email.
+ */
 class SendEmailRequest extends FormRequest
 {
+	/**
+	 * Allow only authenticated users to send their own reports.
+	 *
+	 * @return bool
+	 */
 	public function authorize(): bool
 	{
 		return auth()->check();
 	}
 
+	/**
+	 * Get validation rules for email report delivery.
+	 *
+	 * @return array<string, mixed>
+	 */
 	public function rules(): array
 	{
 		return [
@@ -27,7 +41,7 @@ class SendEmailRequest extends FormRequest
 	/**
 	 * Get custom messages for validator errors.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function messages(): array
 	{
@@ -45,6 +59,11 @@ class SendEmailRequest extends FormRequest
 		];
 	}
 
+	/**
+	 * Get translated attribute names for validation messages.
+	 *
+	 * @return array<string, string>
+	 */
 	public function attributes(): array
 	{
 		return [
@@ -53,5 +72,15 @@ class SendEmailRequest extends FormRequest
 			'doctor_email' => trans('migrainediary::validation.attributes.doctor_email'),
 			'formats' => trans('migrainediary::validation.attributes.formats'),
 		];
+	}
+
+	/**
+	 * Convert validated request data into an application DTO.
+	 *
+	 * @return SendReportEmailData
+	 */
+	public function toData(): SendReportEmailData
+	{
+		return SendReportEmailData::fromValidated($this->validated());
 	}
 }

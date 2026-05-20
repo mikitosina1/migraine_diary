@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\AttackController;
 use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\DashboardController;
 use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\DictionaryController;
+use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\ReportController;
 use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\StatisticController;
+use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\TranslationController;
 
 /*
     |--------------------------------------------------------------------------
@@ -37,4 +39,16 @@ Route::prefix('v1/migraine-diary')
 
 		Route::get('/statistics', StatisticController::class)
 			->name('statistics.index');
+
+		Route::post('/reports/email', [ReportController::class, 'sendEmail'])
+			->name('reports.email');
+
+		Route::post('/reports/excel', [ReportController::class, 'downloadExcel'])
+			->name('reports.excel');
+
+		Route::post('/reports/pdf', [ReportController::class, 'downloadPdf'])
+			->name('reports.pdf');
+
+		Route::get('/translations', TranslationController::class)
+			->name('translations.index');
 	});

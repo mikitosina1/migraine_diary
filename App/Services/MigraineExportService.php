@@ -6,17 +6,27 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\MigraineDiary\App\Models\Attack;
 
+/**
+ * Prepares migraine attack data for report exports.
+ *
+ * This service owns the report data query and converts attack models into
+ * flat rows that can be consumed by Excel, PDF, and email report builders.
+ */
 class MigraineExportService
 {
+	/**
+	 * @param DateRangeService $dateRangeService Resolves named report periods into date ranges.
+	 */
 	public function __construct(
 		private readonly DateRangeService $dateRangeService
 	) {}
 
 	/**
+	 * Build flat report rows for the given user and period.
 	 *
-	 * @param User $user
-	 * @param string $period
-	 * @return array
+	 * @param User $user Report owner.
+	 * @param string $period Supported period key: month, 3months, or year.
+	 * @return list<array<string, mixed>>
 	 */
 	public function prepareData(User $user, string $period = 'month'): array
 	{
@@ -25,24 +35,25 @@ class MigraineExportService
 	}
 
 	/**
+	 * Fetch attacks for the requested report period.
 	 *
-	 * @param User $user
-	 * @param string $period
-	 * @return Collection
+	 * @param User $user Report owner.
+	 * @param string $period Supported period key: month, 3months, or year.
+	 * @return Collection<int, Attack>
 	 */
 	public function getData(User $user, string $period = 'month'): Collection
 	{
 		[$startDate, $endDate] = $this->dateRangeService->getRange($period);
 		return Attack::forUser($user->id)
 			->whereBetween('start_time', [$startDate, $endDate])
-			->with(['symptoms', 'triggers', 'meds', 'userSymptoms', 'userTriggers', 'userMeds'])
 			->get();
 	}
 
 	/**
+	 * Convert attack models into export rows.
 	 *
-	 * @param Collection $attacks
-	 * @return array
+	 * @param Collection<int, Attack> $attacks
+	 * @return list<array<string, mixed>>
 	 */
 	private function formatDataForExcel(Collection $attacks): array
 	{
@@ -64,8 +75,9 @@ class MigraineExportService
 	}
 
 	/**
+	 * Format attack duration for human-readable reports.
 	 *
-	 * @param Attack $attack
+	 * @param Attack $attack Attack with start_time and optional end_time.
 	 * @return string
 	 */
 	private function getDuration(Attack $attack): string
@@ -83,8 +95,9 @@ class MigraineExportService
 	}
 
 	/**
+	 * Merge predefined and user-defined symptom names.
 	 *
-	 * @param Attack $attack
+	 * @param Attack $attack Attack with loaded symptom relations.
 	 * @return string
 	 */
 	private function mergeSymptoms(Attack $attack): string
@@ -96,8 +109,9 @@ class MigraineExportService
 	}
 
 	/**
+	 * Merge predefined and user-defined trigger names.
 	 *
-	 * @param Attack $attack
+	 * @param Attack $attack Attack with loaded trigger relations.
 	 * @return string
 	 */
 	private function mergeTriggers(Attack $attack): string
@@ -109,8 +123,9 @@ class MigraineExportService
 	}
 
 	/**
+	 * Merge predefined and user-defined medication names.
 	 *
-	 * @param Attack $attack
+	 * @param Attack $attack Attack with loaded medication relations.
 	 * @return string
 	 */
 	private function mergeMeds(Attack $attack): string
