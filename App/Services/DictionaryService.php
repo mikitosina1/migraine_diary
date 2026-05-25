@@ -3,14 +3,7 @@
 namespace Modules\MigraineDiary\App\Services;
 
 use Illuminate\Support\Collection;
-use Modules\MigraineDiary\App\Models\{
-	Symptom,
-	UserSymptom,
-	Trigger,
-	UserTrigger,
-	Med,
-	UserMed
-};
+use Modules\MigraineDiary\App\Models\{Med, Symptom, Trigger, UserMed, UserSymptom, UserTrigger};
 
 /**
  * Loads catalog and user-specific dictionary entries for attack forms and the dashboard.

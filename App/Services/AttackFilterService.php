@@ -2,8 +2,8 @@
 
 namespace Modules\MigraineDiary\App\Services;
 
-use Modules\MigraineDiary\App\Models\Attack;
 use Illuminate\Database\Eloquent\Collection;
+use Modules\MigraineDiary\App\Models\Attack;
 
 /**
  * This class coroutines the logic for filtering attacks based on user preferences.

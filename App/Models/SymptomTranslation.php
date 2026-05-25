@@ -25,8 +25,8 @@ use Illuminate\Support\Collection;
  */
 class SymptomTranslation extends Model
 {
-	public $timestamps = false;
 	protected $table = 'migraine_symptom_translations';
+
 	protected $fillable = [
 		'symptom_id',
 		'locale',

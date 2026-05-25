@@ -5,18 +5,14 @@ namespace Modules\MigraineDiary\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
-use Modules\MigraineDiary\App\Models\Attack;
-use Modules\MigraineDiary\App\Models\Symptom;
-use Modules\MigraineDiary\App\Models\Trigger;
-use Modules\MigraineDiary\App\Models\Med;
 use Modules\MigraineDiary\App\Http\Requests\StoreAttackRequest;
 use Modules\MigraineDiary\App\Http\Requests\UpdateAttackRequest;
+use Modules\MigraineDiary\App\Models\Attack;
+use Modules\MigraineDiary\App\Models\Med;
+use Modules\MigraineDiary\App\Models\Symptom;
+use Modules\MigraineDiary\App\Models\Trigger;
+use Modules\MigraineDiary\App\Repositories\{UserMedRepository, UserSymptomRepository, UserTriggerRepository};
 use Modules\MigraineDiary\App\Services\AttackService;
-use Modules\MigraineDiary\App\Repositories\{
-	UserSymptomRepository,
-	UserTriggerRepository,
-	UserMedRepository
-};
 
 /**
  * MigraineAttackController

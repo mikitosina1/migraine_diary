@@ -25,8 +25,8 @@ use Illuminate\Support\Collection;
  */
 class TriggerTranslation extends Model
 {
-	public $timestamps = false;
 	protected $table = 'migraine_trigger_translations';
+
 	protected $fillable = [
 		'trigger_id',
 		'locale',

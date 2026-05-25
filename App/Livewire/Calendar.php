@@ -3,10 +3,10 @@
 namespace Modules\MigraineDiary\App\Livewire;
 
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 use Livewire\Component;
 use Modules\MigraineDiary\App\Models\Attack;
-use Illuminate\Support\Carbon;
 
 /**
  * Class Calendar

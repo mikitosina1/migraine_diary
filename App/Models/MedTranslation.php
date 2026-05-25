@@ -25,8 +25,8 @@ use Illuminate\Support\Collection;
  */
 class MedTranslation extends Model
 {
-	public $timestamps = false;
 	protected $table = 'migraine_med_translations';
+
 	protected $fillable = [
 		'med_id',
 		'locale',

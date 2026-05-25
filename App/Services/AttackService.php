@@ -4,12 +4,10 @@ namespace Modules\MigraineDiary\App\Services;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Modules\MigraineDiary\App\Models\Attack;
-use Modules\MigraineDiary\App\Repositories\{
-	AttackRepository,
-	UserSymptomRepository,
-	UserTriggerRepository,
-	UserMedRepository
-};
+use Modules\MigraineDiary\App\Repositories\{AttackRepository,
+    UserMedRepository,
+    UserSymptomRepository,
+    UserTriggerRepository};
 
 /**
  * AttackService

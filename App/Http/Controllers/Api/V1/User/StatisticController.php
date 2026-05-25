@@ -4,7 +4,7 @@ namespace Modules\MigraineDiary\App\Http\Controllers\Api\V1\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Modules\MigraineDiary\App\Actions\StatisticAction;
+use Modules\MigraineDiary\App\Actions\User\StatisticAction;
 use Modules\MigraineDiary\App\Http\Requests\AttackFilterRequest;
 
 class StatisticController extends Controller

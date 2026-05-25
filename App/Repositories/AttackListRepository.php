@@ -2,14 +2,7 @@
 
 namespace Modules\MigraineDiary\App\Repositories;
 
-use Modules\MigraineDiary\App\Models\{
-	Symptom,
-	UserSymptom,
-	Trigger,
-	UserTrigger,
-	Med,
-	UserMed
-};
+use Modules\MigraineDiary\App\Models\{Med, Symptom, Trigger, UserMed, UserSymptom, UserTrigger};
 
 /**
  * This class is for additional logic for Attack List

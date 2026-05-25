@@ -2,8 +2,8 @@
 
 namespace Modules\MigraineDiary\App\Repositories;
 
-use Modules\MigraineDiary\App\Models\UserSymptom;
 use Illuminate\Support\Collection;
+use Modules\MigraineDiary\App\Models\UserSymptom;
 
 class UserSymptomRepository
 {

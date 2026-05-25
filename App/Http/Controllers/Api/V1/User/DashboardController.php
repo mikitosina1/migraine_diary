@@ -4,7 +4,7 @@ namespace Modules\MigraineDiary\App\Http\Controllers\Api\V1\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Modules\MigraineDiary\App\Actions\DashboardDataAction;
+use Modules\MigraineDiary\App\Actions\User\DashboardDataAction;
 use Modules\MigraineDiary\App\Http\Resources\DashboardResource;
 
 /**

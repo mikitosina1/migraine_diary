@@ -28,7 +28,8 @@ class Trigger extends Model
 {
 	protected $table = 'migraine_triggers';
 
-	protected $fillable = ['code',
+	protected $fillable = [
+		'code',
 		'locale',
 		'name'
 	];

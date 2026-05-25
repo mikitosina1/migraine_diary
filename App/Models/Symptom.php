@@ -3,9 +3,9 @@
 namespace Modules\MigraineDiary\App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * Symptom Model
@@ -28,7 +28,8 @@ class Symptom extends Model
 {
 	protected $table = 'migraine_symptoms';
 
-	protected $fillable = ['code',
+	protected $fillable = [
+		'code',
 		'locale',
 		'name'
 	];

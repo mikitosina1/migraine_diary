@@ -3,7 +3,6 @@
 namespace Modules\MigraineDiary\App\Services;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Modules\MigraineDiary\App\Mail\MigraineReportMailable;
 
