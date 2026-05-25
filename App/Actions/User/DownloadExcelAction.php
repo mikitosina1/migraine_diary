@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\MigraineDiary\App\Actions;
+namespace Modules\MigraineDiary\App\Actions\User;
 
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;

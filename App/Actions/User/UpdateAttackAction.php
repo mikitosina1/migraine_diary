@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\MigraineDiary\App\Actions;
+namespace Modules\MigraineDiary\App\Actions\User;
 
 use Modules\MigraineDiary\App\Data\UpdateAttackData;
 use Modules\MigraineDiary\App\Models\Attack;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\MigraineDiary\App\Actions;
+namespace Modules\MigraineDiary\App\Actions\User;
 
 use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Repositories\AttackRepository;
