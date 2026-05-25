@@ -17,14 +17,14 @@
 			@for($i = 10; $i >= 1; $i--)
 				<label class="flex items-center cursor-pointer w-full">
 					<input type="radio" name="pain_level" value="{{ $i }}" class="hidden peer"
-						   @if(isset($attack) && $attack->pain_level == $i) checked @endif
+					       @if(isset($attack) && $attack->pain_level == $i) checked @endif
 					>
 
 					<div class="flex items-center justify-start w-full h-10 px-3 text-sm font-semibold
 						text-white transition-all duration-300
 						peer-checked:outline peer-checked:outline-4 peer-checked:outline-white
 						peer-checked:outline-offset-[-2px] peer-checked:shadow-lg"
-						 style="background-color: hsl({{ 60 + (6 - $i) * 12 }}, 90%, 40%)"
+					     style="background-color: hsl({{ 60 + (6 - $i) * 12 }}, 90%, 40%)"
 					>
 						<span class="w-6 text-center">{{ $i }}</span>
 						<span class="ml-2 flex-1">{{ __('migrainediary::migraine_diary.pain_level_'.$i) }}</span>

@@ -33,8 +33,8 @@
 					{{ (now()->format('Y-m-d') == $day['key']) ? 'bg-gray-600 border-blue-300' : '' }}
 					{{ $day['is_selected'] ? 'bg-blue-100 border-blue-300' : '' }}
 					{{ $day['has_attack'] ? 'bg-red-50 border-red-200 hover:bg-red-100' : 'hover:bg-gray-50' }}"
-					 wire:key="day-{{ $day['key'] }}"
-					 wire:click="selectDay('{{ $day['key'] }}')">
+				     wire:key="day-{{ $day['key'] }}"
+				     wire:click="selectDay('{{ $day['key'] }}')">
 
 					<div class="text-sm font-medium">{{ $day['number'] }} </div>
 

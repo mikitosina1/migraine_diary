@@ -15,7 +15,7 @@
 						<li>
 							{{ $attack->created_at->format('d.m.Y') }} :
 							<span class="pain_level"
-								  style="color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
+							      style="color: hsl({{ 60 + (6 - $attack->pain_level) * 12 }}, 90%, 40%)">
 							{{ $attack->pain_level }}/10
 						</span>
 						</li>
@@ -41,9 +41,9 @@
 							</span>
 							{{-- finish migraine --}}
 							<button type="button"
-									class="end-attack-button"
-									data-attack-id="{{ $attack->id }}"
-									title="{{ __('migrainediary::migraine_diary.end_attack') }}"
+							        class="end-attack-button"
+							        data-attack-id="{{ $attack->id }}"
+							        title="{{ __('migrainediary::migraine_diary.end_attack') }}"
 							>
 								<i class="fas fa-check-double"></i>
 							</button>

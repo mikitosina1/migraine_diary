@@ -3,7 +3,7 @@
 		@foreach($symptoms as $symptom)
 			<label class="inline-flex items-center cursor-pointer">
 				<input type="checkbox" class="hidden peer" name="symptoms[]" value="{{ $symptom['id'] }}"
-					   @if(isset($attack) && $attack->symptoms->contains($symptom['id'])) checked @endif>
+				       @if(isset($attack) && $attack->symptoms->contains($symptom['id'])) checked @endif>
 				<span class="px-3 py-1 rounded-full border border-white text-white
 				peer-checked:bg-blue-500 peer-checked:text-white transition-all">
 					{{ $symptom['name'] }}
@@ -15,7 +15,7 @@
 		@foreach($userSymptoms as $userSymptom)
 			<label class="inline-flex items-center cursor-pointer">
 				<input type="checkbox" class="hidden peer" name="userSymptoms[]" value="{{ $userSymptom['id'] }}"
-					   @if(isset($attack) && $attack->userSymptoms->contains($userSymptom['id'])) checked @endif>
+				       @if(isset($attack) && $attack->userSymptoms->contains($userSymptom['id'])) checked @endif>
 				<span class="px-3 py-1 rounded-full border border-white text-white
 					peer-checked:bg-blue-500 peer-checked:text-white transition-all">
 				{{ $userSymptom['name'] }}

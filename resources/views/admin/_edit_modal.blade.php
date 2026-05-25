@@ -2,9 +2,9 @@
 	<div class="modal-container bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md mx-auto mt-20 p-6">
 		<div class="flex justify-between items-center mb-4">
 			<h2 id="modalTitle"
-				data-add="@lang('migrainediary::admin.add')"
-				data-edit="@lang('migrainediary::admin.edit_item')"
-				class="text-lg font-bold"></h2>
+			    data-add="@lang('migrainediary::admin.add')"
+			    data-edit="@lang('migrainediary::admin.edit_item')"
+			    class="text-lg font-bold"></h2>
 			<button class="modal-close">&times;</button>
 		</div>
 
@@ -21,7 +21,7 @@
 				</div>
 				<div id="codeError" class="text-red-500 text-sm mt-1 hidden"></div>
 				<input type="text" id="itemCode" name="code" required
-					   class="w-full px-3 py-2 border rounded-md dark:bg-gray-700">
+				       class="w-full px-3 py-2 border rounded-md dark:bg-gray-700">
 			</div>
 
 			<!-- languages -->
@@ -31,7 +31,7 @@
 						@lang('migrainediary::admin.name') ({{ strtoupper($locale) }})
 					</label>
 					<input type="text" id="name_{{ $locale }}" name="translations[{{ $locale }}][name]"
-						   class="w-full px-3 py-2 border rounded-md dark:bg-gray-700">
+					       class="w-full px-3 py-2 border rounded-md dark:bg-gray-700">
 				</div>
 			@endforeach
 
@@ -40,10 +40,10 @@
 					@lang('migrainediary::admin.cancel')
 				</button>
 				<button type="submit"
-						id="modalSaveBtn"
-						data-save="@lang('migrainediary::admin.save')"
-						data-update="@lang('migrainediary::admin.update')"
-						class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+				        id="modalSaveBtn"
+				        data-save="@lang('migrainediary::admin.save')"
+				        data-update="@lang('migrainediary::admin.update')"
+				        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
 				</button>
 			</div>
 		</form>

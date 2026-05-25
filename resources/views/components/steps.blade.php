@@ -8,7 +8,7 @@
 				@if($loop->iteration == 1) bg-blue-500 text-white border-blue-500
 				@else bg-gray-200 text-gray-600 border-gray-300 @endif
 				step-{{ $loop->iteration }}"
-				 data-step="{{ $loop->iteration }}"
+			     data-step="{{ $loop->iteration }}"
 			>
 				{{ $loop->iteration }}
 			</div>
