@@ -18,6 +18,7 @@ class DashboardDataAction
 	 * @param AttackRepository $attacks
 	 * @param DictionaryService $dictionaryService
 	 * @param StatisticService $statisticService
+	 * @param AttackFilterService $filterService
 	 */
 	public function __construct(
 		private readonly AttackRepository $attacks,

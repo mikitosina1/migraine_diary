@@ -5,6 +5,7 @@ namespace Modules\MigraineDiary\App\Http\Resources;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\MigraineDiary\App\Actions\User\DashboardDataAction;
 use Modules\MigraineDiary\App\Models\Attack;
 
 /**

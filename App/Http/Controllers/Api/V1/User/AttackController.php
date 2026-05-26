@@ -34,6 +34,8 @@ class AttackController extends Controller
 	/**
 	 * List all attacks for the current user.
 	 *
+	 * @param AttackFilterRequest $request
+	 * @param AttackFilterService $filterService
 	 * @return AnonymousResourceCollection<int, AttackResource>
 	 */
 	public function index(

@@ -28,6 +28,7 @@ class StoreEntityRequest extends FormRequest
 			'code' => 'required|string|max:255',
 			'translations' => 'required|array',
 			'translations.*.name' => 'required|string|max:255',
+			'translations.*.description' => 'nullable|string|max:1000',
 		];
 	}
 }

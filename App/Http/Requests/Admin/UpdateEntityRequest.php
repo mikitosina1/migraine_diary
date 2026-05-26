@@ -8,8 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * UpdateEntityRequest
  *
  * @package Modules\MigraineDiary\App\Http\Requests\Admin
- *
- *
  */
 class UpdateEntityRequest extends FormRequest
 {
@@ -28,6 +26,7 @@ class UpdateEntityRequest extends FormRequest
 			'code' => 'required|string|max:255',
 			'translations' => 'required|array',
 			'translations.*.name' => 'required|string|max:255',
+			'translations.*.description' => 'nullable|string|max:1000',
 		];
 	}
 }

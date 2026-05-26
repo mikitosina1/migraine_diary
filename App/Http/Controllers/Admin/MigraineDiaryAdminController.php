@@ -7,9 +7,9 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Modules\MigraineDiary\App\Models\{Med, Symptom, Trigger};
 use Modules\MigraineDiary\App\Http\Requests\Admin\StoreEntityRequest;
 use Modules\MigraineDiary\App\Http\Requests\Admin\UpdateEntityRequest;
+use Modules\MigraineDiary\App\Models\{Med, Symptom, Trigger};
 use Modules\MigraineDiary\App\Services\Admin\EntityService;
 
 /**
