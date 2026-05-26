@@ -3,7 +3,8 @@
 namespace Modules\MigraineDiary\App\Services\Admin;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\MigraineDiary\App\Models\{Symptom, Trigger, Med};
+use Illuminate\Support\Collection;
+use Modules\MigraineDiary\App\Models\{Med, Symptom, Trigger};
 
 /**
  * AttackService
@@ -16,6 +17,32 @@ use Modules\MigraineDiary\App\Models\{Symptom, Trigger, Med};
  */
 class EntityService
 {
+
+	/**
+	 * Find an entity by type and ID.
+	 * @param string $type
+	 * @return mixed
+	 */
+	public function listEntities(string $type): Collection
+	{
+		/** @var Model $modelClass */
+		$modelClass = $this->getModelByType($type);
+
+		return $modelClass::query()
+			->with('translations')
+			->orderBy('code')
+			->get();
+	}
+
+	public function listAll(): array
+	{
+		return [
+			'symptoms' => $this->listEntities('symptoms'),
+			'triggers' => $this->listEntities('triggers'),
+			'meds' => $this->listEntities('meds'),
+		];
+	}
+
 	/**
 	 * Find an entity by type and ID.
 	 * @param string $type
@@ -69,6 +96,7 @@ class EntityService
 			$model->translations()->create([
 				'locale' => $locale,
 				'name' => $translation['name'],
+				'description' => $translation['description']
 			]);
 		}
 		return $model->load('translations');
@@ -79,9 +107,9 @@ class EntityService
 	 * @param string $type
 	 * @param int $id
 	 * @param mixed $data
-	 * @return bool
+	 * @return Model
 	 */
-	public function updateEntity(string $type, int $id, mixed $data): bool
+	public function updateEntity(string $type, int $id, mixed $data): Model
 	{
 		/** @var $modelClass Symptom|Trigger|Med */
 		$modelClass = $this->getModelByType($type);
@@ -90,13 +118,52 @@ class EntityService
 		$model->update(['code' => $data['code']]);
 
 		foreach ($data['translations'] as $locale => $translation) {
-			$model->translations()
-				->updateOrCreate(
-					['locale' => $locale],
-					['name' => $translation['name']]
-				);
+			$model->translations()->updateOrCreate(
+				['locale' => $locale],
+				[
+					'name' => $translation['name'],
+					'description' => $translation['description'] ?? null
+				]
+			);
 		}
-		return true;
+		return $model->load('translations');
+	}
+
+	/**
+	 * patch an existing entity of the specified type
+	 * @param string $type
+	 * @param int $id
+	 * @param array $data
+	 * @return Model
+	 */
+	public function patchEntity(string $type, int $id, array $data): Model
+	{
+		$model = $this->findEntity($type, $id);
+
+		if (array_key_exists('code', $data)) {
+			$model->update(['code' => $data['code']]);
+		}
+
+		foreach (($data['translations'] ?? []) as $locale => $translation) {
+			$payload = [];
+
+			if (array_key_exists('name', $translation)) {
+				$payload['name'] = $translation['name'];
+			}
+
+			if (array_key_exists('description', $translation)) {
+				$payload['description'] = $translation['description'];
+			}
+
+			if ($payload !== []) {
+				$model->translations()->updateOrCreate(
+					['locale' => $locale],
+					$payload
+				);
+			}
+		}
+
+		return $model->load('translations');
 	}
 
 	/**
