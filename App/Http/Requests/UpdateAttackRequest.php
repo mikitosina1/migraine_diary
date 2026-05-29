@@ -42,7 +42,6 @@ class UpdateAttackRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'start_time'    => 'sometimes|date',
 			'end_time'      => 'nullable|date|after_or_equal:start_time',
 			'pain_level'    => 'required|integer|min:1|max:10',
 			'notes'         => 'nullable|string|max:1000',

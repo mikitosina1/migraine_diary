@@ -161,7 +161,6 @@ class AttackService
 	public function updateAttack(Attack $attack, array $data): void
 	{
 		$this->attackRepository->update($attack, [
-			'start_time' => $data['start_time'],
 			'end_time' => $data['end_time'] ?? null,
 			'pain_level' => $data['pain_level'],
 			'notes' => $data['notes'] ?? null,
