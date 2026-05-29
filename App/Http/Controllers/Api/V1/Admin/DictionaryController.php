@@ -9,8 +9,8 @@ use Modules\MigraineDiary\App\Actions\Admin\CreateDictionaryEntityAction;
 use Modules\MigraineDiary\App\Actions\Admin\DeleteDictionaryEntityAction;
 use Modules\MigraineDiary\App\Actions\Admin\ListAllDictionaryEntitiesAction;
 use Modules\MigraineDiary\App\Actions\Admin\ListDictionaryEntitiesAction;
+use Modules\MigraineDiary\App\Actions\Admin\PatchDictionaryEntityAction;
 use Modules\MigraineDiary\App\Actions\Admin\ShowDictionaryEntityAction;
-use Modules\MigraineDiary\App\Actions\Admin\UpdateDictionaryEntityAction;
 use Modules\MigraineDiary\App\Http\Requests\Admin\PatchEntityRequest;
 use Modules\MigraineDiary\App\Http\Requests\Admin\StoreEntityRequest;
 use Modules\MigraineDiary\App\Http\Resources\Admin\DictionaryEntityResource;
@@ -92,14 +92,14 @@ class DictionaryController extends Controller
 
 	/**
 	 * @param PatchEntityRequest $request
-	 * @param UpdateDictionaryEntityAction $action
+	 * @param PatchDictionaryEntityAction $action
 	 * @param string $type symptoms | meds | triggers
 	 * @param int $id
 	 * @return DictionaryEntityResource
 	 */
 	public function patch(
 		PatchEntityRequest $request,
-		UpdateDictionaryEntityAction $action,
+		PatchDictionaryEntityAction $action,
 		string $type,
 		int $id
 	): DictionaryEntityResource

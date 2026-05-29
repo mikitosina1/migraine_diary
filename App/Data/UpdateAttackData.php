@@ -10,7 +10,6 @@ namespace Modules\MigraineDiary\App\Data;
 class UpdateAttackData
 {
 	/**
-	 * @param  string  $startTime  Attack start timestamp (validated format).
 	 * @param  int  $painLevel  Pain intensity scale value.
 	 * @param  ?string  $notes  Optional free-text notes.
 	 * @param  array<int>  $symptoms  Predefined symptom IDs.
@@ -24,7 +23,6 @@ class UpdateAttackData
 	 * @param  array<string>  $userMedsNew  New custom medication names.
 	 */
 	public function __construct(
-		public readonly string $startTime,
 		public readonly int $painLevel,
 		public readonly ?string $notes,
 		public readonly array $symptoms,
@@ -43,7 +41,6 @@ class UpdateAttackData
 	 * Create DTO from validated request payload.
 	 *
 	 * @param array{
-	 *     start_time: string,
 	 *     pain_level: int,
 	 *     notes: ?string,
 	 *     symptoms: array<int>,
@@ -62,9 +59,8 @@ class UpdateAttackData
 	public static function fromArray(array $data): self
 	{
 		return new self(
-			startTime: $data['start_time'],
-			painLevel: $data['pain_level'],
-			notes: $data['notes'],
+			painLevel: (int) $data['pain_level'],
+			notes: $data['notes'] ?? null,
 			symptoms: $data['symptoms'],
 			userSymptoms: $data['userSymptoms'],
 			userSymptomsNew: $data['userSymptomsNew'],
@@ -81,7 +77,6 @@ class UpdateAttackData
 	 * Convert DTO into service payload.
 	 *
 	 * @return array{
-	 *     start_time: string,
 	 *     pain_level: int,
 	 *     notes: ?string,
 	 *     symptoms: array<int>,
@@ -98,7 +93,6 @@ class UpdateAttackData
 	public function toServiceArray(): array
 	{
 		return [
-			'start_time' => $this->startTime,
 			'pain_level' => $this->painLevel,
 			'notes' => $this->notes,
 			'symptoms' => $this->symptoms,

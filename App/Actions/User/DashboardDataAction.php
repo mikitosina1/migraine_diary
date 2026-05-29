@@ -2,7 +2,7 @@
 
 namespace Modules\MigraineDiary\App\Actions\User;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Repositories\AttackRepository;
 use Modules\MigraineDiary\App\Services\AttackFilterService;
@@ -32,7 +32,7 @@ class DashboardDataAction
 	 *
 	 * @return array{
 	 *     active_attack: ?Attack,
-	 *     recent_attacks: LengthAwarePaginator,
+	 *     recent_attacks: Collection,
 	 *     dictionaries: array,
 	 *     statistics: array,
 	 *     meta: array{locale: string}

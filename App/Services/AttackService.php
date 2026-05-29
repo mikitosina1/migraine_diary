@@ -143,8 +143,6 @@ class AttackService
 	 *
 	 * @param Attack $attack Attack to update
 	 * @param array $data New attack data:
-	 *   - start_time: attack start time
-	 *   - end_time: attack end time (optional)
 	 *   - pain_level: pain level (1-10)
 	 *   - notes: notes (optional)
 	 *   - symptoms: array of symptom IDs (optional)
@@ -161,7 +159,6 @@ class AttackService
 	public function updateAttack(Attack $attack, array $data): void
 	{
 		$this->attackRepository->update($attack, [
-			'end_time' => $data['end_time'] ?? null,
 			'pain_level' => $data['pain_level'],
 			'notes' => $data['notes'] ?? null,
 		]);

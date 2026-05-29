@@ -7,11 +7,10 @@ use Illuminate\Support\Collection;
 use Modules\MigraineDiary\App\Models\{Med, Symptom, Trigger};
 
 /**
- * AttackService
+ * EntityService
  *
- * Service for managing migraine attacks.
- * Handles the creation, updating, and completion of attacks,
- * as well as the synchronization of related data (symptoms, triggers, medications).
+ * Service for managing entities in admin.
+ * Handles the creation, updating, and completion of basic symptoms, triggers, medications.
  *
  * @package Modules\MigraineDiary\App\Services\Admin
  */
@@ -53,6 +52,7 @@ class EntityService
 	{
 		/** @var $modelClass Symptom|Trigger|Med */
 		$modelClass = $this->getModelByType($type);
+
 		return $modelClass::with('translations')->findOrFail($id);
 	}
 
@@ -96,9 +96,10 @@ class EntityService
 			$model->translations()->create([
 				'locale' => $locale,
 				'name' => $translation['name'],
-				'description' => $translation['description']
+				'description' => $translation['description'] ?? null,
 			]);
 		}
+
 		return $model->load('translations');
 	}
 

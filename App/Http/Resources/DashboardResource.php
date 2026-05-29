@@ -2,9 +2,9 @@
 
 namespace Modules\MigraineDiary\App\Http\Resources;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 use Modules\MigraineDiary\App\Actions\User\DashboardDataAction;
 use Modules\MigraineDiary\App\Models\Attack;
 
@@ -13,7 +13,7 @@ use Modules\MigraineDiary\App\Models\Attack;
  *
  * @property-read array{
  *     active_attack: ?Attack,
- *     recent_attacks: LengthAwarePaginator,
+ *     recent_attacks: Collection,
  *     dictionaries: array,
  *     statistics: array,
  *     meta: array{locale: string}
@@ -35,7 +35,7 @@ class DashboardResource extends JsonResource
 
 			'recent_attacks' => AttackResource::collection($this->resource['recent_attacks']),
 
-			'dictionaries' => $this->resource['dictionaries'],
+			'dictionaries' => new DictionaryResource($this->resource['dictionaries']),
 
 			'statistics' => $this->resource['statistics'],
 

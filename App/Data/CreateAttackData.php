@@ -64,7 +64,7 @@ class CreateAttackData
 		return new self(
 			startTime: $data['start_time'],
 			painLevel: (int) $data['pain_level'],
-			notes: $data['notes'],
+			notes: $data['notes'] ?? null,
 			symptoms: $data['symptoms'],
 			userSymptoms: $data['userSymptoms'],
 			userSymptomsNew: $data['userSymptomsNew'],

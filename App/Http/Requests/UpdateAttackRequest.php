@@ -42,7 +42,6 @@ class UpdateAttackRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'end_time'      => 'nullable|date|after_or_equal:start_time',
 			'pain_level'    => 'required|integer|min:1|max:10',
 			'notes'         => 'nullable|string|max:1000',
 
@@ -81,8 +80,6 @@ class UpdateAttackRequest extends FormRequest
 	public function messages(): array
 	{
 		return [
-			'start_time.required' => __('migrainediary::validation.attack.start_time_required'),
-			'end_time.after_or_equal' => __('migrainediary::validation.attack.end_time_after_start'),
 			'pain_level.required' => __('migrainediary::validation.attack.pain_level_required'),
 			'pain_level.min' => __('migrainediary::validation.attack.pain_level_min'),
 			'pain_level.max' => __('migrainediary::validation.attack.pain_level_max'),

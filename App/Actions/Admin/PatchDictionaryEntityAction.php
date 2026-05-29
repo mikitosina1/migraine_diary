@@ -5,8 +5,11 @@ namespace Modules\MigraineDiary\App\Actions\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Modules\MigraineDiary\App\Services\Admin\EntityService;
 
-class UpdateDictionaryEntityAction
+class PatchDictionaryEntityAction
 {
+	/**
+	 * @param EntityService $entities
+	 */
 	public function __construct(
 		private readonly EntityService $entities,
 	) {}
