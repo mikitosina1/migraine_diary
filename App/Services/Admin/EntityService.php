@@ -4,7 +4,9 @@ namespace Modules\MigraineDiary\App\Services\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Modules\MigraineDiary\App\Models\{Med, Symptom, Trigger};
+use Throwable;
 
 /**
  * EntityService
@@ -81,26 +83,27 @@ class EntityService
 	 * @param string $type
 	 * @param mixed $data
 	 * @return Model
+	 * @throws Throwable
 	 */
 	public function createEntity(string $type, mixed $data): Model
 	{
-		/** @var $modelClass Symptom|Trigger|Med */
-		$modelClass = $this->getModelByType($type);
+		return DB::transaction(function () use ($type, $data) {
+			$modelClass = $this->getModelByType($type);
 
-		$model = new $modelClass();
-		$model->code = $data['code'];
+			$model = new $modelClass();
+			$model->code = $data['code'];
+			$model->save();
 
-		$model->save();
+			foreach ($data['translations'] as $locale => $translation) {
+				$model->translations()->create([
+					'locale' => $locale,
+					'name' => $translation['name'],
+					'description' => $translation['description'] ?? null,
+				]);
+			}
 
-		foreach ($data['translations'] as $locale => $translation) {
-			$model->translations()->create([
-				'locale' => $locale,
-				'name' => $translation['name'],
-				'description' => $translation['description'] ?? null,
-			]);
-		}
-
-		return $model->load('translations');
+			return $model->load('translations');
+		});
 	}
 
 	/**
@@ -109,25 +112,29 @@ class EntityService
 	 * @param int $id
 	 * @param mixed $data
 	 * @return Model
+	 * @throws Throwable
 	 */
 	public function updateEntity(string $type, int $id, mixed $data): Model
 	{
-		/** @var $modelClass Symptom|Trigger|Med */
-		$modelClass = $this->getModelByType($type);
-		$model = $modelClass::findOrFail($id);
+		return DB::transaction(function () use ($type, $id, $data) {
+			/** @var $modelClass Symptom|Trigger|Med */
+			$modelClass = $this->getModelByType($type);
+			$model = $modelClass::findOrFail($id);
 
-		$model->update(['code' => $data['code']]);
+			$model->update(['code' => $data['code']]);
 
-		foreach ($data['translations'] as $locale => $translation) {
-			$model->translations()->updateOrCreate(
-				['locale' => $locale],
-				[
-					'name' => $translation['name'],
-					'description' => $translation['description'] ?? null
-				]
-			);
-		}
-		return $model->load('translations');
+			foreach ($data['translations'] as $locale => $translation) {
+				$model->translations()->updateOrCreate(
+					['locale' => $locale],
+					[
+						'name' => $translation['name'],
+						'description' => $translation['description'] ?? null,
+					]
+				);
+			}
+
+			return $model->load('translations');
+		});
 	}
 
 	/**
@@ -136,35 +143,38 @@ class EntityService
 	 * @param int $id
 	 * @param array $data
 	 * @return Model
+	 * @throws Throwable
 	 */
 	public function patchEntity(string $type, int $id, array $data): Model
 	{
-		$model = $this->findEntity($type, $id);
+		return DB::transaction(function () use ($type, $id, $data) {
+			$model = $this->findEntity($type, $id);
 
-		if (array_key_exists('code', $data)) {
-			$model->update(['code' => $data['code']]);
-		}
-
-		foreach (($data['translations'] ?? []) as $locale => $translation) {
-			$payload = [];
-
-			if (array_key_exists('name', $translation)) {
-				$payload['name'] = $translation['name'];
+			if (array_key_exists('code', $data)) {
+				$model->update(['code' => $data['code']]);
 			}
 
-			if (array_key_exists('description', $translation)) {
-				$payload['description'] = $translation['description'];
+			foreach (($data['translations'] ?? []) as $locale => $translation) {
+				$payload = [];
+
+				if (array_key_exists('name', $translation)) {
+					$payload['name'] = $translation['name'];
+				}
+
+				if (array_key_exists('description', $translation)) {
+					$payload['description'] = $translation['description'];
+				}
+
+				if ($payload !== []) {
+					$model->translations()->updateOrCreate(
+						['locale' => $locale],
+						$payload
+					);
+				}
 			}
 
-			if ($payload !== []) {
-				$model->translations()->updateOrCreate(
-					['locale' => $locale],
-					$payload
-				);
-			}
-		}
-
-		return $model->load('translations');
+			return $model->load('translations');
+		});
 	}
 
 	/**
@@ -175,13 +185,14 @@ class EntityService
 	 */
 	public function deleteEntity(string $type, int $id): string
 	{
-
 		/** @var $model Symptom|Trigger|Med */
 		$model = $this->getModelByType($type);
 		$item = $model::findOrFail($id);
+
 		$code = $item->code;
-		$item->translations()->delete();
+
 		$item->delete();
+
 		return $code;
 	}
 }

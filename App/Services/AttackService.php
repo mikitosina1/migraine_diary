@@ -3,11 +3,13 @@
 namespace Modules\MigraineDiary\App\Services;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Repositories\{AttackRepository,
 	UserMedRepository,
 	UserSymptomRepository,
 	UserTriggerRepository};
+use Throwable;
 
 /**
  * AttackService
@@ -53,19 +55,29 @@ class AttackService
 	 *   - userMedsNew: array of new user medications (optional)
 	 * @param int $userId User ID
 	 * @return Attack Created attack
+	 * @throws Throwable
 	 */
 	public function createAttack(array $data, int $userId): Attack
 	{
-		$attack = $this->attackRepository->create([
-			'user_id' => $userId,
-			'start_time' => $data['start_time'],
-			'pain_level' => $data['pain_level'],
-			'notes' => $data['notes'] ?? null,
-		]);
+		return DB::transaction(function () use ($data, $userId) {
+			$attack = $this->attackRepository->create([
+				'user_id' => $userId,
+				'start_time' => $data['start_time'],
+				'pain_level' => $data['pain_level'],
+				'notes' => $data['notes'] ?? null,
+			]);
 
-		$this->syncRelations($attack, $data);
+			$this->syncRelations($attack, $data);
 
-		return $attack;
+			return $attack->load([
+				'symptoms.translations',
+				'triggers.translations',
+				'meds.translations',
+				'userSymptoms',
+				'userTriggers',
+				'userMeds',
+			]);
+		});
 	}
 
 	/**
@@ -155,15 +167,18 @@ class AttackService
 	 *   - userMeds: array of user medication IDs (optional)
 	 *   - userMedsNew: array of new user medications (optional)
 	 * @return void
+	 * @throws Throwable
 	 */
 	public function updateAttack(Attack $attack, array $data): void
 	{
-		$this->attackRepository->update($attack, [
-			'pain_level' => $data['pain_level'],
-			'notes' => $data['notes'] ?? null,
-		]);
+		DB::transaction(function () use ($attack, $data) {
+			$this->attackRepository->update($attack, [
+				'pain_level' => $data['pain_level'],
+				'notes' => $data['notes'] ?? null,
+			]);
 
-		$this->syncRelations($attack, $data);
+			$this->syncRelations($attack, $data);
+		});
 	}
 
 	/**
