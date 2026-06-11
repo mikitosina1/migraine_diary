@@ -11,21 +11,20 @@ use Modules\MigraineDiary\App\Services\AttackService;
  */
 class CreateAttackAction
 {
-	public function __construct(
-		private readonly AttackService $attackService,
-	) {}
+    public function __construct(
+        private readonly AttackService $attackService,
+    ) {}
 
-	/**
-	 * @param  CreateAttackData  $data  Validated input for the new attack.
-	 * @param  int  $userId  Owner user identifier.
-	 *
-	 * @return Attack Persisted attack as returned by the service layer.
-	 */
-	public function execute(CreateAttackData $data, int $userId): Attack
-	{
-		return $this->attackService->createAttack(
-			$data->toServiceArray(),
-			$userId
-		);
-	}
+    /**
+     * @param  CreateAttackData  $data  Validated input for the new attack.
+     * @param  int  $userId  Owner user identifier.
+     * @return Attack Persisted attack as returned by the service layer.
+     */
+    public function execute(CreateAttackData $data, int $userId): Attack
+    {
+        return $this->attackService->createAttack(
+            $data->toServiceArray(),
+            $userId
+        );
+    }
 }

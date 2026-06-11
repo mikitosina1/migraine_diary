@@ -14,7 +14,6 @@ use Illuminate\Support\Collection;
  * Represents user-defined custom symptoms for migraine attacks.
  * Allows users to create personalized symptom entries beyond predefined options.
  *
- * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|UserSymptom create(array $attributes = [])
  * @method static Builder|UserSymptom firstOrCreate(array $attributes, array $values = [])
@@ -28,34 +27,31 @@ use Illuminate\Support\Collection;
  */
 class UserSymptom extends Model
 {
-	protected $table = 'migraine_user_symptoms';
+    protected $table = 'migraine_user_symptoms';
 
-	protected $fillable = [
-		'user_id',
-		'name',
-		'description'
-	];
+    protected $fillable = [
+        'user_id',
+        'name',
+        'description',
+    ];
 
-	/**
-	 * Get all custom symptoms for a specific user
-	 *
-	 * @param int $userId
-	 * @return Collection<int, static>
-	 */
-	public static function getForUser(int $userId): Collection
-	{
-		return self::where('user_id', $userId)
-			->orderBy('name')
-			->get();
-	}
+    /**
+     * Get all custom symptoms for a specific user
+     *
+     * @return Collection<int, static>
+     */
+    public static function getForUser(int $userId): Collection
+    {
+        return self::where('user_id', $userId)
+            ->orderBy('name')
+            ->get();
+    }
 
-	/**
-	 * Get the user that owns this custom symptom
-	 *
-	 * @return BelongsTo
-	 */
-	public function user(): BelongsTo
-	{
-		return $this->belongsTo(User::class);
-	}
+    /**
+     * Get the user that owns this custom symptom
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

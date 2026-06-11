@@ -18,52 +18,41 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  */
 class ReportController extends Controller
 {
-	/**
-	 * Send a migraine report to the authenticated user or doctor.
-	 *
-	 * @param SendEmailRequest $request
-	 * @param SendEmailAction $action
-	 * @return JsonResponse
-	 */
-	public function sendEmail(
-		SendEmailRequest $request,
-		SendEmailAction $action,
-	): JsonResponse {
-		$action->execute($request->user(), $request->toData());
+    /**
+     * Send a migraine report to the authenticated user or doctor.
+     */
+    public function sendEmail(
+        SendEmailRequest $request,
+        SendEmailAction $action,
+    ): JsonResponse {
+        $action->execute($request->user(), $request->toData());
 
-		return response()->json([
-			'data' => [
-				'message' => trans('migrainediary::migraine_diary.email_sent_success'),
-			],
-		]);
-	}
+        return response()->json([
+            'data' => [
+                'message' => trans('migrainediary::migraine_diary.email_sent_success'),
+            ],
+        ]);
+    }
 
-	/**
-	 * Download the authenticated user's migraine report as an Excel file.
-	 *
-	 * @param ReportExportRequest $request
-	 * @param DownloadExcelAction $action
-	 * @return BinaryFileResponse
-	 * @throws Exception
-	 */
-	public function downloadExcel(
-		ReportExportRequest $request,
-		DownloadExcelAction $action,
-	): BinaryFileResponse {
-		return $action->execute($request->user(), $request->toData());
-	}
+    /**
+     * Download the authenticated user's migraine report as an Excel file.
+     *
+     * @throws Exception
+     */
+    public function downloadExcel(
+        ReportExportRequest $request,
+        DownloadExcelAction $action,
+    ): BinaryFileResponse {
+        return $action->execute($request->user(), $request->toData());
+    }
 
-	/**
-	 * Download the authenticated user's migraine report as a PDF file.
-	 *
-	 * @param ReportExportRequest $request
-	 * @param DownloadPdfAction $action
-	 * @return Response
-	 */
-	public function downloadPdf(
-		ReportExportRequest $request,
-		DownloadPdfAction $action,
-	): Response {
-		return $action->execute($request->user(), $request->toData());
-	}
+    /**
+     * Download the authenticated user's migraine report as a PDF file.
+     */
+    public function downloadPdf(
+        ReportExportRequest $request,
+        DownloadPdfAction $action,
+    ): Response {
+        return $action->execute($request->user(), $request->toData());
+    }
 }

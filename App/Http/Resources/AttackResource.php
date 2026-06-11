@@ -13,23 +13,23 @@ use Modules\MigraineDiary\App\Models\Attack;
  */
 class AttackResource extends JsonResource
 {
-	public function toArray(Request $request): array
-	{
-		return [
-			'id' => $this->id,
-			'start_time' => $this->start_time?->toISOString(),
-			'end_time' => $this->end_time?->toISOString(),
-			'pain_level' => $this->pain_level,
-			'notes' => $this->notes,
-			'is_active' => $this->end_time === null,
-			'symptoms' => SymptomResource::collection($this->whenLoaded('symptoms')),
-			'user_symptoms' => UserSymptomResource::collection($this->whenLoaded('userSymptoms')),
-			'triggers' => TriggerResource::collection($this->whenLoaded('triggers')),
-			'user_triggers' => UserTriggerResource::collection($this->whenLoaded('userTriggers')),
-			'meds' => MedResource::collection($this->whenLoaded('meds')),
-			'user_meds' => UserMedResource::collection($this->whenLoaded('userMeds')),
-			'created_at' => $this->created_at?->toISOString(),
-			'updated_at' => $this->updated_at?->toISOString(),
-		];
-	}
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'start_time' => $this->start_time?->toISOString(),
+            'end_time' => $this->end_time?->toISOString(),
+            'pain_level' => $this->pain_level,
+            'notes' => $this->notes,
+            'is_active' => $this->end_time === null,
+            'symptoms' => SymptomResource::collection($this->whenLoaded('symptoms')),
+            'user_symptoms' => UserSymptomResource::collection($this->whenLoaded('userSymptoms')),
+            'triggers' => TriggerResource::collection($this->whenLoaded('triggers')),
+            'user_triggers' => UserTriggerResource::collection($this->whenLoaded('userTriggers')),
+            'meds' => MedResource::collection($this->whenLoaded('meds')),
+            'user_meds' => UserMedResource::collection($this->whenLoaded('userMeds')),
+            'created_at' => $this->created_at?->toISOString(),
+            'updated_at' => $this->updated_at?->toISOString(),
+        ];
+    }
 }

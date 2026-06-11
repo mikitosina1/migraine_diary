@@ -12,20 +12,15 @@ use Modules\MigraineDiary\App\Http\Resources\DashboardResource;
  */
 class DashboardController extends Controller
 {
-	/**
-	 * Build the dashboard payload (active attack, recent list, dictionaries, statistics).
-	 *
-	 * @param Request $request
-	 * @param DashboardDataAction $action
-	 * @return DashboardResource
-	 */
-	public function __invoke(
-		Request $request,
-		DashboardDataAction $action
-	): DashboardResource
-	{
-		$dashboardData = $action->execute($request->user()->id);
+    /**
+     * Build the dashboard payload (active attack, recent list, dictionaries, statistics).
+     */
+    public function __invoke(
+        Request $request,
+        DashboardDataAction $action
+    ): DashboardResource {
+        $dashboardData = $action->execute($request->user()->id);
 
-		return new DashboardResource($dashboardData);
-	}
+        return new DashboardResource($dashboardData);
+    }
 }

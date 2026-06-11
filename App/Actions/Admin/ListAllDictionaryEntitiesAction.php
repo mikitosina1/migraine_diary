@@ -6,12 +6,12 @@ use Modules\MigraineDiary\App\Services\Admin\EntityService;
 
 class ListAllDictionaryEntitiesAction
 {
-	public function __construct(
-		private readonly EntityService $entities,
-	) {}
+    public function __construct(
+        private readonly EntityService $entities,
+    ) {}
 
-	public function execute(): array
-	{
-		return $this->entities->listAll();
-	}
+    public function execute(): array
+    {
+        return $this->entities->listAll();
+    }
 }

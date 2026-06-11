@@ -9,17 +9,16 @@ use Modules\MigraineDiary\App\Http\Requests\AttackFilterRequest;
 
 class StatisticController extends Controller
 {
-	public function __invoke(
-		AttackFilterRequest $request,
-		StatisticAction $action
-	): JsonResponse
-	{
-		return response()->json([
-			'data' => $action->execute(
-				auth()->user()->id,
-				$request->getRange(),
-				$request->getPainLevel()
-			),
-		]);
-	}
+    public function __invoke(
+        AttackFilterRequest $request,
+        StatisticAction $action
+    ): JsonResponse {
+        return response()->json([
+            'data' => $action->execute(
+                auth()->user()->id,
+                $request->getRange(),
+                $request->getPainLevel()
+            ),
+        ]);
+    }
 }

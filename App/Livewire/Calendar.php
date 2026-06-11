@@ -11,7 +11,6 @@ use Modules\MigraineDiary\App\Models\Attack;
 /**
  * Class Calendar
  *
- * @package Modules\MigraineDiary\App\Livewire
  *
  * @property string $monthName title of the month
  * @property array $calendarDays array of days in the month
@@ -21,157 +20,152 @@ use Modules\MigraineDiary\App\Models\Attack;
  */
 class Calendar extends Component
 {
-	/** @var string $currentDate YYYY-MM format */
-	public $currentDate;
-	/** @var array $attacks array of attacks for the current month */
-	public $attacks = [];
-	/** @var string $selectedDay key of the selected day */
-	public $selectedDay = null;
+    /** @var string YYYY-MM format */
+    public $currentDate;
 
-	/**
-	 * Mount the component
-	 * @return void
-	 */
-	public function mount(): void
-	{
-		$this->currentDate = now()->format('Y-m');
-		$this->loadAttacks();
-	}
+    /** @var array array of attacks for the current month */
+    public $attacks = [];
 
-	/**
-	 * Load attacks for the current month
-	 * @return void
-	 */
-	public function loadAttacks(): void
-	{
-		try {
-			$attacks = Attack::where('user_id', auth()->id())
-				->whereYear('start_time', substr($this->currentDate, 0, 4))
-				->whereMonth('start_time', substr($this->currentDate, 5, 2))
-				->with(['symptoms', 'triggers', 'meds'])
-				->get();
+    /** @var string key of the selected day */
+    public $selectedDay = null;
 
-			$attacksByDay = [];
+    /**
+     * Mount the component
+     */
+    public function mount(): void
+    {
+        $this->currentDate = now()->format('Y-m');
+        $this->loadAttacks();
+    }
 
-			foreach ($attacks as $attack) {
-				$day = $attack->start_time->format('Y-m-d');
+    /**
+     * Load attacks for the current month
+     */
+    public function loadAttacks(): void
+    {
+        try {
+            $attacks = Attack::where('user_id', auth()->id())
+                ->whereYear('start_time', substr($this->currentDate, 0, 4))
+                ->whereMonth('start_time', substr($this->currentDate, 5, 2))
+                ->with(['symptoms', 'triggers', 'meds'])
+                ->get();
 
-				if (!isset($attacksByDay[$day])) {
-					$attacksByDay[$day] = [];
-				}
+            $attacksByDay = [];
 
-				$attacksByDay[$day][] = [
-					'id' => $attack->id,
-					'pain_level' => $attack->pain_level,
-					'symptoms' => $attack->symptoms->pluck('name')->toArray(),
-					'triggers' => $attack->triggers->pluck('name')->toArray(),
-					'time' => $attack->start_time->format('H:i')
-				];
-			}
+            foreach ($attacks as $attack) {
+                $day = $attack->start_time->format('Y-m-d');
 
-			$this->attacks = $attacksByDay;
+                if (! isset($attacksByDay[$day])) {
+                    $attacksByDay[$day] = [];
+                }
 
-		} catch (Exception $e) {
-			$this->attacks = [];
-			logger()->error('Error loading attacks: ' . $e->getMessage());
-		}
-	}
+                $attacksByDay[$day][] = [
+                    'id' => $attack->id,
+                    'pain_level' => $attack->pain_level,
+                    'symptoms' => $attack->symptoms->pluck('name')->toArray(),
+                    'triggers' => $attack->triggers->pluck('name')->toArray(),
+                    'time' => $attack->start_time->format('H:i'),
+                ];
+            }
 
-	/**
-	 * Change the month
-	 * @param string $direction 'next' or 'prev'
-	 * @return void
-	 */
-	public function changeMonth(string $direction): void
-	{
-		$date = Carbon::createFromFormat('Y-m', $this->currentDate);
+            $this->attacks = $attacksByDay;
 
-		if ($direction === 'next') {
-			$date->addMonth();
-		} else {
-			$date->subMonth();
-		}
+        } catch (Exception $e) {
+            $this->attacks = [];
+            logger()->error('Error loading attacks: '.$e->getMessage());
+        }
+    }
 
-		$this->currentDate = $date->format('Y-m');
-		$this->loadAttacks();
-		$this->selectedDay = null;
-	}
+    /**
+     * Change the month
+     *
+     * @param  string  $direction  'next' or 'prev'
+     */
+    public function changeMonth(string $direction): void
+    {
+        $date = Carbon::createFromFormat('Y-m', $this->currentDate);
 
-	/**
-	 * Go today
-	 * @return void
-	 */
-	public function goToToday(): void
-	{
-		$this->currentDate = now()->format('Y-m');
-		$this->loadAttacks();
-		$this->selectedDay = null;
-	}
+        if ($direction === 'next') {
+            $date->addMonth();
+        } else {
+            $date->subMonth();
+        }
 
-	/**
-	 * Select a day
-	 * @param string $day key of the day
-	 * @return void
-	 */
-	public function selectDay(string $day): void
-	{
-		$this->selectedDay = $day;
-	}
+        $this->currentDate = $date->format('Y-m');
+        $this->loadAttacks();
+        $this->selectedDay = null;
+    }
 
-	/**
-	 * Get the name of the month
-	 * @return string
-	 */
-	public function getMonthNameProperty(): string
-	{
-		return Carbon::createFromFormat('Y-m', $this->currentDate)
-			->translatedFormat('F Y');
-	}
+    /**
+     * Go today
+     */
+    public function goToToday(): void
+    {
+        $this->currentDate = now()->format('Y-m');
+        $this->loadAttacks();
+        $this->selectedDay = null;
+    }
 
-	/**
-	 * Render the component
-	 * @return View
-	 */
-	public function render(): View
-	{
-		return view('migrainediary::livewire.migraine-calendar', [
-			'monthName' => $this->monthName,
-			'calendarDays' => $this->prepareCalendarDays()
-		]);
-	}
+    /**
+     * Select a day
+     *
+     * @param  string  $day  key of the day
+     */
+    public function selectDay(string $day): void
+    {
+        $this->selectedDay = $day;
+    }
 
-	/**
-	 * Prepare the calendar days
-	 * @return array
-	 */
-	protected function prepareCalendarDays(): array
-	{
-		$date = Carbon::createFromFormat('Y-m', $this->currentDate);
-		$daysInMonth = $date->daysInMonth;
-		$startDay = $date->startOfMonth()->dayOfWeekIso; // 1 (пн) - 7 (вс)
+    /**
+     * Get the name of the month
+     */
+    public function getMonthNameProperty(): string
+    {
+        return Carbon::createFromFormat('Y-m', $this->currentDate)
+            ->translatedFormat('F Y');
+    }
 
-		$days = [];
+    /**
+     * Render the component
+     */
+    public function render(): View
+    {
+        return view('migrainediary::livewire.migraine-calendar', [
+            'monthName' => $this->monthName,
+            'calendarDays' => $this->prepareCalendarDays(),
+        ]);
+    }
 
-		// empty fields before the first day of the month
-		for ($i = 1; $i < $startDay; $i++) {
-			$days[] = ['type' => 'empty'];
-		}
+    /**
+     * Prepare the calendar days
+     */
+    protected function prepareCalendarDays(): array
+    {
+        $date = Carbon::createFromFormat('Y-m', $this->currentDate);
+        $daysInMonth = $date->daysInMonth;
+        $startDay = $date->startOfMonth()->dayOfWeekIso; // 1 (пн) - 7 (вс)
 
-		for ($day = 1; $day <= $daysInMonth; $day++) {
-			$dayKey = $date->format('Y-m-') . str_pad($day, 2, '0', STR_PAD_LEFT);
-			$hasAttack = isset($this->attacks[$dayKey]);
+        $days = [];
 
-			$days[] = [
-				'type' => 'day',
-				'number' => $day,
-				'key' => $dayKey,
-				'has_attack' => $hasAttack,
-				'attacks' => $hasAttack ? $this->attacks[$dayKey] : [],
-				'is_selected' => $this->selectedDay === $dayKey
-			];
-		}
+        // empty fields before the first day of the month
+        for ($i = 1; $i < $startDay; $i++) {
+            $days[] = ['type' => 'empty'];
+        }
 
-		return $days;
-	}
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $dayKey = $date->format('Y-m-').str_pad($day, 2, '0', STR_PAD_LEFT);
+            $hasAttack = isset($this->attacks[$dayKey]);
 
+            $days[] = [
+                'type' => 'day',
+                'number' => $day,
+                'key' => $dayKey,
+                'has_attack' => $hasAttack,
+                'attacks' => $hasAttack ? $this->attacks[$dayKey] : [],
+                'is_selected' => $this->selectedDay === $dayKey,
+            ];
+        }
+
+        return $days;
+    }
 }

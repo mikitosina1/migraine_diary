@@ -13,16 +13,15 @@ use Modules\MigraineDiary\App\Models\UserTrigger;
  */
 class UserTriggerResource extends JsonResource
 {
-	/**
-	 * @param Request $request
-	 * @return array<string, mixed>
-	 */
-	public function toArray(Request $request): array
-	{
-		return [
-			'id' => $this->id,
-			'name' => $this->name,
-			'description' => $this->description,
-		];
-	}
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+        ];
+    }
 }

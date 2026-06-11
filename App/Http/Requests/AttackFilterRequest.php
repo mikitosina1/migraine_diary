@@ -9,31 +9,31 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class AttackFilterRequest extends FormRequest
 {
-	public function authorize(): bool
-	{
-		return auth()->check();
-	}
+    public function authorize(): bool
+    {
+        return auth()->check();
+    }
 
-	public function rules(): array
-	{
-		return [
-			'range' => 'nullable|string|in:month,3months,year',
-			'pain_level' => 'nullable|string|in:all,1,2,3,4,5,6,7,8,9,10'
-		];
-	}
+    public function rules(): array
+    {
+        return [
+            'range' => 'nullable|string|in:month,3months,year',
+            'pain_level' => 'nullable|string|in:all,1,2,3,4,5,6,7,8,9,10',
+        ];
+    }
 
-	public function getRange(): string
-	{
-		return $this->filled('range') ? (string) $this->input('range') : 'month';
-	}
+    public function getRange(): string
+    {
+        return $this->filled('range') ? (string) $this->input('range') : 'month';
+    }
 
-	public function getPainLevel(): string
-	{
-		return $this->filled('pain_level') ? (string) $this->input('pain_level') : 'all';
-	}
+    public function getPainLevel(): string
+    {
+        return $this->filled('pain_level') ? (string) $this->input('pain_level') : 'all';
+    }
 
-	public function getContainer(): string
-	{
-		return ltrim($this->input('container', '.list'), '.');
-	}
+    public function getContainer(): string
+    {
+        return ltrim($this->input('container', '.list'), '.');
+    }
 }

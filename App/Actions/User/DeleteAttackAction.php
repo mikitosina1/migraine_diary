@@ -10,18 +10,15 @@ use Modules\MigraineDiary\App\Repositories\AttackRepository;
  */
 class DeleteAttackAction
 {
-	public function __construct(
-		private readonly AttackRepository $attacks,
-	) {}
+    public function __construct(
+        private readonly AttackRepository $attacks,
+    ) {}
 
-	/**
-	 * @param  Attack  $attack  Attack model to delete permanently.
-	 *
-	 * @return void
-	 */
-	public function execute(Attack $attack): void
-	{
-		$this->attacks->delete($attack);
-	}
-
+    /**
+     * @param  Attack  $attack  Attack model to delete permanently.
+     */
+    public function execute(Attack $attack): void
+    {
+        $this->attacks->delete($attack);
+    }
 }

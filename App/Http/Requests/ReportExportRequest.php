@@ -10,37 +10,33 @@ use Modules\MigraineDiary\App\Data\ReportExportData;
  */
 class ReportExportRequest extends FormRequest
 {
-	/**
-	 * Allow only authenticated users to export their own reports.
-	 *
-	 * @return bool
-	 */
-	public function authorize(): bool
-	{
-		return auth()->check();
-	}
+    /**
+     * Allow only authenticated users to export their own reports.
+     */
+    public function authorize(): bool
+    {
+        return auth()->check();
+    }
 
-	/**
-	 * Get validation rules for report export filters.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function rules(): array
-	{
-		return [
-			'period' => 'nullable|string|in:month,3months,year',
-		];
-	}
+    /**
+     * Get validation rules for report export filters.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        return [
+            'period' => 'nullable|string|in:month,3months,year',
+        ];
+    }
 
-	/**
-	 * Convert validated export filters into an application DTO.
-	 *
-	 * @return ReportExportData
-	 */
-	public function toData(): ReportExportData
-	{
-		$range = $this->filled('period') ? (string) $this->input('period') : 'month';
+    /**
+     * Convert validated export filters into an application DTO.
+     */
+    public function toData(): ReportExportData
+    {
+        $range = $this->filled('period') ? (string) $this->input('period') : 'month';
 
-		return ReportExportData::fromRange($range);
-	}
+        return ReportExportData::fromRange($range);
+    }
 }

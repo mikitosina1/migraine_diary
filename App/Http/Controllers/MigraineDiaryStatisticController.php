@@ -16,65 +16,54 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * MigraineDiaryStatisticController
- *
- * @package Modules\MigraineDiary\App\Http\Controllers
- *
  */
 class MigraineDiaryStatisticController extends Controller
 {
-	/**
-	 * Download data in .xlsx format
-	 *
-	 * @param Request $request
-	 * @return BinaryFileResponse
-	 * @throws Exception
-	 */
-	public function sheetDownload(Request $request): BinaryFileResponse
-	{
-		$data = app(MigraineExportService::class)->prepareData(
-			auth()->user(),
-			$request->input('period', 'month')
-		);
+    /**
+     * Download data in .xlsx format
+     *
+     * @throws Exception
+     */
+    public function sheetDownload(Request $request): BinaryFileResponse
+    {
+        $data = app(MigraineExportService::class)->prepareData(
+            auth()->user(),
+            $request->input('period', 'month')
+        );
 
-		return Excel::download(new ExcelExportService($data), 'migraine-report-'. now()->format('YmHdms') .'.xlsx');
-	}
+        return Excel::download(new ExcelExportService($data), 'migraine-report-'.now()->format('YmHdms').'.xlsx');
+    }
 
-	/**
-	 * Download data in PDF format
-	 */
-	public function pdfDownload()
-	{
+    /**
+     * Download data in PDF format
+     */
+    public function pdfDownload() {}
 
-	}
+    /**
+     * Send data to email
+     */
+    public function sendToEmail(SendEmailRequest $request): JsonResponse
+    {
+        try {
+            $validated = $request->validated();
 
-	/**
-	 * Send data to email
-	 *
-	 * @param SendEmailRequest $request
-	 * @return JsonResponse
-	 */
-	public function sendToEmail(SendEmailRequest $request): JsonResponse
-	{
-		try {
-			$validated = $request->validated();
+            app(MigraineEmailService::class)->sendReport(auth()->user(), $validated);
 
-			app(MigraineEmailService::class)->sendReport(auth()->user(), $validated);
+            return response()->json([
+                'success' => true,
+                'message' => trans('migrainediary::migraine_diary.email_sent_success'),
+            ]);
 
-			return response()->json([
-				'success' => true,
-				'message' => trans('migrainediary::migraine_diary.email_sent_success')
-			]);
+        } catch (\Exception $e) {
+            Log::error('Email send error: '.$e->getMessage(), [
+                'user_id' => auth()->id(),
+                'request' => $request->all(),
+            ]);
 
-		} catch (\Exception $e) {
-			Log::error('Email send error: ' . $e->getMessage(), [
-				'user_id' => auth()->id(),
-				'request' => $request->all()
-			]);
-
-			return response()->json([
-				'success' => false,
-				'message' => trans('migrainediary::migraine_diary.email_sent_error')
-			], 500);
-		}
-	}
+            return response()->json([
+                'success' => false,
+                'message' => trans('migrainediary::migraine_diary.email_sent_error'),
+            ], 500);
+        }
+    }
 }

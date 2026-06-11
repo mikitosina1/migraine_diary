@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
  * Represents predefined migraine medications with multilingual support.
  * Provides standardized medication options that can be translated into different languages.
  *
- * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|Med create(array $attributes = [])
  * @method static Builder|Med find($id, $columns = ['*'])
@@ -26,48 +25,43 @@ use Illuminate\Support\Collection;
  */
 class Med extends Model
 {
-	protected $table = 'migraine_meds';
+    protected $table = 'migraine_meds';
 
-	protected $fillable = ['code'];
+    protected $fillable = ['code'];
 
-	/**
-	 * Get a list of medications with translations for the specified locale
-	 *
-	 * @param string $locale
-	 * @return Collection
-	 */
-	public static function getListWithTranslations(string $locale = 'en'): Collection
-	{
-		$locale = session('locale') ?? app()->getLocale() ?? $locale;
+    /**
+     * Get a list of medications with translations for the specified locale
+     */
+    public static function getListWithTranslations(string $locale = 'en'): Collection
+    {
+        $locale = session('locale') ?? app()->getLocale() ?? $locale;
 
-		return self::with(['translations' => function($query) use ($locale) {
-			$query->where('locale', $locale);
-		}])->get()->map(function($item) {
-			return [
-				'id' => $item->id,
-				'code' => $item->code,
-				'name' => $item->translations->first()->name ?? $item->code
-			];
-		});
-	}
+        return self::with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'code' => $item->code,
+                'name' => $item->translations->first()->name ?? $item->code,
+            ];
+        });
+    }
 
-	/**
-	 * Get all translations for this medication
-	 * @return HasMany
-	 */
-	public function translations(): HasMany
-	{
-		return $this->hasMany(MedTranslation::class, 'med_id');
-	}
+    /**
+     * Get all translations for this medication
+     */
+    public function translations(): HasMany
+    {
+        return $this->hasMany(MedTranslation::class, 'med_id');
+    }
 
-	/**
-	 * Get the translated name for the current locale
-	 * @return string
-	 */
-	public function getNameAttribute(): string
-	{
-		return $this->translations
-			->where('locale', app()->getLocale())
-			->first()?->name ?? $this->code;
-	}
+    /**
+     * Get the translated name for the current locale
+     */
+    public function getNameAttribute(): string
+    {
+        return $this->translations
+            ->where('locale', app()->getLocale())
+            ->first()?->name ?? $this->code;
+    }
 }

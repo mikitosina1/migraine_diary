@@ -21,59 +21,59 @@ use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\TranslationController
 */
 
 Route::prefix('v1/migraine-diary')
-	->middleware('auth:sanctum')
-	->name('api.v1.migraine-diary.')
-	->group(function () {
-		Route::get('/dashboard', DashboardController::class)
-			->name('dashboard');
+    ->middleware('auth:sanctum')
+    ->name('api.v1.migraine-diary.')
+    ->group(function () {
+        Route::get('/dashboard', DashboardController::class)
+            ->name('dashboard');
 
-		Route::get('/attacks/active', [AttackController::class, 'active'])
-			->name('attacks.active');
+        Route::get('/attacks/active', [AttackController::class, 'active'])
+            ->name('attacks.active');
 
-		Route::apiResource('/attacks', AttackController::class);
+        Route::apiResource('/attacks', AttackController::class);
 
-		Route::post('/attacks/{attack}/end', [AttackController::class, 'end'])
-			->name('attacks.end');
+        Route::post('/attacks/{attack}/end', [AttackController::class, 'end'])
+            ->name('attacks.end');
 
-		Route::get('/dictionaries', UserDictionaryController::class)
-			->name('dictionaries.index');
+        Route::get('/dictionaries', UserDictionaryController::class)
+            ->name('dictionaries.index');
 
-		Route::get('/statistics', StatisticController::class)
-			->name('statistics.index');
+        Route::get('/statistics', StatisticController::class)
+            ->name('statistics.index');
 
-		Route::post('/reports/email', [ReportController::class, 'sendEmail'])
-			->name('reports.email');
+        Route::post('/reports/email', [ReportController::class, 'sendEmail'])
+            ->name('reports.email');
 
-		Route::post('/reports/excel', [ReportController::class, 'downloadExcel'])
-			->name('reports.excel');
+        Route::post('/reports/excel', [ReportController::class, 'downloadExcel'])
+            ->name('reports.excel');
 
-		Route::post('/reports/pdf', [ReportController::class, 'downloadPdf'])
-			->name('reports.pdf');
+        Route::post('/reports/pdf', [ReportController::class, 'downloadPdf'])
+            ->name('reports.pdf');
 
-		Route::get('/translations', TranslationController::class)
-			->name('translations.index');
-	});
+        Route::get('/translations', TranslationController::class)
+            ->name('translations.index');
+    });
 
 Route::prefix('v1/admin/migraine-diary')
-	->middleware(['auth:sanctum', 'is_admin'])
-	->name('api.v1.admin.migraine-diary.')
-	->group(function () {
-		Route::get('/dictionaries', [AdminDictionaryController::class, 'indexAll'])
-			->name('dictionaries.index-all');
+    ->middleware(['auth:sanctum', 'is_admin'])
+    ->name('api.v1.admin.migraine-diary.')
+    ->group(function () {
+        Route::get('/dictionaries', [AdminDictionaryController::class, 'indexAll'])
+            ->name('dictionaries.index-all');
 
-		Route::prefix('dictionaries/{type}')
-			->whereIn('type', ['symptoms', 'triggers', 'meds'])
-			->name('dictionaries.')
-			->group(function () {
-				Route::get('/', [AdminDictionaryController::class, 'index'])
-					->name('index');
-				Route::post('/', [AdminDictionaryController::class, 'store'])
-					->name('store');
-				Route::get('/{id}', [AdminDictionaryController::class, 'show'])
-					->whereNumber('id')->name('show');
-				Route::patch('/{id}', [AdminDictionaryController::class, 'patch'])
-					->whereNumber('id')->name('patch');
-				Route::delete('/{id}', [AdminDictionaryController::class, 'destroy'])
-					->whereNumber('id')->name('destroy');
-			});
-	});
+        Route::prefix('dictionaries/{type}')
+            ->whereIn('type', ['symptoms', 'triggers', 'meds'])
+            ->name('dictionaries.')
+            ->group(function () {
+                Route::get('/', [AdminDictionaryController::class, 'index'])
+                    ->name('index');
+                Route::post('/', [AdminDictionaryController::class, 'store'])
+                    ->name('store');
+                Route::get('/{id}', [AdminDictionaryController::class, 'show'])
+                    ->whereNumber('id')->name('show');
+                Route::patch('/{id}', [AdminDictionaryController::class, 'patch'])
+                    ->whereNumber('id')->name('patch');
+                Route::delete('/{id}', [AdminDictionaryController::class, 'destroy'])
+                    ->whereNumber('id')->name('destroy');
+            });
+    });

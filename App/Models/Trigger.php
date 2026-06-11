@@ -13,7 +13,6 @@ use Illuminate\Support\Collection;
  * Represents predefined migraine triggers with multilingual support.
  * Provides standardized trigger options that can be translated into different languages.
  *
- * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|Trigger create(array $attributes = [])
  * @method static Builder|Trigger find($id, $columns = ['*'])
@@ -26,52 +25,47 @@ use Illuminate\Support\Collection;
  */
 class Trigger extends Model
 {
-	protected $table = 'migraine_triggers';
+    protected $table = 'migraine_triggers';
 
-	protected $fillable = [
-		'code',
-		'locale',
-		'name'
-	];
+    protected $fillable = [
+        'code',
+        'locale',
+        'name',
+    ];
 
-	/**
-	 * Get a list of triggers with translations for the specified locale
-	 *
-	 * @param string $locale
-	 * @return Collection
-	 */
-	public static function getListWithTranslations(string $locale = 'en'): Collection
-	{
-		$locale = session('locale') ?? app()->getLocale() ?? $locale;
+    /**
+     * Get a list of triggers with translations for the specified locale
+     */
+    public static function getListWithTranslations(string $locale = 'en'): Collection
+    {
+        $locale = session('locale') ?? app()->getLocale() ?? $locale;
 
-		return self::with(['translations' => function($query) use ($locale) {
-			$query->where('locale', $locale);
-		}])->get()->map(function($item) {
-			return [
-				'id' => $item->id,
-				'code' => $item->code,
-				'name' => $item->translations->first()->name ?? $item->code
-			];
-		});
-	}
+        return self::with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'code' => $item->code,
+                'name' => $item->translations->first()->name ?? $item->code,
+            ];
+        });
+    }
 
-	/**
-	 * Get all translations for this trigger
-	 * @return HasMany
-	 */
-	public function translations(): HasMany
-	{
-		return $this->hasMany(TriggerTranslation::class, 'trigger_id');
-	}
+    /**
+     * Get all translations for this trigger
+     */
+    public function translations(): HasMany
+    {
+        return $this->hasMany(TriggerTranslation::class, 'trigger_id');
+    }
 
-	/**
-	 * Get the translated name for the current locale
-	 * @return string
-	 */
-	public function getNameAttribute(): string
-	{
-		return $this->translations
-			->where('locale', app()->getLocale())
-			->first()?->name ?? $this->code;
-	}
+    /**
+     * Get the translated name for the current locale
+     */
+    public function getNameAttribute(): string
+    {
+        return $this->translations
+            ->where('locale', app()->getLocale())
+            ->first()?->name ?? $this->code;
+    }
 }

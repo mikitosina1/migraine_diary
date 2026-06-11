@@ -15,28 +15,28 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  */
 class DownloadExcelAction
 {
-	/**
-	 * @param MigraineExportService $export Service preparing report rows.
-	 */
-	public function __construct(
-		private readonly MigraineExportService $export,
-	) {}
+    /**
+     * @param  MigraineExportService  $export  Service preparing report rows.
+     */
+    public function __construct(
+        private readonly MigraineExportService $export,
+    ) {}
 
-	/**
-	 * Build an Excel download response for the requested report period.
-	 *
-	 * @param User $user Report owner.
-	 * @param ReportExportData $data Export options.
-	 * @return BinaryFileResponse
-	 * @throws Exception
-	 */
-	public function execute(User $user, ReportExportData $data): BinaryFileResponse
-	{
-		$rows = $this->export->prepareData($user, $data->period);
+    /**
+     * Build an Excel download response for the requested report period.
+     *
+     * @param  User  $user  Report owner.
+     * @param  ReportExportData  $data  Export options.
+     *
+     * @throws Exception
+     */
+    public function execute(User $user, ReportExportData $data): BinaryFileResponse
+    {
+        $rows = $this->export->prepareData($user, $data->period);
 
-		return Excel::download(
-			new ExcelExportService($rows),
-			'migraine-report-' . now()->format('Y-m-d_His') . '.xlsx',
-		);
-	}
+        return Excel::download(
+            new ExcelExportService($rows),
+            'migraine-report-'.now()->format('Y-m-d_His').'.xlsx',
+        );
+    }
 }

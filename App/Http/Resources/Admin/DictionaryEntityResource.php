@@ -16,14 +16,14 @@ use Modules\MigraineDiary\App\Models\Trigger;
  */
 class DictionaryEntityResource extends JsonResource
 {
-	public function toArray(Request $request): array
-	{
-		return [
-			'id' => $this->id,
-			'code' => $this->code,
-			'translations' => TranslationResource::collection($this->whenLoaded('translations')),
-			'created_at' => $this->created_at?->toISOString(),
-			'updated_at' => $this->updated_at?->toISOString(),
-		];
-	}
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'code' => $this->code,
+            'translations' => TranslationResource::collection($this->whenLoaded('translations')),
+            'created_at' => $this->created_at?->toISOString(),
+            'updated_at' => $this->updated_at?->toISOString(),
+        ];
+    }
 }

@@ -13,31 +13,30 @@ use Modules\MigraineDiary\App\Services\PdfExportService;
  */
 class DownloadPdfAction
 {
-	/**
-	 * @param MigraineExportService $export Service preparing report rows.
-	 * @param PdfExportService $pdfExport Service rendering report rows into PDF content.
-	 */
-	public function __construct(
-		private readonly MigraineExportService $export,
-		private readonly PdfExportService $pdfExport,
-	) {}
+    /**
+     * @param  MigraineExportService  $export  Service preparing report rows.
+     * @param  PdfExportService  $pdfExport  Service rendering report rows into PDF content.
+     */
+    public function __construct(
+        private readonly MigraineExportService $export,
+        private readonly PdfExportService $pdfExport,
+    ) {}
 
-	/**
-	 * Build a PDF download response for the requested report period.
-	 *
-	 * @param User $user Report owner.
-	 * @param ReportExportData $data Export options.
-	 * @return Response
-	 */
-	public function execute(User $user, ReportExportData $data): Response
-	{
-		$rows = $this->export->prepareData($user, $data->period);
-		$content = $this->pdfExport->generate($rows, $data->period);
-		$filename = 'migraine-report-' . now()->format('Y-m-d_His') . '.pdf';
+    /**
+     * Build a PDF download response for the requested report period.
+     *
+     * @param  User  $user  Report owner.
+     * @param  ReportExportData  $data  Export options.
+     */
+    public function execute(User $user, ReportExportData $data): Response
+    {
+        $rows = $this->export->prepareData($user, $data->period);
+        $content = $this->pdfExport->generate($rows, $data->period);
+        $filename = 'migraine-report-'.now()->format('Y-m-d_His').'.pdf';
 
-		return response($content, 200, [
-			'Content-Type' => 'application/pdf',
-			'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-		]);
-	}
+        return response($content, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+        ]);
+    }
 }

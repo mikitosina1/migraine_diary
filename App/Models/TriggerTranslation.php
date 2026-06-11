@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
  * Stores translated names and descriptions for predefined triggers.
  * Supports multiple languages for internationalization.
  *
- * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|TriggerTranslation create(array $attributes = [])
  * @method static Builder|TriggerTranslation find($id, $columns = ['*'])
@@ -25,12 +24,12 @@ use Illuminate\Support\Collection;
  */
 class TriggerTranslation extends Model
 {
-	protected $table = 'migraine_trigger_translations';
+    protected $table = 'migraine_trigger_translations';
 
-	protected $fillable = [
-		'trigger_id',
-		'locale',
-		'name',
-		'description'
-	];
+    protected $fillable = [
+        'trigger_id',
+        'locale',
+        'name',
+        'description',
+    ];
 }

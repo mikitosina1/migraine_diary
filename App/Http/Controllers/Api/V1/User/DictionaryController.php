@@ -12,17 +12,13 @@ use Modules\MigraineDiary\App\Services\DictionaryService;
  */
 class DictionaryController extends Controller
 {
-	/**
-	 * Return symptoms, triggers, medications (catalog + user-defined) for the authenticated user.
-	 *
-	 * @param Request $request
-	 * @param DictionaryService $dictionaryService
-	 * @return DictionaryResource
-	 */
-	public function __invoke(Request $request, DictionaryService $dictionaryService): DictionaryResource
-	{
-		$dictionaries = $dictionaryService->getForUser(auth()->user()->id);
+    /**
+     * Return symptoms, triggers, medications (catalog + user-defined) for the authenticated user.
+     */
+    public function __invoke(Request $request, DictionaryService $dictionaryService): DictionaryResource
+    {
+        $dictionaries = $dictionaryService->getForUser(auth()->user()->id);
 
-		return new DictionaryResource($dictionaries);
-	}
+        return new DictionaryResource($dictionaries);
+    }
 }

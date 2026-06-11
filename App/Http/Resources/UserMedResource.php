@@ -13,17 +13,16 @@ use Modules\MigraineDiary\App\Models\UserMed;
  */
 class UserMedResource extends JsonResource
 {
-	/**
-	 * @param Request $request
-	 * @return array<string, mixed>
-	 */
-	public function toArray(Request $request): array
-	{
-		return [
-			'id' => $this->id,
-			'name' => $this->name,
-			'dosage' => $this->whenPivotLoaded('migraine_attack_user_med', fn () => $this->pivot->dosage, $this->dosage),
-			'description' => $this->description,
-		];
-	}
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'dosage' => $this->whenPivotLoaded('migraine_attack_user_med', fn () => $this->pivot->dosage, $this->dosage),
+            'description' => $this->description,
+        ];
+    }
 }

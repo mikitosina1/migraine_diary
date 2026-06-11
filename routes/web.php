@@ -18,46 +18,46 @@ use Modules\MigraineDiary\App\Http\Controllers\MigraineDiaryStatisticController;
 */
 
 Route::middleware(['web', 'auth'])
-	->prefix('migraine-diary')
-	->name('user.migraine-diary.')
-	->group(function () {
-		Route::resource('/', MigraineDiaryController::class)->names('resource');
+    ->prefix('migraine-diary')
+    ->name('user.migraine-diary.')
+    ->group(function () {
+        Route::resource('/', MigraineDiaryController::class)->names('resource');
 
-		Route::get('/translations', [MigraineDiaryController::class, 'getTranslations']);
+        Route::get('/translations', [MigraineDiaryController::class, 'getTranslations']);
 
-		Route::resource('/attacks', MigraineAttackController::class)->names('attacks');
+        Route::resource('/attacks', MigraineAttackController::class)->names('attacks');
 
-		Route::post('attacks/{id}/end-ajax', [MigraineAttackController::class, 'endAttackAjax'])
-			->where('id', '[0-9]+')
-			->name('attacks.end.ajax');
+        Route::post('attacks/{id}/end-ajax', [MigraineAttackController::class, 'endAttackAjax'])
+            ->where('id', '[0-9]+')
+            ->name('attacks.end.ajax');
 
-		Route::post('/download-sheet', [MigraineDiaryStatisticController::class, 'sheetDownload'])
-			->name('download-sheet');
-		Route::post('/download-pdf', [MigraineDiaryStatisticController::class, 'pdfDownload'])
-			->name('download-pdf');
-		Route::post('/send-to-email', [MigraineDiaryStatisticController::class, 'sendToEmail'])
-			->name('sendToEmail');
-	});
+        Route::post('/download-sheet', [MigraineDiaryStatisticController::class, 'sheetDownload'])
+            ->name('download-sheet');
+        Route::post('/download-pdf', [MigraineDiaryStatisticController::class, 'pdfDownload'])
+            ->name('download-pdf');
+        Route::post('/send-to-email', [MigraineDiaryStatisticController::class, 'sendToEmail'])
+            ->name('sendToEmail');
+    });
 
 Route::prefix('admin/migraine-diary')
-	->middleware(['auth:sanctum', 'is_admin'])
-	->name('admin.migraine-diary.')
-	->group(function () {
-		Route::get('/', [MigraineDiaryAdminController ::class, 'index'])->name('index');
+    ->middleware(['auth:sanctum', 'is_admin'])
+    ->name('admin.migraine-diary.')
+    ->group(function () {
+        Route::get('/', [MigraineDiaryAdminController::class, 'index'])->name('index');
 
-		Route::post('/{type}/store', [MigraineDiaryAdminController::class, 'store'])
-			->where(['type' => 'symptoms|triggers|meds'])
-			->name('store');
+        Route::post('/{type}/store', [MigraineDiaryAdminController::class, 'store'])
+            ->where(['type' => 'symptoms|triggers|meds'])
+            ->name('store');
 
-		Route::get('/{type}/{id}/edit', [MigraineDiaryAdminController::class, 'edit'])
-			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
-			->name('edit');
+        Route::get('/{type}/{id}/edit', [MigraineDiaryAdminController::class, 'edit'])
+            ->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
+            ->name('edit');
 
-		Route::match(['post', 'put'], '/{type}/{id}/update', [MigraineDiaryAdminController::class, 'update'])
-			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
-			->name('update');
+        Route::match(['post', 'put'], '/{type}/{id}/update', [MigraineDiaryAdminController::class, 'update'])
+            ->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
+            ->name('update');
 
-		Route::delete('/{type}/{id}', [MigraineDiaryAdminController::class, 'destroy'])
-			->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
-			->name('destroy');
-	});
+        Route::delete('/{type}/{id}', [MigraineDiaryAdminController::class, 'destroy'])
+            ->where(['id' => '[0-9]+', 'type' => 'symptoms|triggers|meds'])
+            ->name('destroy');
+    });

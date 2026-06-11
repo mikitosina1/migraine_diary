@@ -11,22 +11,21 @@ use Modules\MigraineDiary\App\Services\MigraineEmailService;
  */
 class SendEmailAction
 {
-	/**
-	 * @param MigraineEmailService $email Service responsible for building and sending report emails.
-	 */
-	public function __construct(
-		private readonly MigraineEmailService $email,
-	) {}
+    /**
+     * @param  MigraineEmailService  $email  Service responsible for building and sending report emails.
+     */
+    public function __construct(
+        private readonly MigraineEmailService $email,
+    ) {}
 
-	/**
-	 * Send the report according to validated email delivery options.
-	 *
-	 * @param User $user Report owner.
-	 * @param SendReportEmailData $data Email delivery options.
-	 * @return void
-	 */
-	public function execute(User $user, SendReportEmailData $data): void
-	{
-		$this->email->sendReport($user, $data->toServiceArray());
-	}
+    /**
+     * Send the report according to validated email delivery options.
+     *
+     * @param  User  $user  Report owner.
+     * @param  SendReportEmailData  $data  Email delivery options.
+     */
+    public function execute(User $user, SendReportEmailData $data): void
+    {
+        $this->email->sendReport($user, $data->toServiceArray());
+    }
 }

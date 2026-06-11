@@ -7,32 +7,34 @@ use Modules\MigraineDiary\App\Models\UserTrigger;
 
 class UserTriggerRepository
 {
-	public function getForUser(int $userId): Collection
-	{
-		return UserTrigger::getForUser($userId);
-	}
+    public function getForUser(int $userId): Collection
+    {
+        return UserTrigger::getForUser($userId);
+    }
 
-	public function processUserTriggers(array $existingIds, array $newNames, int $userId): array
-	{
-		$newIds = [];
+    public function processUserTriggers(array $existingIds, array $newNames, int $userId): array
+    {
+        $newIds = [];
 
-		foreach ($newNames as $name) {
-			if (empty(trim($name))) continue;
+        foreach ($newNames as $name) {
+            if (empty(trim($name))) {
+                continue;
+            }
 
-			$trigger = UserTrigger::firstOrCreate(
-				['user_id' => $userId, 'name' => trim($name)],
-				['name' => trim($name)]
-			);
-			$newIds[] = $trigger->id;
-		}
+            $trigger = UserTrigger::firstOrCreate(
+                ['user_id' => $userId, 'name' => trim($name)],
+                ['name' => trim($name)]
+            );
+            $newIds[] = $trigger->id;
+        }
 
-		return array_merge($existingIds, $newIds);
-	}
+        return array_merge($existingIds, $newIds);
+    }
 
-	public function deleteUnusedForUser(int $userId): void
-	{
-		UserTrigger::where('user_id', $userId)
-			->doesntHave('attacks')
-			->delete();
-	}
+    public function deleteUnusedForUser(int $userId): void
+    {
+        UserTrigger::where('user_id', $userId)
+            ->doesntHave('attacks')
+            ->delete();
+    }
 }

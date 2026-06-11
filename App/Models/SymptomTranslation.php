@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
  * Stores translated names and descriptions for predefined symptoms.
  * Supports multiple languages for internationalization.
  *
- * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|SymptomTranslation create(array $attributes = [])
  * @method static Builder|SymptomTranslation find($id, $columns = ['*'])
@@ -25,12 +24,12 @@ use Illuminate\Support\Collection;
  */
 class SymptomTranslation extends Model
 {
-	protected $table = 'migraine_symptom_translations';
+    protected $table = 'migraine_symptom_translations';
 
-	protected $fillable = [
-		'symptom_id',
-		'locale',
-		'name',
-		'description'
-	];
+    protected $fillable = [
+        'symptom_id',
+        'locale',
+        'name',
+        'description',
+    ];
 }

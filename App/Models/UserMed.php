@@ -14,7 +14,6 @@ use Illuminate\Support\Collection;
  * Represents user-defined custom medications for migraine attacks.
  * Allows users to create personalized medication entries beyond predefined options.
  *
- * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|UserMed create(array $attributes = [])
  * @method static Builder|UserMed firstOrCreate(array $attributes, array $values = [])
@@ -28,34 +27,32 @@ use Illuminate\Support\Collection;
  */
 class UserMed extends Model
 {
-	protected $table = 'migraine_user_meds';
+    protected $table = 'migraine_user_meds';
 
-	protected $fillable = [
-		'user_id',
-		'name',
-		'dosage',
-		'description'
-	];
+    protected $fillable = [
+        'user_id',
+        'name',
+        'dosage',
+        'description',
+    ];
 
-	/**
-	 * Get all custom medications for a specific user
-	 *
-	 * @param int $userId
-	 * @return Collection<int, static>
-	 */
-	public static function getForUser(int $userId): Collection
-	{
-		return self::where('user_id', $userId)
-			->orderBy('name')
-			->get();
-	}
+    /**
+     * Get all custom medications for a specific user
+     *
+     * @return Collection<int, static>
+     */
+    public static function getForUser(int $userId): Collection
+    {
+        return self::where('user_id', $userId)
+            ->orderBy('name')
+            ->get();
+    }
 
-	/**
-	 * Get the user that owns this custom medication
-	 * @return BelongsTo
-	 */
-	public function user(): BelongsTo
-	{
-		return $this->belongsTo(User::class);
-	}
+    /**
+     * Get the user that owns this custom medication
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

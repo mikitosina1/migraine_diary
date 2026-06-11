@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
  * Stores translated names and descriptions for predefined medications.
  * Supports multiple languages for internationalization.
  *
- * @package Modules\MigraineDiary\App\Models
  *
  * @method static Builder|MedTranslation create(array $attributes = [])
  * @method static Builder|MedTranslation find($id, $columns = ['*'])
@@ -25,12 +24,12 @@ use Illuminate\Support\Collection;
  */
 class MedTranslation extends Model
 {
-	protected $table = 'migraine_med_translations';
+    protected $table = 'migraine_med_translations';
 
-	protected $fillable = [
-		'med_id',
-		'locale',
-		'name',
-		'description'
-	];
+    protected $fillable = [
+        'med_id',
+        'locale',
+        'name',
+        'description',
+    ];
 }

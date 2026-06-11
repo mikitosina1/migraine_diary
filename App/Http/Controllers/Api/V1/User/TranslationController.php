@@ -11,25 +11,25 @@ use Illuminate\Http\Request;
  */
 class TranslationController extends Controller
 {
-	/**
-	 * Resolve the requested locale and return module translation strings.
-	 *
-	 * @param Request $request HTTP request with optional Accept-Language header.
-	 * @return JsonResponse JSON response containing translations and locale metadata.
-	 */
-	public function __invoke(Request $request): JsonResponse
-	{
-		$locale = substr($request->header('Accept-Language', app()->getLocale()), 0, 2);
+    /**
+     * Resolve the requested locale and return module translation strings.
+     *
+     * @param  Request  $request  HTTP request with optional Accept-Language header.
+     * @return JsonResponse JSON response containing translations and locale metadata.
+     */
+    public function __invoke(Request $request): JsonResponse
+    {
+        $locale = substr($request->header('Accept-Language', app()->getLocale()), 0, 2);
 
-		if (!in_array($locale, ['en', 'de', 'ru'], true)) {
-			$locale = 'en';
-		}
+        if (! in_array($locale, ['en', 'de', 'ru'], true)) {
+            $locale = 'en';
+        }
 
-		return response()->json([
-			'data' => trans('migrainediary::migraine_diary', [], $locale),
-			'meta' => [
-				'locale' => $locale,
-			],
-		]);
-	}
+        return response()->json([
+            'data' => trans('migrainediary::migraine_diary', [], $locale),
+            'meta' => [
+                'locale' => $locale,
+            ],
+        ]);
+    }
 }

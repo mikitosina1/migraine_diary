@@ -11,27 +11,26 @@ use Modules\MigraineDiary\App\Services\AttackService;
  */
 class UpdateAttackAction
 {
-	public function __construct(
-		private readonly AttackService $attackService,
-	) {}
+    public function __construct(
+        private readonly AttackService $attackService,
+    ) {}
 
-	/**
-	 * @param  Attack  $attack  Attack model to update.
-	 * @param  UpdateAttackData  $data  Validated changes to apply.
-	 *
-	 * @return Attack Fresh attack instance with symptoms, triggers, and meds relations.
-	 */
-	public function execute(Attack $attack, UpdateAttackData $data): Attack
-	{
-		$this->attackService->updateAttack($attack, $data->toServiceArray());
+    /**
+     * @param  Attack  $attack  Attack model to update.
+     * @param  UpdateAttackData  $data  Validated changes to apply.
+     * @return Attack Fresh attack instance with symptoms, triggers, and meds relations.
+     */
+    public function execute(Attack $attack, UpdateAttackData $data): Attack
+    {
+        $this->attackService->updateAttack($attack, $data->toServiceArray());
 
-		return $attack->refresh()->load([
-			'symptoms.translations',
-			'triggers.translations',
-			'meds.translations',
-			'userSymptoms',
-			'userTriggers',
-			'userMeds'
-		]);
-	}
+        return $attack->refresh()->load([
+            'symptoms.translations',
+            'triggers.translations',
+            'meds.translations',
+            'userSymptoms',
+            'userTriggers',
+            'userMeds',
+        ]);
+    }
 }

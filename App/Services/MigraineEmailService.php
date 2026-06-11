@@ -8,38 +8,35 @@ use Modules\MigraineDiary\App\Mail\MigraineReportMailable;
 
 class MigraineEmailService
 {
-	/**
-	 * Send report email to user or doctor
-	 *
-	 * @param mixed $user
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	public function sendReport(User $user, array $data): void
-	{
-		$reportData = app(MigraineExportService::class)->prepareData($user, $data['period']);
+    /**
+     * Send report email to user or doctor
+     *
+     * @param  mixed  $user
+     */
+    public function sendReport(User $user, array $data): void
+    {
+        $reportData = app(MigraineExportService::class)->prepareData($user, $data['period']);
 
-		$recipientEmail = $data['recipient_type'] === 'doctor' ? $data['doctor_email'] : $user->email;
+        $recipientEmail = $data['recipient_type'] === 'doctor' ? $data['doctor_email'] : $user->email;
 
-		$template = $this->getTemplateByRecipientType($data['recipient_type']);
+        $template = $this->getTemplateByRecipientType($data['recipient_type']);
 
-		$dateService = new DateRangeService();
-		$range = $dateService->getRange($data['period']);
-		$range = $range[0]->format('d.m.Y') . ' - ' . $range[1]->format('d.m.Y');
+        $dateService = new DateRangeService;
+        $range = $dateService->getRange($data['period']);
+        $range = $range[0]->format('d.m.Y').' - '.$range[1]->format('d.m.Y');
 
-		$mailable = new MigraineReportMailable($reportData, $template, $range, $data['user_name'], $data['user_lastname']);
+        $mailable = new MigraineReportMailable($reportData, $template, $range, $data['user_name'], $data['user_lastname']);
 
-		$mailable->attachExcel($reportData);
+        $mailable->attachExcel($reportData);
 
-		Mail::to($recipientEmail)->send($mailable);
-	}
+        Mail::to($recipientEmail)->send($mailable);
+    }
 
-	protected function getTemplateByRecipientType(string $recipientType): string
-	{
-		return match($recipientType) {
-			'doctor' => 'migrainediary::emails.doctor_report',
-			default => 'migrainediary::emails.personal_report',
-		};
-	}
+    protected function getTemplateByRecipientType(string $recipientType): string
+    {
+        return match ($recipientType) {
+            'doctor' => 'migrainediary::emails.doctor_report',
+            default => 'migrainediary::emails.personal_report',
+        };
+    }
 }

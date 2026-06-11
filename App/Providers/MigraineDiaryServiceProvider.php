@@ -19,159 +19,159 @@ use Modules\ModuleManager\App\Services\ModuleAdminActionRegistrar;
 
 class MigraineDiaryServiceProvider extends ServiceProvider
 {
-	protected string $moduleName = 'MigraineDiary';
+    protected string $moduleName = 'MigraineDiary';
 
-	protected string $moduleNameLower = 'migrainediary';
+    protected string $moduleNameLower = 'migrainediary';
 
-	/**
-	 * Boot the application events.
-	 * @throws BindingResolutionException
-	 */
-	public function boot(): void
-	{
-		$this->registerCommands();
-		$this->registerCommandSchedules();
-		$this->registerTranslations();
-		$this->registerConfig();
-		$this->registerViews();
-		$this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
-		$this->loadViewsFrom(__DIR__ . '/../../resources/views', $this->moduleNameLower);
-		$this->registerComponents();
+    /**
+     * Boot the application events.
+     *
+     * @throws BindingResolutionException
+     */
+    public function boot(): void
+    {
+        $this->registerCommands();
+        $this->registerCommandSchedules();
+        $this->registerTranslations();
+        $this->registerConfig();
+        $this->registerViews();
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->moduleNameLower);
+        $this->registerComponents();
 
-	}
+    }
 
-	/**
-	 * Register commands in the format of Command::class
-	 */
-	protected function registerCommands(): void
-	{
-		// $this->commands([]);
-	}
+    /**
+     * Register commands in the format of Command::class
+     */
+    protected function registerCommands(): void
+    {
+        // $this->commands([]);
+    }
 
-	/**
-	 * Register command Schedules.
-	 */
-	protected function registerCommandSchedules(): void
-	{
-		// $this->app->booted(function () {
-		//     $schedule = $this->app->make(Schedule::class);
-		//     $schedule->command('inspire')->hourly();
-		// });
-	}
+    /**
+     * Register command Schedules.
+     */
+    protected function registerCommandSchedules(): void
+    {
+        // $this->app->booted(function () {
+        //     $schedule = $this->app->make(Schedule::class);
+        //     $schedule->command('inspire')->hourly();
+        // });
+    }
 
-	/**
-	 * Register translations.
-	 */
-	public function registerTranslations(): void
-	{
-		$langPath = resource_path('lang/' . $this->moduleNameLower);
+    /**
+     * Register translations.
+     */
+    public function registerTranslations(): void
+    {
+        $langPath = resource_path('lang/'.$this->moduleNameLower);
 
-		if (is_dir($langPath)) {
-			$this->loadTranslationsFrom($langPath, $this->moduleNameLower);
-			$this->loadJsonTranslationsFrom($langPath);
-		} else {
-			$this->loadTranslationsFrom(module_path($this->moduleName, 'resources/lang'), $this->moduleNameLower);
-			$this->loadJsonTranslationsFrom(module_path($this->moduleName, 'resources/lang'));
-		}
-	}
+        if (is_dir($langPath)) {
+            $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
+            $this->loadJsonTranslationsFrom($langPath);
+        } else {
+            $this->loadTranslationsFrom(module_path($this->moduleName, 'resources/lang'), $this->moduleNameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'resources/lang'));
+        }
+    }
 
-	/**
-	 * Register config.
-	 */
-	protected function registerConfig(): void
-	{
-		$this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower . '.php')], 'config');
-		$this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower);
-	}
+    /**
+     * Register config.
+     */
+    protected function registerConfig(): void
+    {
+        $this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
+        $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower);
+    }
 
-	/**
-	 * Register views.
-	 */
-	public function registerViews(): void
-	{
-		$viewPath = resource_path('views/modules/' . $this->moduleNameLower);
-		$sourcePath = module_path($this->moduleName, 'resources/views');
+    /**
+     * Register views.
+     */
+    public function registerViews(): void
+    {
+        $viewPath = resource_path('views/modules/'.$this->moduleNameLower);
+        $sourcePath = module_path($this->moduleName, 'resources/views');
 
-		$this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower . '-module-views']);
+        $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower.'-module-views']);
 
-		$this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
 
-		$componentNamespace = str_replace('/', '\\', config('modules.namespace') . '\\' . $this->moduleName . '\\' . config('modules.paths.generator.component-class.path'));
-		Blade::componentNamespace($componentNamespace, $this->moduleNameLower);
-	}
+        $componentNamespace = str_replace('/', '\\', config('modules.namespace').'\\'.$this->moduleName.'\\'.config('modules.paths.generator.component-class.path'));
+        Blade::componentNamespace($componentNamespace, $this->moduleNameLower);
+    }
 
-	private function getPublishableViewPaths(): array
-	{
-		$paths = [];
-		foreach (config('view.paths') as $path) {
-			if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
-				$paths[] = $path . '/modules/' . $this->moduleNameLower;
-			}
-		}
+    private function getPublishableViewPaths(): array
+    {
+        $paths = [];
+        foreach (config('view.paths') as $path) {
+            if (is_dir($path.'/modules/'.$this->moduleNameLower)) {
+                $paths[] = $path.'/modules/'.$this->moduleNameLower;
+            }
+        }
 
-		return $paths;
-	}
+        return $paths;
+    }
 
-	/**
-	 * Register components
-	 *
-	 * @return void
-	 * @throws BindingResolutionException
-	 */
-	protected function registerComponents(): void
-	{
-		ModuleAdminActionRegistrar::register(
-			$this->moduleName,
-			$this->moduleNameLower,
-			'admin.migraine-diary.index',
-			$this->moduleNameLower . '::admin.config_diary',
-			'📔',
-			fn() => $this->app->make(MigraineDiaryService::class)->isModuleActive()
-		);
+    /**
+     * Register components
+     *
+     * @throws BindingResolutionException
+     */
+    protected function registerComponents(): void
+    {
+        ModuleAdminActionRegistrar::register(
+            $this->moduleName,
+            $this->moduleNameLower,
+            'admin.migraine-diary.index',
+            $this->moduleNameLower.'::admin.config_diary',
+            '📔',
+            fn () => $this->app->make(MigraineDiaryService::class)->isModuleActive()
+        );
 
-		Blade::component('migrainediary::components.modal', 'user-migraine-modal');
+        Blade::component('migrainediary::components.modal', 'user-migraine-modal');
 
-		Livewire::component(
-			'migrainediary.migraine-calendar',
-			Calendar::class
-		);
+        Livewire::component(
+            'migrainediary.migraine-calendar',
+            Calendar::class
+        );
 
-		View::composer('migrainediary::user.dashboard-block', function ($view) {
-			$user = auth()->user();
+        View::composer('migrainediary::user.dashboard-block', function ($view) {
+            $user = auth()->user();
 
-			$thisMonth = Attack::where('user_id', $user->id)
-				->whereYear('created_at', now()->year)
-				->whereMonth('created_at', now()->month)
-				->orderByDesc('created_at')
-				->get();
+            $thisMonth = Attack::where('user_id', $user->id)
+                ->whereYear('created_at', now()->year)
+                ->whereMonth('created_at', now()->month)
+                ->orderByDesc('created_at')
+                ->get();
 
-			$activeAttacks = $thisMonth->where('end_time', null);
+            $activeAttacks = $thisMonth->where('end_time', null);
 
-			$view->with(compact('thisMonth', 'activeAttacks'));
-		});
-	}
+            $view->with(compact('thisMonth', 'activeAttacks'));
+        });
+    }
 
-	/**
-	 * Register the service provider.
-	 */
-	public function register(): void
-	{
-		$this->app->register(RouteServiceProvider::class);
-		$this->app->bind(AttackService::class, function ($app) {
-			return new AttackService(
-				$app->make(AttackRepository::class),
-				$app->make(UserSymptomRepository::class),
-				$app->make(UserTriggerRepository::class),
-				$app->make(UserMedRepository::class)
-			);
-		});
-	}
+    /**
+     * Register the service provider.
+     */
+    public function register(): void
+    {
+        $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(AttackService::class, function ($app) {
+            return new AttackService(
+                $app->make(AttackRepository::class),
+                $app->make(UserSymptomRepository::class),
+                $app->make(UserTriggerRepository::class),
+                $app->make(UserMedRepository::class)
+            );
+        });
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 */
-	public function provides(): array
-	{
-		return [];
-	}
+    /**
+     * Get the services provided by the provider.
+     */
+    public function provides(): array
+    {
+        return [];
+    }
 }

@@ -21,25 +21,23 @@ use Modules\MigraineDiary\App\Models\Attack;
  */
 class DashboardResource extends JsonResource
 {
-	/**
-	 * @param Request $request
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function toArray(Request $request): array
-	{
-		return [
-			'active_attack' => $this->resource['active_attack']
-				? new AttackResource($this->resource['active_attack'])
-				: null,
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'active_attack' => $this->resource['active_attack']
+                ? new AttackResource($this->resource['active_attack'])
+                : null,
 
-			'recent_attacks' => AttackResource::collection($this->resource['recent_attacks']),
+            'recent_attacks' => AttackResource::collection($this->resource['recent_attacks']),
 
-			'dictionaries' => new DictionaryResource($this->resource['dictionaries']),
+            'dictionaries' => new DictionaryResource($this->resource['dictionaries']),
 
-			'statistics' => $this->resource['statistics'],
+            'statistics' => $this->resource['statistics'],
 
-			'meta' => $this->resource['meta'],
-		];
-	}
+            'meta' => $this->resource['meta'],
+        ];
+    }
 }
