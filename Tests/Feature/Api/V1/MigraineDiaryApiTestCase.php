@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\MigraineDiary\Tests;
+namespace Modules\MigraineDiary\Tests\Feature\Api\V1;
 
 use App\Models\Role;
 use App\Models\User;

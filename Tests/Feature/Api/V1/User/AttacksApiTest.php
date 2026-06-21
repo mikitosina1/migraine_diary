@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\MigraineDiary\Tests;
+namespace Modules\MigraineDiary\Tests\Feature\Api\V1\User;
 
 use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Models\Med;
@@ -9,6 +9,7 @@ use Modules\MigraineDiary\App\Models\Trigger;
 use Modules\MigraineDiary\App\Models\UserMed;
 use Modules\MigraineDiary\App\Models\UserSymptom;
 use Modules\MigraineDiary\App\Models\UserTrigger;
+use Modules\MigraineDiary\Tests\Feature\Api\V1\MigraineDiaryApiTestCase;
 
 class AttacksApiTest extends MigraineDiaryApiTestCase
 {
@@ -22,14 +23,14 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
     {
         $user = $this->actingAsUser();
 
-        $symptom = $this->symptom();
-        $userSymptom = $this->userSymptom($user->id);
+        $symptom = $this->createSymptom();
+        $userSymptom = $this->createUserSymptom($user->id);
 
-        $trigger = $this->trigger();
-        $userTrigger = $this->userTrigger($user->id);
+        $trigger = $this->createTrigger();
+        $userTrigger = $this->createUserTrigger($user->id);
 
-        $med = $this->med();
-        $userMed = $this->userMed($user->id);
+        $med = $this->createMed();
+        $userMed = $this->createUserMed($user->id);
 
         $response = $this->postJson($this::BASE_URL.'/attacks', [
             'start_time' => '2026-05-11 21:26:00',
@@ -98,7 +99,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         ]);
     }
 
-    private function symptom(): Symptom
+    private function createSymptom(): Symptom
     {
         $symptom = Symptom::create([
             'code' => 'nausea',
@@ -113,7 +114,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         return $symptom;
     }
 
-    private function UserSymptom(int $uid): UserSymptom
+    private function createUserSymptom(int $uid): UserSymptom
     {
         return UserSymptom::create([
             'user_id' => $uid,
@@ -122,7 +123,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         ]);
     }
 
-    private function trigger(): Trigger
+    private function createTrigger(): Trigger
     {
         $symptom = Trigger::create([
             'code' => 'stress_test',
@@ -137,7 +138,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         return $symptom;
     }
 
-    private function UserTrigger(int $uid): UserTrigger
+    private function createUserTrigger(int $uid): UserTrigger
     {
         return UserTrigger::create([
             'user_id' => $uid,
@@ -146,7 +147,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         ]);
     }
 
-    private function med(): Med
+    private function createMed(): Med
     {
         $med = Med::create([
             'code' => 'ibuprofen_400',
@@ -161,7 +162,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         return $med;
     }
 
-    private function UserMed(int $uid): UserMed
+    private function createUserMed(int $uid): UserMed
     {
         return UserMed::create([
             'user_id' => $uid,
