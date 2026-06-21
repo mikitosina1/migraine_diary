@@ -99,6 +99,108 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         ]);
     }
 
+    public function test_user_can_show_own_attack(): void
+    {
+        $user = $this->actingAsUser();
+
+        $attack = Attack::create([
+            'user_id' => $user->id,
+            'start_time' => now(),
+            'pain_level' => 3,
+            'notes' => 'Before',
+        ]);
+
+        $response = $this->getJson(
+            self::BASE_URL.'/attacks/'.$attack->id
+        );
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('data.id', $attack->id)
+            ->assertJsonPath('data.pain_level', 3)
+            ->assertJsonPath('data.notes', 'Before');
+    }
+
+    public function test_user_can_update_own_attack(): void
+    {
+        $user = $this->actingAsUser();
+
+        $attack = Attack::create([
+            'user_id' => $user->id,
+            'start_time' => now(),
+            'pain_level' => 3,
+            'notes' => 'Before',
+        ]);
+
+        $response = $this->putJson(
+            self::BASE_URL.'/attacks/'.$attack->id,
+            [
+                'pain_level' => 8,
+                'notes' => 'After',
+                'symptoms' => [],
+                'userSymptoms' => [],
+                'userSymptomsNew' => [],
+                'triggers' => [],
+                'userTriggers' => [],
+                'userTriggersNew' => [],
+                'meds' => [],
+                'userMeds' => [],
+                'userMedsNew' => [],
+            ]
+        );
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('data.id', $attack->id)
+            ->assertJsonPath('data.pain_level', 8)
+            ->assertJsonPath('data.notes', 'After');
+
+        $this->assertDatabaseHas('migraine_attacks', [
+            'id' => $attack->id,
+            'user_id' => $user->id,
+            'pain_level' => 8,
+            'notes' => 'After',
+        ]);
+    }
+
+    public function test_user_can_end_own_attack(): void
+    {
+        $user = $this->actingAsUser();
+
+        $attack = Attack::create([
+            'user_id' => $user->id,
+            'start_time' => now(),
+            'pain_level' => 4,
+        ]);
+
+        $response = $this->postJson(self::BASE_URL.'/attacks/'.$attack->id.'/end');
+
+        $response->assertOk();
+
+        $this->assertNotNull(
+            $response->json('data.end_time')
+        );
+
+    }
+
+    public function test_user_can_delete_own_attack(): void
+    {
+        $user = $this->actingAsUser();
+
+        $attack = Attack::create([
+            'user_id' => $user->id,
+            'start_time' => now(),
+            'pain_level' => 4,
+        ]);
+
+        $this->deleteJson(self::BASE_URL.'/attacks/'.$attack->id)
+            ->assertNoContent();
+
+        $this->assertDatabaseMissing('migraine_attacks', [
+            'id' => $attack->id,
+        ]);
+    }
+
     private function createSymptom(): Symptom
     {
         $symptom = Symptom::create([
