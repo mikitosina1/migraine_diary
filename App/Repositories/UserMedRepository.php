@@ -17,27 +17,42 @@ class UserMedRepository
 
     public function processUserMeds(array $existingIds, array $newNames, int $userId): array
     {
-        $newIds = [];
-
-        foreach ($newNames as $name) {
-            if (empty(trim($name))) {
-                continue;
-            }
-
-            $med = UserMed::firstOrCreate(
-                ['user_id' => $userId, 'name' => trim($name)],
-                ['name' => trim($name)]
-            );
-            $newIds[] = $med->id;
-        }
+        $existingIds = $this->filterIdsForUser($existingIds, $userId);
+        $newIds = $this->createNewMeds($newNames, $userId);
 
         return array_merge($existingIds, $newIds);
     }
 
-    public function deleteUnusedForUser(int $userId): void
+    public function filterIdsForUser(array $ids, int $userId): array
     {
-        UserMed::where('user_id', $userId)
-            ->doesntHave('attacks')
-            ->delete();
+        return UserMed::query()
+            ->where('user_id', $userId)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->all();
+    }
+
+    private function createNewMeds(array $names, int $userId): array
+    {
+        $ids = [];
+
+        foreach ($names as $name) {
+            $name = trim($name);
+
+            if ($name === '') {
+                continue;
+            }
+
+            $med = UserMed::firstOrCreate(
+                [
+                    'user_id' => $userId,
+                    'name' => $name,
+                ]
+            );
+
+            $ids[] = $med->id;
+        }
+
+        return $ids;
     }
 }

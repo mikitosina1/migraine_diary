@@ -5,6 +5,7 @@ namespace Modules\MigraineDiary\App\Actions\User;
 use Modules\MigraineDiary\App\Data\CreateAttackData;
 use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Services\AttackService;
+use Throwable;
 
 /**
  * Application action that persists a new migraine attack for the given user.
@@ -19,6 +20,8 @@ class CreateAttackAction
      * @param  CreateAttackData  $data  Validated input for the new attack.
      * @param  int  $userId  Owner user identifier.
      * @return Attack Persisted attack as returned by the service layer.
+     *
+     * @throws Throwable
      */
     public function execute(CreateAttackData $data, int $userId): Attack
     {

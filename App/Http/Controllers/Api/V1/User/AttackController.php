@@ -16,6 +16,7 @@ use Modules\MigraineDiary\App\Http\Resources\AttackResource;
 use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Repositories\AttackRepository;
 use Modules\MigraineDiary\App\Services\AttackFilterService;
+use Throwable;
 
 /**
  * HTTP API for migraine attacks belonging to the authenticated user (v1).
@@ -48,6 +49,7 @@ class AttackController extends Controller
 
     /**
      * Store a newly created attack.
+     * @throws Throwable
      */
     public function store(StoreAttackRequest $request, CreateAttackAction $action): AttackResource
     {

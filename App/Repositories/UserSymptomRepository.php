@@ -14,32 +14,42 @@ class UserSymptomRepository
 
     public function processUserSymptoms(array $existingIds, array $newNames, int $userId): array
     {
-        $newIds = [];
-
-        foreach ($newNames as $name) {
-            if (empty(trim($name))) {
-                continue;
-            }
-
-            $symptom = UserSymptom::firstOrCreate(
-                ['user_id' => $userId, 'name' => trim($name)],
-                ['name' => trim($name)]
-            );
-            $newIds[] = $symptom->id;
-        }
+        $existingIds = $this->filterIdsForUser($existingIds, $userId);
+        $newIds = $this->createNewSymptoms($newNames, $userId);
 
         return array_merge($existingIds, $newIds);
     }
 
-    public function findForUser(int $id, int $userId): ?UserSymptom
+    public function filterIdsForUser(array $ids, int $userId): array
     {
-        return UserSymptom::where('user_id', $userId)->find($id);
+        return UserSymptom::query()
+            ->where('user_id', $userId)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->all();
     }
 
-    public function deleteUnusedForUser(int $userId): void
+    private function createNewSymptoms(array $names, int $userId): array
     {
-        UserSymptom::where('user_id', $userId)
-            ->doesntHave('attacks')
-            ->delete();
+        $ids = [];
+
+        foreach ($names as $name) {
+            $name = trim($name);
+
+            if ($name === '') {
+                continue;
+            }
+
+            $symptom = UserSymptom::firstOrCreate(
+                [
+                    'user_id' => $userId,
+                    'name' => $name,
+                ]
+            );
+
+            $ids[] = $symptom->id;
+        }
+
+        return $ids;
     }
 }

@@ -14,27 +14,42 @@ class UserTriggerRepository
 
     public function processUserTriggers(array $existingIds, array $newNames, int $userId): array
     {
-        $newIds = [];
-
-        foreach ($newNames as $name) {
-            if (empty(trim($name))) {
-                continue;
-            }
-
-            $trigger = UserTrigger::firstOrCreate(
-                ['user_id' => $userId, 'name' => trim($name)],
-                ['name' => trim($name)]
-            );
-            $newIds[] = $trigger->id;
-        }
+        $existingIds = $this->filterIdsForUser($existingIds, $userId);
+        $newIds = $this->createNewTriggers($newNames, $userId);
 
         return array_merge($existingIds, $newIds);
     }
 
-    public function deleteUnusedForUser(int $userId): void
+    public function filterIdsForUser(array $ids, int $userId): array
     {
-        UserTrigger::where('user_id', $userId)
-            ->doesntHave('attacks')
-            ->delete();
+        return UserTrigger::query()
+            ->where('user_id', $userId)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->all();
+    }
+
+    private function createNewTriggers(array $names, int $userId): array
+    {
+        $ids = [];
+
+        foreach ($names as $name) {
+            $name = trim($name);
+
+            if ($name === '') {
+                continue;
+            }
+
+            $trigger = UserTrigger::firstOrCreate(
+                [
+                    'user_id' => $userId,
+                    'name' => $name,
+                ]
+            );
+
+            $ids[] = $trigger->id;
+        }
+
+        return $ids;
     }
 }
