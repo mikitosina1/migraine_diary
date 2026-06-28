@@ -5,6 +5,7 @@ namespace Modules\MigraineDiary\App\Actions\User;
 use Modules\MigraineDiary\App\Data\UpdateAttackData;
 use Modules\MigraineDiary\App\Models\Attack;
 use Modules\MigraineDiary\App\Services\AttackService;
+use Throwable;
 
 /**
  * Application action that updates an existing attack and returns it with relations loaded.
@@ -19,6 +20,8 @@ class UpdateAttackAction
      * @param  Attack  $attack  Attack model to update.
      * @param  UpdateAttackData  $data  Validated changes to apply.
      * @return Attack Fresh attack instance with symptoms, triggers, and meds relations.
+     *
+     * @throws Throwable
      */
     public function execute(Attack $attack, UpdateAttackData $data): Attack
     {

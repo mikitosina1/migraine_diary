@@ -70,6 +70,7 @@ class AttackController extends Controller
 
     /**
      * Update the specified attack.
+     * @throws Throwable
      */
     public function update(UpdateAttackRequest $request, Attack $attack, UpdateAttackAction $action): AttackResource
     {
