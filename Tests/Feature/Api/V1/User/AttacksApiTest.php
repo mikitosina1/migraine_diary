@@ -2,13 +2,6 @@
 
 namespace Modules\MigraineDiary\Tests\Feature\Api\V1\User;
 
-use Modules\MigraineDiary\App\Models\Attack;
-use Modules\MigraineDiary\App\Models\Med;
-use Modules\MigraineDiary\App\Models\Symptom;
-use Modules\MigraineDiary\App\Models\Trigger;
-use Modules\MigraineDiary\App\Models\UserMed;
-use Modules\MigraineDiary\App\Models\UserSymptom;
-use Modules\MigraineDiary\App\Models\UserTrigger;
 use Modules\MigraineDiary\Tests\Feature\Api\V1\MigraineDiaryApiTestCase;
 
 class AttacksApiTest extends MigraineDiaryApiTestCase
@@ -103,8 +96,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
     {
         $user = $this->actingAsUser();
 
-        $attack = Attack::create([
-            'user_id' => $user->id,
+        $attack = $this->createAttack($user->id, [
             'start_time' => now(),
             'pain_level' => 3,
             'notes' => 'Before',
@@ -126,11 +118,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         $this->actingAsUser();
         $otherUser = $this->createUser();
 
-        $attack = Attack::create([
-            'user_id' => $otherUser->id,
-            'start_time' => now(),
-            'pain_level' => 9,
-        ]);
+        $attack = $this->createAttack($otherUser->id);
 
         $this->getJson($this::BASE_URL.'/attacks/'.$attack->id)
             ->assertNotFound();
@@ -188,12 +176,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
     {
         $user = $this->actingAsUser();
 
-        $attack = Attack::create([
-            'user_id' => $user->id,
-            'start_time' => now(),
-            'pain_level' => 3,
-            'notes' => 'Before',
-        ]);
+        $attack = $this->createAttack($user->id);
 
         $response = $this->putJson(
             self::BASE_URL.'/attacks/'.$attack->id,
@@ -230,11 +213,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
     {
         $user = $this->actingAsUser();
 
-        $attack = Attack::create([
-            'user_id' => $user->id,
-            'start_time' => now(),
-            'pain_level' => 4,
-        ]);
+        $attack = $this->createAttack($user->id);
 
         $response = $this->postJson(self::BASE_URL.'/attacks/'.$attack->id.'/end');
 
@@ -250,11 +229,7 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
     {
         $user = $this->actingAsUser();
 
-        $attack = Attack::create([
-            'user_id' => $user->id,
-            'start_time' => now(),
-            'pain_level' => 4,
-        ]);
+        $attack = $this->createAttack($user->id);
 
         $this->deleteJson(self::BASE_URL.'/attacks/'.$attack->id)
             ->assertNoContent();
@@ -268,20 +243,17 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
     {
         $user = $this->actingAsUser();
 
-        $oldAttack = Attack::create([
-            'user_id' => $user->id,
+        $oldAttack = $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(2),
             'pain_level' => 3,
         ]);
 
-        $newAttack = Attack::create([
-            'user_id' => $user->id,
+        $newAttack = $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(10),
             'pain_level' => 5,
         ]);
 
-        $middleAttack = Attack::create([
-            'user_id' => $user->id,
+        $middleAttack = $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(6),
             'pain_level' => 4,
         ]);
@@ -299,20 +271,17 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
     {
         $user = $this->actingAsUser();
 
-        Attack::create([
-            'user_id' => $user->id,
+        $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(2),
             'pain_level' => 3,
         ]);
 
-        Attack::create([
-            'user_id' => $user->id,
+        $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(3),
             'pain_level' => 7,
         ]);
 
-        Attack::create([
-            'user_id' => $user->id,
+        $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(4),
             'pain_level' => 3,
         ]);
@@ -447,18 +416,13 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         $newTrigger = $this->createTrigger();
         $newMed = $this->createMed();
 
-        $attack = Attack::create([
-            'user_id' => $user->id,
-            'start_time' => '2026-05-11 21:26:00',
-            'pain_level' => 7,
-            'notes' => 'Test attack',
-        ]);
+        $attack = $this->createAttack($user->id);
 
         $attack->symptoms()->attach($oldSymptom->id);
         $attack->triggers()->attach($oldTrigger->id);
         $attack->meds()->attach($oldMed->id);
 
-        $this->patchJson(self::BASE_URL.'/attacks/'.$attack->id, [
+        $response = $this->patchJson(self::BASE_URL.'/attacks/'.$attack->id, [
             'pain_level' => 3,
             'notes' => 'qwerty',
             'symptoms' => [$newSymptom->id],
@@ -470,6 +434,8 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
                 ],
             ],
         ]);
+
+        $response->assertOk();
 
         $this->assertDatabaseMissing('migraine_attack_symptom', [
             'attack_id' => $attack->id,
@@ -502,98 +468,16 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         ]);
     }
 
-    private function createSymptom(): Symptom
-    {
-        $symptom = Symptom::create([
-            'code' => fake()->unique()->word(),
-        ]);
-
-        $symptom->translations()->create([
-            'locale' => 'en',
-            'name' => 'Nausea',
-            'description' => 'Feeling sick.',
-        ]);
-
-        return $symptom;
-    }
-
-    private function createUserSymptom(int $uid): UserSymptom
-    {
-        return UserSymptom::create([
-            'user_id' => $uid,
-            'name' => 'Nausea user testing',
-            'description' => 'Created by User Symptom Nausea',
-        ]);
-    }
-
-    private function createTrigger(): Trigger
-    {
-        $symptom = Trigger::create([
-            'code' => fake()->unique()->word(),
-        ]);
-
-        $symptom->translations()->create([
-            'locale' => 'en',
-            'name' => 'Stress for testing',
-            'description' => 'Feeling tested with stress.',
-        ]);
-
-        return $symptom;
-    }
-
-    private function createUserTrigger(int $uid): UserTrigger
-    {
-        return UserTrigger::create([
-            'user_id' => $uid,
-            'name' => 'Light user testing',
-            'description' => 'Created by User Trigger Light',
-        ]);
-    }
-
-    private function createMed(): Med
-    {
-        $med = Med::create([
-            'code' => fake()->unique()->word(),
-        ]);
-
-        $med->translations()->create([
-            'locale' => 'en',
-            'name' => 'Ibuprofen 400 mg.',
-            'description' => 'Pain reliever and anti-inflammatory.',
-        ]);
-
-        return $med;
-    }
-
-    private function createUserMed(int $uid): UserMed
-    {
-        return UserMed::create([
-            'user_id' => $uid,
-            'name' => 'IBU 200 user testing',
-            'description' => 'Created by User med IBU 200',
-        ]);
-    }
-
     public function test_index_returns_only_current_user_attacks(): void
     {
         $user = $this->actingAsUser();
         $otherUser = $this->createUser();
 
-        Attack::create([
-            'user_id' => $user->id,
-            'start_time' => now(),
-            'pain_level' => 3,
-        ]);
-
-        Attack::create([
-            'user_id' => $otherUser->id,
-            'start_time' => now(),
-            'pain_level' => 9,
-        ]);
+        $this->createAttacks($user->id, 5);
+        $this->createAttacks($otherUser->id, 2);
 
         $this->getJson($this::BASE_URL.'/attacks')
             ->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.pain_level', 3);
+            ->assertJsonCount(5, 'data');
     }
 }

@@ -2,10 +2,6 @@
 
 namespace Modules\MigraineDiary\Tests\Feature\Api\V1\User;
 
-use Modules\MigraineDiary\App\Models\Attack;
-use Modules\MigraineDiary\App\Models\UserMed;
-use Modules\MigraineDiary\App\Models\UserSymptom;
-use Modules\MigraineDiary\App\Models\UserTrigger;
 use Modules\MigraineDiary\Tests\Feature\Api\V1\MigraineDiaryApiTestCase;
 
 class DashboardApiTest extends MigraineDiaryApiTestCase
@@ -54,52 +50,43 @@ class DashboardApiTest extends MigraineDiaryApiTestCase
         $user = $this->actingAsUser();
         $otherUser = $this->createUser();
 
-        $activeAttack = Attack::create([
-            'user_id' => $user->id,
+        $activeAttack = $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(5),
             'pain_level' => 4,
         ]);
 
-        $recentAttack = Attack::create([
-            'user_id' => $user->id,
+        $recentAttack = $this->createAttack($user->id, [
             'start_time' => now()->startOfMonth()->addDays(2),
             'end_time' => now()->startOfMonth()->addDays(2)->addHours(2),
             'pain_level' => 7,
         ]);
 
-        $foreignAttack = Attack::create([
-            'user_id' => $otherUser->id,
+        $foreignAttack = $this->createAttack($otherUser->id, [
             'start_time' => now()->startOfMonth()->addDays(7),
             'pain_level' => 10,
         ]);
 
-        $ownSymptom = UserSymptom::create([
-            'user_id' => $user->id,
+        $ownSymptom = $this->createUserSymptom($user->id, [
             'name' => 'Own symptom',
         ]);
 
-        $foreignSymptom = UserSymptom::create([
-            'user_id' => $otherUser->id,
+        $foreignSymptom = $this->createUserSymptom($otherUser->id, [
             'name' => 'Foreign symptom',
         ]);
 
-        $ownTrigger = UserTrigger::create([
-            'user_id' => $user->id,
+        $ownTrigger = $this->createUserTrigger($user->id, [
             'name' => 'Own trigger',
         ]);
 
-        $foreignTrigger = UserTrigger::create([
-            'user_id' => $otherUser->id,
+        $foreignTrigger = $this->createUserTrigger($otherUser->id, [
             'name' => 'Foreign trigger',
         ]);
 
-        $ownMed = UserMed::create([
-            'user_id' => $user->id,
+        $ownMed = $this->createUserMed($user->id, [
             'name' => 'Own med',
         ]);
 
-        $foreignMed = UserMed::create([
-            'user_id' => $otherUser->id,
+        $foreignMed = $this->createUserMed($otherUser->id, [
             'name' => 'Foreign med',
         ]);
 
