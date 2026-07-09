@@ -244,18 +244,18 @@ class AttacksApiTest extends MigraineDiaryApiTestCase
         $user = $this->actingAsUser();
 
         $oldAttack = $this->createAttack($user->id, [
-            'start_time' => now()->startOfMonth()->addDays(2),
+            'start_time' => now()->subDays(10),
             'pain_level' => 3,
         ]);
 
-        $newAttack = $this->createAttack($user->id, [
-            'start_time' => now()->startOfMonth()->addDays(10),
-            'pain_level' => 5,
+        $middleAttack = $this->createAttack($user->id, [
+            'start_time' => now()->subDays(5),
+            'pain_level' => 4,
         ]);
 
-        $middleAttack = $this->createAttack($user->id, [
-            'start_time' => now()->startOfMonth()->addDays(6),
-            'pain_level' => 4,
+        $newAttack = $this->createAttack($user->id, [
+            'start_time' => now()->subDay(),
+            'pain_level' => 5,
         ]);
 
         $response = $this->getJson(self::BASE_URL.'/attacks');
