@@ -51,8 +51,10 @@ class AttackController extends Controller
      * Store a newly created attack.
      * @throws Throwable
      */
-    public function store(StoreAttackRequest $request, CreateAttackAction $action): AttackResource
-    {
+    public function store(
+        StoreAttackRequest $request,
+        CreateAttackAction $action
+    ): AttackResource {
         $attack = $action->execute($request->toData(), auth()->id());
 
         return new AttackResource($attack);
@@ -72,8 +74,11 @@ class AttackController extends Controller
      * Update the specified attack.
      * @throws Throwable
      */
-    public function update(UpdateAttackRequest $request, Attack $attack, UpdateAttackAction $action): AttackResource
-    {
+    public function update(
+        UpdateAttackRequest $request,
+        Attack $attack,
+        UpdateAttackAction $action
+    ): AttackResource {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
 
         $attack = $action->execute($attack, $request->toData());
@@ -84,8 +89,10 @@ class AttackController extends Controller
     /**
      * Remove the specified attack.
      */
-    public function destroy(Attack $attack, DeleteAttackAction $action): JsonResponse
-    {
+    public function destroy(
+        Attack $attack,
+        DeleteAttackAction $action
+    ): JsonResponse {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
 
         $action->execute($attack);
