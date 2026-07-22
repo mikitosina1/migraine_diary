@@ -1,16 +1,23 @@
 {
-	"id": "migraine-diary",
-	"title": "Migraine diary M.Z.",
-	"name": "MigraineDiary",
-	"alias": "migrainediary",
-	"description": "Module for making migraine diary",
-	"keywords": [
-		"Migraine diary"
-	],
-	"priority": 0,
-	"providers": [
-		"Modules\\MigraineDiary\\App\\Providers\\MigraineDiaryServiceProvider"
-	],
-	"files": [],
-	"version": "0.0.1"
+    "id": "migraine-diary",
+    "title": "Migraine diary M.Z.",
+    "name": "MigraineDiary",
+    "alias": "migrainediary",
+    "description": "Module for making migraine diary",
+    "keywords": [
+        "Migraine diary"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\MigraineDiary\\App\\Providers\\MigraineDiaryServiceProvider"
+    ],
+    "files": [],
+    "admin_actions": [
+        {
+            "route": "admin.migraine-diary.index",
+            "label": "migrainediary::admin.config_diary",
+            "icon": "📔"
+        }
+    ],
+    "version": "0.0.1"
 }

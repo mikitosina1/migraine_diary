@@ -14,8 +14,6 @@ use Modules\MigraineDiary\App\Repositories\UserMedRepository;
 use Modules\MigraineDiary\App\Repositories\UserSymptomRepository;
 use Modules\MigraineDiary\App\Repositories\UserTriggerRepository;
 use Modules\MigraineDiary\App\Services\AttackService;
-use Modules\MigraineDiary\Services\MigraineDiaryService;
-use Modules\ModuleManager\App\Services\ModuleAdminActionRegistrar;
 
 class MigraineDiaryServiceProvider extends ServiceProvider
 {
@@ -120,15 +118,6 @@ class MigraineDiaryServiceProvider extends ServiceProvider
      */
     protected function registerComponents(): void
     {
-        ModuleAdminActionRegistrar::register(
-            $this->moduleName,
-            $this->moduleNameLower,
-            'admin.migraine-diary.index',
-            $this->moduleNameLower.'::admin.config_diary',
-            '📔',
-            fn () => $this->app->make(MigraineDiaryService::class)->isModuleActive()
-        );
-
         Blade::component('migrainediary::components.modal', 'user-migraine-modal');
 
         Livewire::component(
