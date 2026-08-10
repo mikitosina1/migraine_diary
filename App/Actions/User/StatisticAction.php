@@ -8,11 +8,11 @@ use Modules\MigraineDiary\App\Services\StatisticService;
 /**
  * Application action that assembles all data required for the user Statistic screen.
  */
-class StatisticAction
+readonly class StatisticAction
 {
     public function __construct(
-        private readonly AttackFilterService $filterService,
-        private readonly StatisticService $statistics,
+        private AttackFilterService $filterService,
+        private StatisticService    $statistics,
     ) {}
 
     /**

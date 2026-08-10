@@ -12,13 +12,13 @@ use Modules\MigraineDiary\App\Services\StatisticService;
 /**
  * Application action that assembles all data required for the user dashboard screen.
  */
-class DashboardDataAction
+readonly class DashboardDataAction
 {
     public function __construct(
-        private readonly AttackRepository $attacks,
-        private readonly DictionaryService $dictionaryService,
-        private readonly StatisticService $statisticService,
-        private readonly AttackFilterService $filterService,
+        private AttackRepository    $attacks,
+        private DictionaryService   $dictionaryService,
+        private StatisticService    $statisticService,
+        private AttackFilterService $filterService,
     ) {}
 
     /**
