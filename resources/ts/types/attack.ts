@@ -1,7 +1,4 @@
-import type {
-    DictionaryItem,
-    UserDictionaryItem,
-} from './dictionary';
+import type {DictionaryItem, UserDictionaryItem,} from './dictionary';
 
 export interface Attack {
     id: number;

@@ -1,5 +1,5 @@
-import type { Attack } from './attack';
-import type { DashboardStatistics } from './statistics';
+import type {Attack} from './attack';
+import type {DashboardStatistics} from './statistics';
 
 export interface Dashboard {
     active_attack: Attack | null;

@@ -1,4 +1,4 @@
-import type { Dashboard } from '../types/dashboard';
+import type {Dashboard} from '../types/dashboard';
 
 const BASE_URL = '/api/v1/migraine-diary';
 

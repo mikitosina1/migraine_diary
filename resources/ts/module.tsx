@@ -1,15 +1,15 @@
-import type { RouteObject } from 'react-router-dom';
-import type { MenuItem } from '@/types/Menu';
-import type { ReactModule } from '@/types/Module';
+import type {RouteObject} from 'react-router-dom';
+import type {MenuItem} from '@/types/Menu';
+import type {ReactModule} from '@/types/Module';
 
-import { BookOpen } from 'lucide-react';
+import {BookOpen} from 'lucide-react';
 
 import DashboardPage from './pages/Dashboard/DashboardPage';
 
 const routes: RouteObject[] = [
     {
         path: 'migraine-diary',
-        element: <DashboardPage />,
+        element: <DashboardPage/>,
         handle: {
             breadcrumb: 'migrainediary.widget_title',
         },
@@ -25,7 +25,7 @@ const navigation: MenuItem[] = [
         order: 100,
         active: true,
         icon: 'migrainediary:book',
-        roles: ['admin','user'],
+        roles: ['admin', 'user'],
     },
 ];
 
