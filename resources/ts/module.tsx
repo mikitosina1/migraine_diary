@@ -10,6 +10,9 @@ const routes: RouteObject[] = [
     {
         path: 'migraine-diary',
         element: <DashboardPage />,
+        handle: {
+            breadcrumb: 'migrainediary.widget_title',
+        },
     },
 ];
 
@@ -22,6 +25,7 @@ const navigation: MenuItem[] = [
         order: 100,
         active: true,
         icon: 'migrainediary:book',
+        roles: ['admin','user'],
     },
 ];
 
