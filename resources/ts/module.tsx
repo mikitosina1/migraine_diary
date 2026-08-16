@@ -11,7 +11,7 @@ const routes: RouteObject[] = [
         path: 'migraine-diary',
         element: <DashboardPage/>,
         handle: {
-            breadcrumb: 'migrainediary.widget_title',
+            title: 'migrainediary.widget_title',
         },
     },
 ];
