@@ -13,6 +13,7 @@ use Modules\MigraineDiary\App\Models\Med;
 use Modules\MigraineDiary\App\Models\Symptom;
 use Modules\MigraineDiary\App\Models\Trigger;
 use Modules\MigraineDiary\App\Services\Admin\EntityService;
+use Throwable;
 
 /**
  * Class MigraineDiaryAdminController
@@ -58,7 +59,8 @@ class MigraineDiaryAdminController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  string  $type  type of model
+     * @param string $type type of model
+     * @throws Throwable
      */
     public function store(StoreEntityRequest $request, string $type): JsonResponse
     {
@@ -76,8 +78,9 @@ class MigraineDiaryAdminController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  string  $type  type of model
-     * @param  int  $id  id of record
+     * @param string $type type of model
+     * @param int $id id of record
+     * @throws Throwable
      */
     public function update(UpdateEntityRequest $request, string $type, int $id): JsonResponse
     {
