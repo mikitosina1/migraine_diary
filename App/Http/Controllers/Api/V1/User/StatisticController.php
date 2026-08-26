@@ -9,6 +9,11 @@ use Modules\MigraineDiary\App\Http\Requests\AttackFilterRequest;
 
 class StatisticController extends Controller
 {
+    /**
+     * @param AttackFilterRequest $request
+     * @param StatisticAction $action
+     * @return JsonResponse
+     */
     public function __invoke(
         AttackFilterRequest $request,
         StatisticAction $action

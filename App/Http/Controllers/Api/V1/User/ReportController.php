@@ -20,6 +20,10 @@ class ReportController extends Controller
 {
     /**
      * Send a migraine report to the authenticated user or doctor.
+     *
+     * @param SendEmailRequest $request
+     * @param SendEmailAction $action
+     * @return JsonResponse
      */
     public function sendEmail(
         SendEmailRequest $request,
@@ -37,6 +41,9 @@ class ReportController extends Controller
     /**
      * Download the authenticated user's migraine report as an Excel file.
      *
+     * @param ReportExportRequest $request
+     * @param DownloadExcelAction $action
+     * @return BinaryFileResponse
      * @throws Exception
      */
     public function downloadExcel(
@@ -48,6 +55,10 @@ class ReportController extends Controller
 
     /**
      * Download the authenticated user's migraine report as a PDF file.
+     *
+     * @param ReportExportRequest $request
+     * @param DownloadPdfAction $action
+     * @return Response
      */
     public function downloadPdf(
         ReportExportRequest $request,

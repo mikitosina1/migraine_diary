@@ -23,6 +23,9 @@ class DictionaryController extends Controller
 {
     /**
      * List all dictionaries
+     * @param ListAllDictionaryEntitiesAction $action
+     *
+     * @return DictionaryResource
      */
     public function indexAll(
         ListAllDictionaryEntitiesAction $action
@@ -35,7 +38,10 @@ class DictionaryController extends Controller
     /**
      * List selected category dictionary
      *
-     * @param  string  $type  symptoms | meds | triggers
+     * @param ListDictionaryEntitiesAction $action
+     * @param string $type symptoms | meds | triggers
+     *
+     * @return AnonymousResourceCollection
      */
     public function index(
         ListDictionaryEntitiesAction $action,
@@ -49,8 +55,11 @@ class DictionaryController extends Controller
     /**
      * Shows selected entity
      *
-     * @param  string  $type  symptoms | meds | triggers
-     * @param  int  $id  selected item
+     * @param ShowDictionaryEntityAction $action
+     * @param string $type symptoms | meds | triggers
+     * @param int $id selected item
+     *
+     * @return DictionaryEntityResource
      */
     public function show(
         ShowDictionaryEntityAction $action,
@@ -63,8 +72,11 @@ class DictionaryController extends Controller
     }
 
     /**
-     * @param  StoreEntityRequest  $request  validator
-     * @param  string  $type  symptoms | meds | triggers
+     * @param StoreEntityRequest $request validator
+     * @param CreateDictionaryEntityAction $action
+     * @param string $type symptoms | meds | triggers
+     *
+     * @return DictionaryEntityResource
      */
     public function store(
         StoreEntityRequest $request,
@@ -77,7 +89,12 @@ class DictionaryController extends Controller
     }
 
     /**
-     * @param  string  $type  symptoms | meds | triggers
+     * @param PatchEntityRequest $request
+     * @param PatchDictionaryEntityAction $action
+     * @param string $type symptoms | meds | triggers
+     * @param int $id
+     *
+     * @return DictionaryEntityResource
      */
     public function patch(
         PatchEntityRequest $request,
@@ -91,7 +108,11 @@ class DictionaryController extends Controller
     }
 
     /**
-     * @param  string  $type  symptoms | meds | triggers
+     * @param DeleteDictionaryEntityAction $action
+     * @param string $type symptoms | meds | triggers
+     * @param int $id
+     *
+     * @return JsonResponse
      */
     public function destroy(
         DeleteDictionaryEntityAction $action,

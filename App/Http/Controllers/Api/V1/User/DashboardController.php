@@ -14,6 +14,10 @@ class DashboardController extends Controller
 {
     /**
      * Build the dashboard payload (active attack, recent list, dictionaries, statistics).
+     *
+     * @param Request $request
+     * @param DashboardDataAction $action
+     * @return DashboardResource
      */
     public function __invoke(
         Request $request,

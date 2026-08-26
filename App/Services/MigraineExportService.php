@@ -12,13 +12,13 @@ use Modules\MigraineDiary\App\Models\Attack;
  * This service owns the report data query and converts attack models into
  * flat rows that can be consumed by Excel, PDF, and email report builders.
  */
-class MigraineExportService
+readonly class MigraineExportService
 {
     /**
      * @param  DateRangeService  $dateRangeService  Resolves named report periods into date ranges.
      */
     public function __construct(
-        private readonly DateRangeService $dateRangeService
+        private DateRangeService $dateRangeService
     ) {}
 
     /**

@@ -18,7 +18,7 @@ use Throwable;
  * Handles the creation, updating, and completion of attacks,
  * as well as the synchronization of related data (symptoms, triggers, medications).
  */
-class AttackService
+readonly class AttackService
 {
     /**
      * Constructor
@@ -29,10 +29,10 @@ class AttackService
      * @param  UserMedRepository  $userMedRepository  Repository for user medications
      */
     public function __construct(
-        private readonly AttackRepository $attackRepository,
-        private readonly UserSymptomRepository $userSymptomRepository,
-        private readonly UserTriggerRepository $userTriggerRepository,
-        private readonly UserMedRepository $userMedRepository
+        private AttackRepository      $attackRepository,
+        private UserSymptomRepository $userSymptomRepository,
+        private UserTriggerRepository $userTriggerRepository,
+        private UserMedRepository     $userMedRepository
     ) {}
 
     /**

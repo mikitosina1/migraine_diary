@@ -7,9 +7,9 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ExcelExportService implements FromArray, WithHeadings, WithStyles
+readonly class ExcelExportService implements FromArray, WithHeadings, WithStyles
 {
-    public function __construct(private readonly array $data) {}
+    public function __construct(private array $data) {}
 
     public function array(): array
     {

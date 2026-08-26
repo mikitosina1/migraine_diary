@@ -14,9 +14,15 @@ class DictionaryController extends Controller
 {
     /**
      * Return symptoms, triggers, medications (catalog + user-defined) for the authenticated user.
+     *
+     * @param Request $request
+     * @param DictionaryService $dictionaryService
+     * @return DictionaryResource
      */
-    public function __invoke(Request $request, DictionaryService $dictionaryService): DictionaryResource
-    {
+    public function __invoke(
+        Request $request,
+        DictionaryService $dictionaryService
+    ): DictionaryResource {
         $dictionaries = $dictionaryService->getForUser(auth()->user()->id);
 
         return new DictionaryResource($dictionaries);

@@ -8,10 +8,10 @@ use Modules\MigraineDiary\App\Models\Attack;
 /**
  * This class coroutines the logic for filtering attacks based on user preferences.
  */
-class AttackFilterService
+readonly class AttackFilterService
 {
     public function __construct(
-        private readonly DateRangeService $dateRangeService
+        private DateRangeService $dateRangeService
     ) {}
 
     /**

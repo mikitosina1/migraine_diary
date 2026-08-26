@@ -32,6 +32,8 @@ class AttackController extends Controller
     /**
      * List all attacks for the current user.
      *
+     * @param AttackFilterRequest $request
+     * @param AttackFilterService $filterService
      * @return AnonymousResourceCollection<int, AttackResource>
      */
     public function index(
@@ -49,6 +51,9 @@ class AttackController extends Controller
 
     /**
      * Store a newly created attack.
+     * @param StoreAttackRequest $request
+     * @param CreateAttackAction $action
+     * @return AttackResource
      * @throws Throwable
      */
     public function store(
@@ -62,9 +67,12 @@ class AttackController extends Controller
 
     /**
      * Display the specified attack if it belongs to the current user.
+     * @param Attack $attack
+     * @return AttackResource
      */
-    public function show(Attack $attack): AttackResource
-    {
+    public function show(
+        Attack $attack
+    ): AttackResource {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
 
         return new AttackResource($attack);
@@ -72,6 +80,11 @@ class AttackController extends Controller
 
     /**
      * Update the specified attack.
+     *
+     * @param UpdateAttackRequest $request
+     * @param Attack $attack
+     * @param UpdateAttackAction $action
+     * @return AttackResource
      * @throws Throwable
      */
     public function update(
@@ -88,6 +101,10 @@ class AttackController extends Controller
 
     /**
      * Remove the specified attack.
+     *
+     * @param Attack $attack
+     * @param DeleteAttackAction $action
+     * @return JsonResponse
      */
     public function destroy(
         Attack $attack,
@@ -102,9 +119,15 @@ class AttackController extends Controller
 
     /**
      * Mark the attack as ended (sets end time via repository / action pipeline).
+     *
+     * @param Attack $attack
+     * @param EndAttackAction $action
+     * @return AttackResource
      */
-    public function end(Attack $attack, EndAttackAction $action): AttackResource
-    {
+    public function end(
+        Attack $attack,
+        EndAttackAction $action
+    ): AttackResource {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
 
         $attack = $action->execute($attack);
@@ -114,6 +137,8 @@ class AttackController extends Controller
 
     /**
      * Return the user's currently active attack, if any (see {@see AttackRepository::getActiveAttackForUser}).
+     *
+     * @return AttackResource
      */
     public function active(): AttackResource
     {
