@@ -3,6 +3,7 @@
 namespace Modules\MigraineDiary\App\Permissions;
 
 use App\Contracts\ModulePermissions;
+use App\Models\Role;
 
 /**
  * Declares Module permissions
@@ -29,7 +30,7 @@ final class MigraineDiaryPermissions implements ModulePermissions
     public static function defaults(): array
     {
         return [
-            config('roles.admin') => [
+            Role::ADMIN => [
                 'access' => true,
                 'view' => true,
                 'create' => true,
@@ -37,7 +38,7 @@ final class MigraineDiaryPermissions implements ModulePermissions
                 'delete' => true,
             ],
 
-            config('roles.user') => [
+            Role::USER => [
                 'access' => true,
                 'view' => true,
                 'create' => true,

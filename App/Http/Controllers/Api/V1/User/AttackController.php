@@ -40,6 +40,8 @@ class AttackController extends Controller
         AttackFilterRequest $request,
         AttackFilterService $filterService
     ): AnonymousResourceCollection {
+        $this->authorize('viewAny', Attack::class);
+
         $attacks = $filterService->getFilteredAttacks(
             auth()->id(),
             $request->getRange(),
@@ -60,6 +62,8 @@ class AttackController extends Controller
         StoreAttackRequest $request,
         CreateAttackAction $action
     ): AttackResource {
+        $this->authorize('create', Attack::class);
+
         $attack = $action->execute($request->toData(), auth()->id());
 
         return new AttackResource($attack);
@@ -74,6 +78,8 @@ class AttackController extends Controller
         Attack $attack
     ): AttackResource {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
+
+        $this->authorize('view', $attack);
 
         return new AttackResource($attack);
     }
@@ -94,6 +100,8 @@ class AttackController extends Controller
     ): AttackResource {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
 
+        $this->authorize('update', $attack);
+
         $attack = $action->execute($attack, $request->toData());
 
         return new AttackResource($attack);
@@ -111,6 +119,8 @@ class AttackController extends Controller
         DeleteAttackAction $action
     ): JsonResponse {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
+
+        $this->authorize('delete', $attack);
 
         $action->execute($attack);
 
@@ -130,6 +140,8 @@ class AttackController extends Controller
     ): AttackResource {
         $attack = $this->attacks->findOrFailForUser($attack->id, auth()->id());
 
+        $this->authorize('end', $attack);
+
         $attack = $action->execute($attack);
 
         return new AttackResource($attack);
@@ -142,6 +154,8 @@ class AttackController extends Controller
      */
     public function active(): AttackResource
     {
+        $this->authorize('viewAny', Attack::class);
+
         $attack = $this->attacks->getActiveAttackForUser(auth()->id());
 
         return new AttackResource($attack);

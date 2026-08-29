@@ -2,13 +2,16 @@
 
 namespace Modules\MigraineDiary\App\Providers;
 
+use App\Services\ModuleSettingsInitializer;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Modules\MigraineDiary\App\Livewire\Calendar;
 use Modules\MigraineDiary\App\Models\Attack;
+use Modules\MigraineDiary\App\Policies\AttackPolicy;
 use Modules\MigraineDiary\App\Repositories\AttackRepository;
 use Modules\MigraineDiary\App\Repositories\UserMedRepository;
 use Modules\MigraineDiary\App\Repositories\UserSymptomRepository;
@@ -37,6 +40,10 @@ class MigraineDiaryServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/views', $this->moduleNameLower);
         $this->registerComponents();
 
+        Gate::policy(Attack::class, AttackPolicy::class);
+
+        $this->app->make(ModuleSettingsInitializer::class)
+            ->initialize($this->moduleName, 'migraine-diary');
     }
 
     /**
