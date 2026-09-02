@@ -23,7 +23,6 @@ const navigation: MenuItem[] = [
         route: '/migraine-diary',
         section: 'modules',
         order: 100,
-        active: true,
         icon: 'migrainediary:book',
         roles: ['admin', 'user'],
     },
