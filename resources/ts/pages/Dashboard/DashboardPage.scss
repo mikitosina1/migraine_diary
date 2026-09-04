@@ -1,0 +1,447 @@
+.migraine-dashboard {
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding-bottom: var(--space-12);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Header
+|--------------------------------------------------------------------------
+*/
+
+.migraine-dashboard__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-6);
+
+    padding: var(--space-6) 0 var(--space-8);
+}
+
+.migraine-dashboard__eyebrow {
+    display: block;
+
+    margin: 0 0 var(--space-2);
+
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.migraine-dashboard__title {
+    margin: 0;
+
+    color: var(--color-text);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.15;
+}
+
+.migraine-dashboard__description {
+    max-width: 720px;
+    margin: var(--space-3) 0 0;
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-md);
+    line-height: 1.6;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Actions
+|--------------------------------------------------------------------------
+*/
+
+.migraine-dashboard__primary-action,
+.migraine-dashboard__secondary-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+
+    min-height: 42px;
+    padding: 0 var(--space-4);
+
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+
+    cursor: pointer;
+
+    transition:
+            background-color var(--transition-fast),
+            border-color var(--transition-fast),
+            color var(--transition-fast),
+            transform var(--transition-fast);
+}
+
+.migraine-dashboard__primary-action {
+    flex-shrink: 0;
+
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.migraine-dashboard__primary-action:hover {
+    opacity: .9;
+    transform: translateY(-1px);
+}
+
+.migraine-dashboard__secondary-action {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+.migraine-dashboard__secondary-action:hover {
+    background: var(--color-surface-hover);
+    border-color: color-mix(
+            in srgb,
+            var(--color-primary) 30%,
+            var(--color-border)
+    );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Statistics
+|--------------------------------------------------------------------------
+*/
+
+.migraine-dashboard__stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+.migraine-dashboard__stat {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    padding: var(--space-5);
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    transition:
+            background-color var(--transition-fast),
+            border-color var(--transition-fast),
+            transform var(--transition-fast);
+}
+
+.migraine-dashboard__stat:hover {
+    background: var(--color-surface-hover);
+    border-color: color-mix(
+            in srgb,
+            var(--color-primary) 25%,
+            var(--color-border)
+    );
+
+    transform: translateY(-1px);
+}
+
+.migraine-dashboard__stat-label {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.migraine-dashboard__stat-value {
+    margin-top: var(--space-2);
+
+    color: var(--color-text);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+}
+
+.migraine-dashboard__stat-meta {
+    margin-top: var(--space-1);
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Main cards
+|--------------------------------------------------------------------------
+*/
+
+.migraine-dashboard__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+
+    margin-top: var(--space-8);
+}
+
+.migraine-dashboard__card {
+    min-width: 0;
+    padding: var(--space-6);
+
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.migraine-dashboard__card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+
+    padding-bottom: var(--space-5);
+
+    border-bottom: 1px solid var(--color-border);
+}
+
+.migraine-dashboard__card-header h2 {
+    margin: 0;
+
+    color: var(--color-text);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.migraine-dashboard__card-eyebrow {
+    display: block;
+
+    margin-bottom: var(--space-1);
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Active attack
+|--------------------------------------------------------------------------
+*/
+
+.migraine-dashboard__active {
+    padding-top: var(--space-5);
+}
+
+.migraine-dashboard__active-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+
+    color: var(--color-text-muted);
+}
+
+.migraine-dashboard__active-row > svg {
+    flex-shrink: 0;
+
+    margin-top: 2px;
+
+    color: var(--color-primary);
+}
+
+.migraine-dashboard__active-row div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+
+    min-width: 0;
+}
+
+.migraine-dashboard__active-row span {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
+
+.migraine-dashboard__active-row strong {
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.migraine-dashboard__pain {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
+
+    border-top: 1px solid var(--color-border);
+}
+
+.migraine-dashboard__pain span {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.migraine-dashboard__pain strong {
+    color: var(--color-text);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.migraine-dashboard__pain small {
+    margin-left: 2px;
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.migraine-dashboard__active > .migraine-dashboard__secondary-action {
+    margin-top: var(--space-5);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Recent attacks
+|--------------------------------------------------------------------------
+*/
+
+.migraine-dashboard__attacks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+
+    padding-top: var(--space-5);
+}
+
+.migraine-dashboard__attack {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+
+    width: 100%;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    padding: var(--space-4);
+
+    background: var(--color-surface-active);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+
+    transition:
+            background-color var(--transition-fast),
+            border-color var(--transition-fast);
+}
+
+.migraine-dashboard__attack:hover {
+    background: var(--color-surface-hover);
+    border-color: color-mix(
+            in srgb,
+            var(--color-primary) 25%,
+            var(--color-border)
+    );
+}
+
+.migraine-dashboard__attack > div {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+
+    min-width: 0;
+}
+
+.migraine-dashboard__attack strong {
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.migraine-dashboard__attack > div span {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
+
+.migraine-dashboard__attack-pain {
+    flex-shrink: 0;
+
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.migraine-dashboard__state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 240px;
+
+    color: var(--color-text-muted);
+}
+
+.migraine-dashboard__state--error {
+    color: var(--color-text);
+}
+
+.migraine-dashboard__empty {
+    padding: var(--space-6) 0;
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    text-align: center;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Responsive
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1000px) {
+    .migraine-dashboard__stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .migraine-dashboard__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .migraine-dashboard__header {
+        flex-direction: column;
+
+        padding-top: var(--space-4);
+    }
+
+    .migraine-dashboard__title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .migraine-dashboard__primary-action {
+        width: 100%;
+    }
+
+    .migraine-dashboard__stats {
+        grid-template-columns: 1fr;
+    }
+
+    .migraine-dashboard__card {
+        padding: var(--space-5);
+    }
+
+    .migraine-dashboard__attack > div {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-1);
+    }
+
+    .migraine-dashboard__secondary-action {
+        width: 100%;
+    }
+}

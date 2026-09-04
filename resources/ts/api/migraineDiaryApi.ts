@@ -2,6 +2,10 @@ import type {Dashboard} from '../types/dashboard';
 
 const BASE_URL = '/api/v1/migraine-diary';
 
+interface DashboardResponse {
+    data: Dashboard;
+}
+
 export async function getDashboard(): Promise<Dashboard> {
     const response = await fetch(`${BASE_URL}/dashboard`, {
         headers: {
@@ -14,5 +18,7 @@ export async function getDashboard(): Promise<Dashboard> {
         throw new Error('Failed to load migraine diary dashboard.');
     }
 
-    return response.json();
+    const payload: DashboardResponse = await response.json();
+
+    return payload.data;
 }
