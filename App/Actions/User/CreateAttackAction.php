@@ -10,10 +10,10 @@ use Throwable;
 /**
  * Application action that persists a new migraine attack for the given user.
  */
-class CreateAttackAction
+readonly class CreateAttackAction
 {
     public function __construct(
-        private readonly AttackService $attackService,
+        private AttackService $attackService,
     ) {}
 
     /**
