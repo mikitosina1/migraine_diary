@@ -8,7 +8,7 @@ interface ActiveAttackCardProps {
 
 function formatDate(value: string | null): string {
     if (!value) {
-        return '—';
+        return '-';
     }
 
     return new Intl.DateTimeFormat(undefined, {
@@ -53,7 +53,7 @@ export default function ActiveAttackCard({
                         <span>Pain level</span>
 
                         <strong>
-                            {attack.pain_level ?? '—'}
+                            {attack.pain_level ?? '-'}
 
                             {attack.pain_level !== null && (
                                 <small>/10</small>

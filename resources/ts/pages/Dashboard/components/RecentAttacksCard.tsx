@@ -7,7 +7,7 @@ interface RecentAttacksCardProps {
 
 function formatDate(value: string | null): string {
     if (!value) {
-        return '—';
+        return '-';
     }
 
     return new Intl.DateTimeFormat(undefined, {
@@ -63,7 +63,7 @@ export default function RecentAttacksCard({
                             <span className="migraine-dashboard__attack-pain">
                                 {attack.pain_level !== null
                                     ? `${attack.pain_level}/10`
-                                    : '—'}
+                                    : '-'}
                             </span>
                         </button>
                     ))

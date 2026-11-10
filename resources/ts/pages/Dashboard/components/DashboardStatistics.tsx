@@ -29,7 +29,7 @@ export default function DashboardStatistics({
                 </span>
 
                 <strong className="migraine-dashboard__stat-value">
-                    {statistics.average_pain_level ?? '—'}
+                    {statistics.average_pain_level ?? '-'}
                 </strong>
 
                 <span className="migraine-dashboard__stat-meta">
@@ -57,7 +57,7 @@ export default function DashboardStatistics({
                 </span>
 
                 <strong className="migraine-dashboard__stat-value">
-                    {statistics.max_pain_level ?? '—'}
+                    {statistics.max_pain_level ?? '-'}
                 </strong>
 
                 <span className="migraine-dashboard__stat-meta">
