@@ -7,7 +7,7 @@ namespace Modules\MigraineDiary\App\Data;
  *
  * Transfers validated attack data between controller and service layer.
  */
-class CreateAttackData
+readonly class CreateAttackData
 {
     /**
      * @param  string  $startTime  Attack start timestamp (validated format).
@@ -24,18 +24,18 @@ class CreateAttackData
      * @param  array<string>  $userMedsNew  New custom medication names.
      */
     public function __construct(
-        public readonly string $startTime,
-        public readonly int $painLevel,
-        public readonly ?string $notes,
-        public readonly array $symptoms,
-        public readonly array $userSymptoms,
-        public readonly array $userSymptomsNew,
-        public readonly array $triggers,
-        public readonly array $userTriggers,
-        public readonly array $userTriggersNew,
-        public readonly array $meds,
-        public readonly array $userMeds,
-        public readonly array $userMedsNew,
+        public string $startTime,
+        public int $painLevel,
+        public ?string $notes,
+        public array $symptoms,
+        public array $userSymptoms,
+        public array $userSymptomsNew,
+        public array $triggers,
+        public array $userTriggers,
+        public array $userTriggersNew,
+        public array $meds,
+        public array $userMeds,
+        public array $userMedsNew,
     ) {}
 
     /**

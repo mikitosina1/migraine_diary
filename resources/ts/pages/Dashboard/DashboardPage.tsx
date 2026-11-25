@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getDashboard } from '../../api/migraineDiaryApi';
 import type { Dashboard } from '../../types/dashboard';
@@ -8,52 +8,47 @@ import DashboardHeader from './components/DashboardHeader';
 import DashboardStatistics from './components/DashboardStatistics';
 import ActiveAttackCard from './components/ActiveAttackCard';
 import RecentAttacksCard from './components/RecentAttacksCard';
+import CreateAttackDialog from './components/CreateAttackDialog';
+import {dashboardT} from './translate';
 
 import './DashboardPage.scss';
+import './CreateAttackDialog.scss';
 
 export default function DashboardPage() {
     const [dashboard, setDashboard] = useState<Dashboard | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+    const loadDashboard = useCallback(async (cancelled?: () => boolean, showLoading = true) => {
+        try {
+            if (showLoading) setLoading(true);
+            setError(null);
+            const data = await getDashboard();
+            if (!cancelled || !cancelled()) setDashboard(data);
+        } catch {
+            if (!cancelled || !cancelled()) {
+                setError(dashboardT('dashboard_load_error', 'Failed to load migraine diary.'));
+            }
+        } finally {
+            if (!cancelled || !cancelled()) setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
         let cancelled = false;
-
-        async function loadDashboard() {
-            try {
-                setLoading(true);
-                setError(null);
-
-                const data = await getDashboard();
-
-                if (!cancelled) {
-                    setDashboard(data);
-                }
-            } catch (error) {
-                if (!cancelled) {
-                    setError(
-                        error instanceof Error
-                            ? error.message
-                            : 'Failed to load migraine diary.'
-                    );
-                }
-            } finally {
-                if (!cancelled) {
-                    setLoading(false);
-                }
-            }
-        }
-
-        void loadDashboard();
+        void loadDashboard(() => cancelled);
 
         return () => {
             cancelled = true;
         };
-    }, []);
+    }, [loadDashboard]);
 
     const handleNewAttack = () => {
-        // TODO: open create attack flow
+        setCreateDialogOpen(true);
     };
+
+    const closeCreateDialog = useCallback(() => setCreateDialogOpen(false), []);
 
     const handleEndAttack = (attack: Attack) => {
         // TODO: end attack
@@ -69,7 +64,7 @@ export default function DashboardPage() {
         return (
             <section className="migraine-dashboard">
                 <div className="migraine-dashboard__state">
-                    Loading…
+                    {dashboardT('loading', 'Loading')}…
                 </div>
             </section>
         );
@@ -104,6 +99,14 @@ export default function DashboardPage() {
                     onSelectAttack={handleSelectAttack}
                 />
             </div>
+
+            {createDialogOpen && (
+                <CreateAttackDialog
+                    dictionaries={dashboard.dictionaries}
+                    onClose={closeCreateDialog}
+                    onCreated={() => { void loadDashboard(undefined, false); }}
+                />
+            )}
         </section>
     );
 }
