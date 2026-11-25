@@ -1,4 +1,5 @@
 import { Plus } from 'lucide-react';
+import {dashboardT} from '../translate';
 
 interface DashboardHeaderProps {
     onNewAttack?: () => void;
@@ -11,15 +12,15 @@ export default function DashboardHeader({
         <header className="migraine-dashboard__header">
             <div>
                 <span className="migraine-dashboard__eyebrow">
-                    Migraine Diary
+                    {dashboardT('widget_title', 'Migraine Diary')}
                 </span>
 
                 <h1 className="migraine-dashboard__title">
-                    Overview
+                    {dashboardT('dashboard_overview', 'Overview')}
                 </h1>
 
                 <p className="migraine-dashboard__description">
-                    Your recent migraine activity.
+                    {dashboardT('dashboard_description', 'A summary of your migraine activity.')}
                 </p>
             </div>
 
@@ -29,7 +30,7 @@ export default function DashboardHeader({
                 onClick={onNewAttack}
             >
                 <Plus size={18} />
-                <span>New attack</span>
+                <span>{dashboardT('new_attack', 'New attack')}</span>
             </button>
         </header>
     );

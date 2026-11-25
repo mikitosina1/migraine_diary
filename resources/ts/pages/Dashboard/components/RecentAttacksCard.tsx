@@ -1,4 +1,5 @@
 import type { Attack } from '../../../types/attack';
+import {dashboardLocale, dashboardT} from '../translate';
 
 interface RecentAttacksCardProps {
     attacks: Attack[];
@@ -10,7 +11,7 @@ function formatDate(value: string | null): string {
         return '-';
     }
 
-    return new Intl.DateTimeFormat(undefined, {
+    return new Intl.DateTimeFormat(dashboardLocale(), {
         dateStyle: 'medium',
     }).format(new Date(value));
 }
@@ -20,7 +21,7 @@ function formatTime(value: string | null): string {
         return '';
     }
 
-    return new Intl.DateTimeFormat(undefined, {
+    return new Intl.DateTimeFormat(dashboardLocale(), {
         timeStyle: 'short',
     }).format(new Date(value));
 }
@@ -34,10 +35,10 @@ export default function RecentAttacksCard({
             <div className="migraine-dashboard__card-header">
                 <div>
                     <span className="migraine-dashboard__card-eyebrow">
-                        History
+                        {dashboardT('history', 'History')}
                     </span>
 
-                    <h2>Recent attacks</h2>
+                    <h2>{dashboardT('recent_attacks', 'Recent attacks')}</h2>
                 </div>
             </div>
 
@@ -69,7 +70,7 @@ export default function RecentAttacksCard({
                     ))
                 ) : (
                     <div className="migraine-dashboard__empty">
-                        <span>No recent attacks.</span>
+                        <span>{dashboardT('no_recent_attacks', 'No recent attacks.')}</span>
                     </div>
                 )}
             </div>

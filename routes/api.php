@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\SetApiLocale;
 use Modules\MigraineDiary\App\Http\Controllers\Api\V1\Admin\DictionaryController as AdminDictionaryController;
 use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\AttackController;
 use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\DashboardController;
@@ -21,7 +22,7 @@ use Modules\MigraineDiary\App\Http\Controllers\Api\V1\User\TranslationController
 */
 
 Route::prefix('v1/migraine-diary')
-    ->middleware('auth:sanctum')
+    ->middleware(['auth:sanctum', SetApiLocale::class])
     ->name('api.v1.migraine-diary.')
     ->group(function () {
         Route::get('/dashboard', DashboardController::class)
