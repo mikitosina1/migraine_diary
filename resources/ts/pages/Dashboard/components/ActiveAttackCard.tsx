@@ -5,6 +5,8 @@ import {dashboardLocale, dashboardT} from '../translate';
 interface ActiveAttackCardProps {
     attack: Attack | null;
     onEndAttack?: (attack: Attack) => void;
+    isEnding?: boolean;
+    error?: string | null;
 }
 
 function formatDate(value: string | null): string {
@@ -21,6 +23,8 @@ function formatDate(value: string | null): string {
 export default function ActiveAttackCard({
                                              attack,
                                              onEndAttack,
+                                             isEnding = false,
+                                             error,
                                          }: ActiveAttackCardProps) {
     return (
         <article className="migraine-dashboard__card">
@@ -66,9 +70,13 @@ export default function ActiveAttackCard({
                         type="button"
                         className="migraine-dashboard__secondary-action"
                         onClick={() => onEndAttack?.(attack)}
+                        disabled={isEnding}
                     >
-                        {dashboardT('end_attack', 'End attack')}
+                        {isEnding
+                            ? dashboardT('ending_attack', 'Ending…')
+                            : dashboardT('end_attack', 'End attack')}
                     </button>
+                    {error && <p className="migraine-dashboard__action-error" role="alert">{error}</p>}
                 </div>
             ) : (
                 <div className="migraine-dashboard__empty">

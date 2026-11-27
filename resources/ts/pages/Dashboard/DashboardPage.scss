@@ -302,6 +302,12 @@
     margin-top: var(--space-5);
 }
 
+.migraine-dashboard__action-error {
+    margin: var(--space-3) 0 0;
+    color: var(--color-danger, #ef4444);
+    font-size: var(--font-size-sm);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Recent attacks
@@ -313,7 +319,11 @@
     flex-direction: column;
     gap: var(--space-3);
 
+    max-height: min(22vh, 220px);
     padding-top: var(--space-5);
+    padding-right: var(--space-1);
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .migraine-dashboard__attack {
@@ -323,6 +333,7 @@
     gap: var(--space-4);
 
     width: 100%;
+    flex-shrink: 0;
     font: inherit;
     text-align: left;
     cursor: pointer;

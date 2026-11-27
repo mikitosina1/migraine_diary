@@ -1,5 +1,9 @@
 import type {DictionaryItem, UserDictionaryItem,} from './dictionary';
 
+export interface AttackMedication extends DictionaryItem {
+    dosage?: string | null;
+}
+
 export interface Attack {
     id: number;
     start_time: string | null;
@@ -14,7 +18,7 @@ export interface Attack {
     triggers: DictionaryItem[];
     user_triggers: UserDictionaryItem[];
 
-    meds: DictionaryItem[];
+    meds: AttackMedication[];
     user_meds: UserDictionaryItem[];
 
     created_at: string | null;

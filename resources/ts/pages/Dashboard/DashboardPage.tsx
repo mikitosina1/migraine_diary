@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { getDashboard } from '../../api/migraineDiaryApi';
+import { endAttack, getDashboard } from '../../api/migraineDiaryApi';
 import type { Dashboard } from '../../types/dashboard';
 import type { Attack } from '../../types/attack';
 
@@ -9,6 +9,7 @@ import DashboardStatistics from './components/DashboardStatistics';
 import ActiveAttackCard from './components/ActiveAttackCard';
 import RecentAttacksCard from './components/RecentAttacksCard';
 import CreateAttackDialog from './components/CreateAttackDialog';
+import AttackDetailsDialog from './components/AttackDetailsDialog';
 import {dashboardT} from './translate';
 
 import './DashboardPage.scss';
@@ -19,6 +20,9 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [endingAttackId, setEndingAttackId] = useState<number | null>(null);
+    const [endAttackError, setEndAttackError] = useState<string | null>(null);
+    const [selectedAttack, setSelectedAttack] = useState<Attack | null>(null);
 
     const loadDashboard = useCallback(async (cancelled?: () => boolean, showLoading = true) => {
         try {
@@ -49,15 +53,26 @@ export default function DashboardPage() {
     };
 
     const closeCreateDialog = useCallback(() => setCreateDialogOpen(false), []);
+    const closeAttackDetails = useCallback(() => setSelectedAttack(null), []);
 
-    const handleEndAttack = (attack: Attack) => {
-        // TODO: end attack
-        console.log('End attack', attack.id);
+    const handleEndAttack = async (attack: Attack) => {
+        setEndingAttackId(attack.id);
+        setEndAttackError(null);
+
+        try {
+            await endAttack(attack.id);
+            setSelectedAttack(null);
+            await loadDashboard(undefined, false);
+        } catch {
+            setEndAttackError(dashboardT('end_attack_error', 'Could not end the attack. Please try again.'));
+        } finally {
+            setEndingAttackId(null);
+        }
     };
 
     const handleSelectAttack = (attack: Attack) => {
-        // TODO: open attack details/edit
-        console.log('Select attack', attack.id);
+        setEndAttackError(null);
+        setSelectedAttack(attack);
     };
 
     if (loading) {
@@ -92,6 +107,8 @@ export default function DashboardPage() {
                 <ActiveAttackCard
                     attack={dashboard.active_attack}
                     onEndAttack={handleEndAttack}
+                    isEnding={endingAttackId === dashboard.active_attack?.id}
+                    error={endAttackError}
                 />
 
                 <RecentAttacksCard
@@ -105,6 +122,22 @@ export default function DashboardPage() {
                     dictionaries={dashboard.dictionaries}
                     onClose={closeCreateDialog}
                     onCreated={() => { void loadDashboard(undefined, false); }}
+                />
+            )}
+
+            {selectedAttack && (
+                <AttackDetailsDialog
+                    key={selectedAttack.id}
+                    attack={selectedAttack}
+                    dictionaries={dashboard.dictionaries}
+                    onClose={closeAttackDetails}
+                    onSaved={(updated) => {
+                        setSelectedAttack(updated);
+                        void loadDashboard(undefined, false);
+                    }}
+                    onEndAttack={(attack) => { void handleEndAttack(attack); }}
+                    isEnding={endingAttackId === selectedAttack.id}
+                    endError={endAttackError}
                 />
             )}
         </section>
