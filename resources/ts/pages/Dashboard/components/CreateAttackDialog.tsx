@@ -16,6 +16,7 @@ interface CreateAttackDialogProps {
 interface FormState {
     start_time: string;
     pain_level: number | null;
+    notes: string;
     symptoms: number[];
     userSymptoms: number[];
     userSymptomsNew: string[];
@@ -43,7 +44,7 @@ export default function CreateAttackDialog({dictionaries, onClose, onCreated}: C
     const [activeCustomType, setActiveCustomType] = useState<'userSymptomsNew' | 'userTriggersNew' | 'userMedsNew' | null>(null);
     const [customDraft, setCustomDraft] = useState('');
     const [form, setForm] = useState<FormState>({
-        start_time: localDateTime(), pain_level: null,
+        start_time: localDateTime(), pain_level: null, notes: '',
         symptoms: [], userSymptoms: [], userSymptomsNew: [],
         triggers: [], userTriggers: [], userTriggersNew: [],
         meds: [], userMeds: [], userMedsNew: [],
@@ -112,6 +113,7 @@ export default function CreateAttackDialog({dictionaries, onClose, onCreated}: C
         const payload: CreateAttackPayload = {
             start_time: form.start_time,
             pain_level: form.pain_level,
+            ...(form.notes.trim() ? {notes: form.notes.trim()} : {}),
             symptoms: form.symptoms,
             userSymptoms: form.userSymptoms,
             userSymptomsNew: form.userSymptomsNew,
@@ -202,6 +204,8 @@ export default function CreateAttackDialog({dictionaries, onClose, onCreated}: C
                             ...dictionaries.user_meds.filter(item => form.userMeds.includes(item.id)).map(item => item.name),
                             ...form.userMedsNew,
                         ].join(', ') || '-'}</strong></div>
+                        <label className="attack-form__label" htmlFor="attack-notes">{t('notes', 'Notes')} <span className="attack-form__optional">({t('optional', 'optional')})</span></label>
+                        <textarea id="attack-notes" className="attack-form__notes" maxLength={1000} value={form.notes} onChange={event => update('notes', event.target.value)} placeholder={t('notes_placeholder', 'Add any details you want to remember...')} />
                     </div>}
                     {error && <p className="attack-form__error" role="alert">{error}</p>}
                 </div>
