@@ -3,6 +3,7 @@
 namespace Modules\MigraineDiary\App\Repositories;
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Modules\MigraineDiary\App\Models\Attack;
 
@@ -72,6 +73,18 @@ class AttackRepository
     public function getUserAttacks(int $userId): Collection
     {
         return Attack::forUser($userId)->get();
+    }
+
+    /**
+     * All attacks for the user that started within the given period.
+     *
+     * @return Collection<int, Attack>
+     */
+    public function getUserAttacksForPeriod(int $userId, Carbon $start, Carbon $end): Collection
+    {
+        return Attack::forUser($userId)
+            ->whereBetween('start_time', [$start, $end])
+            ->get();
     }
 
     /**

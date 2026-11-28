@@ -1,5 +1,6 @@
 import type {Dashboard} from '../types/dashboard';
 import type {Attack} from '../types/attack';
+import type {PeriodStatistics} from '../types/statistics';
 import axios from 'axios';
 import api from '@/services/ApiClient';
 import BootstrapService from '@/services/BootstrapService';
@@ -125,4 +126,42 @@ export async function getTranslations(): Promise<Record<string, string>> {
 
     const payload = await response.json();
     return payload.data as Record<string, string>;
+}
+
+export async function getCalendarAttacks(month: string): Promise<Attack[]> {
+    const response = await api.get<{data: Attack[]}>(`${BASE_URL}/calendar`, {params: {month}});
+    return response.data.data;
+}
+
+export async function getAttacks(range: 'month' | '3months' | 'year', painLevel = 'all'): Promise<Attack[]> {
+    const response = await api.get<{data: Attack[]}>(`${BASE_URL}/attacks`, {params: {range, pain_level: painLevel}});
+    return response.data.data;
+}
+
+export async function deleteAttack(attackId: number): Promise<void> {
+    await api.delete(`${BASE_URL}/attacks/${attackId}`);
+}
+
+export async function getStatistics(range: 'month' | '3months' | 'year'): Promise<PeriodStatistics> {
+    const response = await api.get<{data: PeriodStatistics}>(`${BASE_URL}/statistics`, {params: {range}});
+    return response.data.data;
+}
+
+export async function downloadReport(format: 'excel' | 'pdf', period: string): Promise<Blob> {
+    const response = await api.post(`${BASE_URL}/reports/${format}`, {period}, {responseType: 'blob'});
+    return response.data as Blob;
+}
+
+export interface SendReportPayload {
+    recipient_type: 'self' | 'doctor';
+    period: string;
+    doctor_email?: string;
+    user_name?: string;
+    user_lastname?: string;
+    formats: Array<'pdf' | 'excel'>;
+}
+
+export async function sendReport(payload: SendReportPayload): Promise<string> {
+    const response = await api.post<{data: {message: string}}>(`${BASE_URL}/reports/email`, payload);
+    return response.data.data.message;
 }

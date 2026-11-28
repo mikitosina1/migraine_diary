@@ -1,104 +1,632 @@
 .migraine-dashboard {
     width: 100%;
     max-width: var(--content-max-width);
+    height: min(850px, calc(100dvh - 180px));
     margin: 0 auto;
-    padding-bottom: var(--space-12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
-
+.migraine-dashboard__tabs {
+    display: flex;
+    flex: 0 0 auto;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+}
+.migraine-dashboard__tabs button {
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+.migraine-dashboard__tabs button.is-active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+.migraine-dashboard__tabs button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+.migraine-dashboard__header { flex: 0 0 auto; }
+.migraine-dashboard__tab-content {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+.migraine-dashboard__overview-scroll {
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+.migraine-calendar, .migraine-reports {
+    box-sizing: border-box;
+    height: 100%;
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overscroll-behavior: contain;
+}
+.migraine-calendar {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, .8fr);
+    gap: var(--space-5);
+    overflow: hidden;
+}
+.migraine-calendar__main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+.migraine-reports {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.migraine-calendar__toolbar, .migraine-reports__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+.migraine-calendar__toolbar h2, .migraine-reports__header h2 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--font-size-xl);
+}
+.migraine-calendar__month-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text);
+}
+.migraine-calendar__month-controls button, .migraine-reports__header select {
+    min-height: 36px;
+    padding: 0 var(--space-3);
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+.migraine-calendar__grid {
+    display: grid;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 360px;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, 1fr);
+    gap: var(--space-2);
+    overflow: hidden;
+}
+.migraine-calendar__grid.is-loading { opacity: .55; }
+.migraine-calendar__weekday {
+    padding: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    text-align: center;
+}
+.migraine-calendar__day {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 0;
+    margin-inline: 6px;
+    padding: var(--space-2);
+    color: var(--color-text);
+    background: var(--color-background, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+.migraine-calendar__day--empty { visibility: hidden; }
+.migraine-calendar__day.has-attacks { border-color: color-mix(in srgb, var(--color-primary) 60%, var(--color-border)); }
+.migraine-calendar__day.is-selected {
+    background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface));
+    outline: 2px solid var(--color-primary);
+}
+.migraine-calendar__day-count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    color: #fff;
+    background: var(--color-primary);
+    border-radius: 999px;
+    font-size: var(--font-size-xs);
+}
+.migraine-calendar__selection {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--color-border);
+    overscroll-behavior: contain;
+}
+.migraine-calendar__selection-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+}
+.migraine-calendar__selection-header h3 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+}
+.migraine-calendar__selection-header > span {
+    flex: 0 0 auto;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+.migraine-calendar__attack-list {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    min-height: 0;
+    padding-top: var(--space-3);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+.migraine-calendar__empty-selection, .migraine-calendar__empty-day {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    min-height: 0;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+.migraine-calendar__empty-selection {
+    flex-direction: column;
+    padding: var(--space-5);
+}
+.migraine-calendar__empty-selection svg {
+    color: var(--color-primary);
+    opacity: .7;
+}
+.migraine-calendar__empty-day { padding: var(--space-5); }
+.migraine-calendar__selection p, .migraine-calendar__message, .migraine-reports__header p { color: var(--color-text-muted); }
+.migraine-calendar__message--error, .migraine-reports__message--error { color: var(--color-danger, #c0392b); }
+.migraine-calendar__attack {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    width: 100%;
+    padding: var(--space-3);
+    color: var(--color-text);
+    text-align: left;
+    background: var(--color-background, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+.migraine-calendar__attack:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 55%, var(--color-border));
+    background: var(--color-surface-hover);
+}
+.migraine-calendar__attack-time {
+    grid-row: span 2;
+    color: var(--color-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+.migraine-calendar__attack-pain {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+.migraine-calendar__attack-pain strong { color: var(--color-text); }
+.migraine-calendar__attack-status {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
+.migraine-reports__header p { margin: var(--space-1) 0 0; }
+.migraine-reports__header label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+}
+.migraine-reports__body {
+    display: grid;
+    flex: 1 1 auto;
+    grid-template-columns: minmax(0, 2fr) minmax(250px, 1fr);
+    gap: var(--space-5);
+    min-height: 0;
+}
+.migraine-reports__analysis {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+.migraine-reports__summary {
+    display: grid;
+    flex: 0 0 auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-3);
+}
+.migraine-reports__summary article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+}
+.migraine-reports__summary strong {
+    color: var(--color-text);
+    font-size: var(--font-size-2xl);
+}
+.migraine-reports__summary small {
+    margin-left: 4px;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+.migraine-reports__chart {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: end;
+    justify-content: space-around;
+    gap: var(--space-2);
+    min-height: 120px;
+    max-height: 220px;
+    margin: var(--space-3) 0 0;
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+}
+.migraine-reports__bar-column {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    gap: var(--space-1);
+    min-width: 0;
+    height: 100%;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+}
+.migraine-reports__bar-column strong { color: var(--color-text); }
+.migraine-reports__bar {
+    width: min(42px, 75%);
+    min-height: 2px;
+    background: var(--color-primary);
+    border-radius: 4px 4px 0 0;
+}
+.migraine-reports__bar-column span {
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.migraine-reports__actions {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding-left: var(--space-5);
+    border-left: 1px solid var(--color-border);
+}
+.migraine-reports__exports {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+}
+.migraine-reports__exports button, .migraine-reports__email button[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 40px;
+    padding: 0 var(--space-4);
+    color: #fff;
+    background: var(--color-primary);
+    border: 0;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+.migraine-reports__exports button:disabled, .migraine-reports__email button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+.migraine-reports__email {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+}
+.migraine-reports__email h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0;
+    color: var(--color-text);
+}
+.migraine-reports__recipient {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: 0;
+    color: var(--color-text);
+}
+.migraine-reports__recipient label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+.migraine-reports__doctor-fields {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+}
+.migraine-reports__doctor-fields label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+.migraine-reports__doctor-fields input {
+    min-height: 32px;
+    padding: 0 var(--space-3);
+    color: var(--color-text);
+    background: var(--color-background, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+.migraine-reports__email button[type="submit"] { width: 100%; }
+.migraine-attack-list {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    padding: var(--space-5);
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+.migraine-attack-list__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+.migraine-attack-list__toolbar h2 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: var(--font-size-xl);
+}
+.migraine-attack-list__toolbar > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+.migraine-attack-list__toolbar label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+}
+.migraine-attack-list__toolbar select {
+    min-height: 36px;
+    padding: 0 var(--space-3);
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+.migraine-attack-list__items {
+    display: grid;
+    flex: 1 1 auto;
+    gap: var(--space-2);
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+.migraine-attack-list__item {
+    display: flex;
+    align-items: stretch;
+    gap: var(--space-2);
+}
+.migraine-attack-list__open {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    color: var(--color-text);
+    text-align: left;
+    background: var(--color-background, transparent);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+.migraine-attack-list__date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--font-weight-medium);
+}
+.migraine-attack-list__pain {
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+}
+.migraine-attack-list__status {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+.migraine-attack-list__delete {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    color: var(--color-danger, #c0392b);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+.migraine-attack-list__delete:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+.migraine-attack-list__empty {
+    padding: var(--space-6);
+    color: var(--color-text-muted);
+    text-align: center;
+}
+.migraine-attack-list__error { color: var(--color-danger, #c0392b); }
+@media (max-width: 700px) {
+    .migraine-dashboard { height: min(850px, calc(100dvh - 150px)); }
+    .migraine-dashboard__header { padding-bottom: var(--space-4); }
+    .migraine-dashboard__tabs { margin-bottom: var(--space-3); }
+    .migraine-dashboard__tabs button { padding: var(--space-2) var(--space-3); }
+    .migraine-calendar, .migraine-reports, .migraine-attack-list { padding: var(--space-3); }
+    .migraine-calendar__toolbar, .migraine-reports__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .migraine-calendar {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1.2fr) minmax(120px, .8fr);
+        gap: var(--space-3);
+        overflow-y: auto;
+    }
+    .migraine-calendar__selection {
+        padding: var(--space-3) 0 0;
+        border-top: 1px solid var(--color-border);
+        border-left: 0;
+    }
+    .migraine-calendar__grid { grid-auto-rows: minmax(0, 1fr); }
+    .migraine-calendar__weekday { padding: var(--space-1); }
+    .migraine-reports__body {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) auto;
+    }
+    .migraine-reports__chart { min-height: 100px; }
+    .migraine-reports__summary article { padding: var(--space-2); }
+    .migraine-reports__actions {
+        padding: var(--space-3) 0 0;
+        border-top: 1px solid var(--color-border);
+        border-left: 0;
+    }
+    .migraine-reports__doctor-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .migraine-reports__doctor-fields label:first-child { grid-column: 1 / -1; }
+    .migraine-attack-list__toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .migraine-attack-list__toolbar label {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
 /*
 |--------------------------------------------------------------------------
 | Header
 |--------------------------------------------------------------------------
 */
-
 .migraine-dashboard__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-6);
-
     padding: var(--space-6) 0 var(--space-8);
 }
-
 .migraine-dashboard__eyebrow {
     display: block;
-
     margin: 0 0 var(--space-2);
-
     color: var(--color-primary);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
     letter-spacing: .04em;
     text-transform: uppercase;
 }
-
 .migraine-dashboard__title {
     margin: 0;
-
     color: var(--color-text);
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-bold);
     line-height: 1.15;
 }
-
 .migraine-dashboard__description {
     max-width: 720px;
     margin: var(--space-3) 0 0;
-
     color: var(--color-text-muted);
     font-size: var(--font-size-md);
     line-height: 1.6;
 }
-
 /*
 |--------------------------------------------------------------------------
 | Actions
 |--------------------------------------------------------------------------
 */
-
 .migraine-dashboard__primary-action,
 .migraine-dashboard__secondary-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-
     min-height: 42px;
     padding: 0 var(--space-4);
-
     border: 1px solid transparent;
     border-radius: var(--radius-sm);
-
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-
     cursor: pointer;
-
     transition:
             background-color var(--transition-fast),
             border-color var(--transition-fast),
             color var(--transition-fast),
             transform var(--transition-fast);
 }
-
 .migraine-dashboard__primary-action {
     flex-shrink: 0;
-
     background: var(--color-primary);
     color: #fff;
 }
-
 .migraine-dashboard__primary-action:hover {
     opacity: .9;
     transform: translateY(-1px);
 }
-
 .migraine-dashboard__secondary-action {
     background: var(--color-surface);
     border-color: var(--color-border);
     color: var(--color-text);
 }
-
 .migraine-dashboard__secondary-action:hover {
     background: var(--color-surface-hover);
     border-color: color-mix(
@@ -107,36 +635,29 @@
             var(--color-border)
     );
 }
-
 /*
 |--------------------------------------------------------------------------
 | Statistics
 |--------------------------------------------------------------------------
 */
-
 .migraine-dashboard__stats {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-4);
 }
-
 .migraine-dashboard__stat {
     display: flex;
     flex-direction: column;
-
     min-width: 0;
     padding: var(--space-5);
-
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-
     transition:
             background-color var(--transition-fast),
             border-color var(--transition-fast),
             transform var(--transition-fast);
 }
-
 .migraine-dashboard__stat:hover {
     background: var(--color-surface-hover);
     border-color: color-mix(
@@ -144,211 +665,163 @@
             var(--color-primary) 25%,
             var(--color-border)
     );
-
     transform: translateY(-1px);
 }
-
 .migraine-dashboard__stat-label {
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
 }
-
 .migraine-dashboard__stat-value {
     margin-top: var(--space-2);
-
     color: var(--color-text);
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
     line-height: 1.2;
 }
-
 .migraine-dashboard__stat-meta {
     margin-top: var(--space-1);
-
     color: var(--color-text-muted);
     font-size: var(--font-size-xs);
 }
-
 /*
 |--------------------------------------------------------------------------
 | Main cards
 |--------------------------------------------------------------------------
 */
-
 .migraine-dashboard__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-4);
-
     margin-top: var(--space-8);
 }
-
 .migraine-dashboard__card {
     min-width: 0;
     padding: var(--space-6);
-
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
 }
-
 .migraine-dashboard__card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-4);
-
     padding-bottom: var(--space-5);
-
     border-bottom: 1px solid var(--color-border);
 }
-
 .migraine-dashboard__card-header h2 {
     margin: 0;
-
     color: var(--color-text);
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
 }
-
 .migraine-dashboard__card-eyebrow {
     display: block;
-
     margin-bottom: var(--space-1);
-
     color: var(--color-text-muted);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: .04em;
 }
-
 /*
 |--------------------------------------------------------------------------
 | Active attack
 |--------------------------------------------------------------------------
 */
-
 .migraine-dashboard__active {
     padding-top: var(--space-5);
 }
-
 .migraine-dashboard__active-row {
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
-
     color: var(--color-text-muted);
 }
-
 .migraine-dashboard__active-row > svg {
     flex-shrink: 0;
-
     margin-top: 2px;
-
     color: var(--color-primary);
 }
-
 .migraine-dashboard__active-row div {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
-
     min-width: 0;
 }
-
 .migraine-dashboard__active-row span {
     color: var(--color-text-muted);
     font-size: var(--font-size-xs);
 }
-
 .migraine-dashboard__active-row strong {
     color: var(--color-text);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
 }
-
 .migraine-dashboard__pain {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-
     margin-top: var(--space-5);
     padding-top: var(--space-5);
-
     border-top: 1px solid var(--color-border);
 }
-
 .migraine-dashboard__pain span {
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
 }
-
 .migraine-dashboard__pain strong {
     color: var(--color-text);
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
 }
-
 .migraine-dashboard__pain small {
     margin-left: 2px;
-
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
 }
-
 .migraine-dashboard__active > .migraine-dashboard__secondary-action {
     margin-top: var(--space-5);
 }
-
 .migraine-dashboard__action-error {
     margin: var(--space-3) 0 0;
     color: var(--color-danger, #ef4444);
     font-size: var(--font-size-sm);
 }
-
 /*
 |--------------------------------------------------------------------------
 | Recent attacks
 |--------------------------------------------------------------------------
 */
-
 .migraine-dashboard__attacks {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-
     max-height: min(22vh, 220px);
     padding-top: var(--space-5);
     padding-right: var(--space-1);
     overflow-y: auto;
     overscroll-behavior: contain;
 }
-
 .migraine-dashboard__attack {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-4);
-
     width: 100%;
     flex-shrink: 0;
     font: inherit;
     text-align: left;
     cursor: pointer;
-
     padding: var(--space-4);
-
     background: var(--color-surface-active);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-
     transition:
             background-color var(--transition-fast),
             border-color var(--transition-fast);
 }
-
 .migraine-dashboard__attack:hover {
     background: var(--color-surface-hover);
     border-color: color-mix(
@@ -357,101 +830,78 @@
             var(--color-border)
     );
 }
-
 .migraine-dashboard__attack > div {
     display: flex;
     align-items: baseline;
     gap: var(--space-2);
-
     min-width: 0;
 }
-
 .migraine-dashboard__attack strong {
     color: var(--color-text);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
 }
-
 .migraine-dashboard__attack > div span {
     color: var(--color-text-muted);
     font-size: var(--font-size-xs);
 }
-
 .migraine-dashboard__attack-pain {
     flex-shrink: 0;
-
     color: var(--color-text);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
 }
-
 .migraine-dashboard__state {
     display: flex;
     align-items: center;
     justify-content: center;
-
     min-height: 240px;
-
     color: var(--color-text-muted);
 }
-
 .migraine-dashboard__state--error {
     color: var(--color-text);
 }
-
 .migraine-dashboard__empty {
     padding: var(--space-6) 0;
-
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
     text-align: center;
 }
-
 /*
 |--------------------------------------------------------------------------
 | Responsive
 |--------------------------------------------------------------------------
 */
-
 @media (max-width: 1000px) {
     .migraine-dashboard__stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
     .migraine-dashboard__grid {
         grid-template-columns: 1fr;
     }
 }
-
 @media (max-width: 640px) {
     .migraine-dashboard__header {
         flex-direction: column;
-
         padding-top: var(--space-4);
     }
-
     .migraine-dashboard__title {
         font-size: var(--font-size-2xl);
     }
-
     .migraine-dashboard__primary-action {
         width: 100%;
     }
-
     .migraine-dashboard__stats {
         grid-template-columns: 1fr;
     }
-
     .migraine-dashboard__card {
         padding: var(--space-5);
     }
-
     .migraine-dashboard__attack > div {
         flex-direction: column;
         align-items: flex-start;
         gap: var(--space-1);
     }
-
     .migraine-dashboard__secondary-action {
         width: 100%;
     }

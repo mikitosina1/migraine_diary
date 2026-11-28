@@ -10,6 +10,9 @@ import ActiveAttackCard from './components/ActiveAttackCard';
 import RecentAttacksCard from './components/RecentAttacksCard';
 import CreateAttackDialog from './components/CreateAttackDialog';
 import AttackDetailsDialog from './components/AttackDetailsDialog';
+import MigraineCalendar from './components/MigraineCalendar';
+import MigraineReports from './components/MigraineReports';
+import MigraineAttackList from './components/MigraineAttackList';
 import {dashboardT} from './translate';
 
 import './DashboardPage.scss';
@@ -23,6 +26,8 @@ export default function DashboardPage() {
     const [endingAttackId, setEndingAttackId] = useState<number | null>(null);
     const [endAttackError, setEndAttackError] = useState<string | null>(null);
     const [selectedAttack, setSelectedAttack] = useState<Attack | null>(null);
+    const [activeTab, setActiveTab] = useState<'overview' | 'diary' | 'calendar' | 'statistics'>('overview');
+    const [refreshToken, setRefreshToken] = useState(0);
 
     const loadDashboard = useCallback(async (cancelled?: () => boolean, showLoading = true) => {
         try {
@@ -62,6 +67,7 @@ export default function DashboardPage() {
         try {
             await endAttack(attack.id);
             setSelectedAttack(null);
+            setRefreshToken((value) => value + 1);
             await loadDashboard(undefined, false);
         } catch {
             setEndAttackError(dashboardT('end_attack_error', 'Could not end the attack. Please try again.'));
@@ -98,30 +104,38 @@ export default function DashboardPage() {
     return (
         <section className="migraine-dashboard">
             <DashboardHeader onNewAttack={handleNewAttack} />
+            <nav className="migraine-dashboard__tabs" aria-label={dashboardT('diary_sections', 'Diary sections')}>
+                {([
+                    ['overview', dashboardT('dashboard_overview', 'Overview')],
+                    ['diary', dashboardT('attack_diary', 'Attack diary')],
+                    ['calendar', dashboardT('calendar', 'Calendar')],
+                    ['statistics', dashboardT('statistic', 'Statistics')],
+                ] as const).map(([tab, label]) => <button type="button" key={tab} className={activeTab === tab ? 'is-active' : ''} aria-current={activeTab === tab ? 'page' : undefined} onClick={() => setActiveTab(tab)}>{label}</button>)}
+            </nav>
 
-            <DashboardStatistics
-                statistics={dashboard.statistics}
-            />
-
-            <div className="migraine-dashboard__grid">
-                <ActiveAttackCard
-                    attack={dashboard.active_attack}
-                    onEndAttack={handleEndAttack}
-                    isEnding={endingAttackId === dashboard.active_attack?.id}
-                    error={endAttackError}
-                />
-
-                <RecentAttacksCard
-                    attacks={dashboard.recent_attacks}
-                    onSelectAttack={handleSelectAttack}
-                />
+            <div className="migraine-dashboard__tab-content">
+                {activeTab === 'overview' && <div className="migraine-dashboard__overview-scroll">
+                    <DashboardStatistics statistics={dashboard.statistics}/>
+                    <div className="migraine-dashboard__grid">
+                        <ActiveAttackCard
+                            attack={dashboard.active_attack}
+                            onEndAttack={handleEndAttack}
+                            isEnding={endingAttackId === dashboard.active_attack?.id}
+                            error={endAttackError}
+                        />
+                        <RecentAttacksCard attacks={dashboard.recent_attacks} onSelectAttack={handleSelectAttack}/>
+                    </div>
+                </div>}
+                {activeTab === 'diary' && <MigraineAttackList onSelectAttack={handleSelectAttack} refreshToken={refreshToken} onChanged={() => { setRefreshToken((value) => value + 1); void loadDashboard(undefined, false); }}/>}
+                {activeTab === 'calendar' && <MigraineCalendar onSelectAttack={handleSelectAttack} refreshToken={refreshToken}/>}
+                {activeTab === 'statistics' && <MigraineReports/>}
             </div>
 
             {createDialogOpen && (
                 <CreateAttackDialog
                     dictionaries={dashboard.dictionaries}
                     onClose={closeCreateDialog}
-                    onCreated={() => { void loadDashboard(undefined, false); }}
+                    onCreated={() => { setRefreshToken((value) => value + 1); void loadDashboard(undefined, false); }}
                 />
             )}
 
@@ -133,6 +147,7 @@ export default function DashboardPage() {
                     onClose={closeAttackDetails}
                     onSaved={(updated) => {
                         setSelectedAttack(updated);
+                        setRefreshToken((value) => value + 1);
                         void loadDashboard(undefined, false);
                     }}
                     onEndAttack={(attack) => { void handleEndAttack(attack); }}

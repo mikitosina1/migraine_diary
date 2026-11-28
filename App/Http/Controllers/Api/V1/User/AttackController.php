@@ -5,11 +5,13 @@ namespace Modules\MigraineDiary\App\Http\Controllers\Api\V1\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Modules\MigraineDiary\App\Actions\User\CalendarAttacksAction;
 use Modules\MigraineDiary\App\Actions\User\CreateAttackAction;
 use Modules\MigraineDiary\App\Actions\User\DeleteAttackAction;
 use Modules\MigraineDiary\App\Actions\User\EndAttackAction;
 use Modules\MigraineDiary\App\Actions\User\UpdateAttackAction;
 use Modules\MigraineDiary\App\Http\Requests\AttackFilterRequest;
+use Modules\MigraineDiary\App\Http\Requests\CalendarAttackRequest;
 use Modules\MigraineDiary\App\Http\Requests\StoreAttackRequest;
 use Modules\MigraineDiary\App\Http\Requests\UpdateAttackRequest;
 use Modules\MigraineDiary\App\Http\Resources\AttackResource;
@@ -159,5 +161,24 @@ class AttackController extends Controller
         $attack = $this->attacks->getActiveAttackForUser(auth()->id());
 
         return new AttackResource($attack);
+    }
+
+    /**
+     * Return the authenticated user's attacks for a calendar month (YYYY-MM).
+     *
+     * @param CalendarAttackRequest $request
+     * @param CalendarAttacksAction $action
+     * @return AnonymousResourceCollection
+     */
+    public function calendar(
+        CalendarAttackRequest $request,
+        CalendarAttacksAction $action
+    ): AnonymousResourceCollection
+    {
+        $this->authorize('viewAny', Attack::class);
+
+        $attacks = $action->execute(auth()->id(), $request->getMonth());
+
+        return AttackResource::collection($attacks);
     }
 }

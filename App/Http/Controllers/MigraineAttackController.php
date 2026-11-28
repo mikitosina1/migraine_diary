@@ -15,6 +15,7 @@ use Modules\MigraineDiary\App\Repositories\UserMedRepository;
 use Modules\MigraineDiary\App\Repositories\UserSymptomRepository;
 use Modules\MigraineDiary\App\Repositories\UserTriggerRepository;
 use Modules\MigraineDiary\App\Services\AttackService;
+use Throwable;
 
 /**
  * MigraineAttackController
@@ -42,6 +43,9 @@ class MigraineAttackController extends Controller
         return view('migrainediary::create');
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(StoreAttackRequest $request): JsonResponse
     {
         $attack = $this->attackService->createAttack(
@@ -83,6 +87,7 @@ class MigraineAttackController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @throws Throwable
      */
     public function update(UpdateAttackRequest $request, Attack $attack): JsonResponse
     {
@@ -101,7 +106,7 @@ class MigraineAttackController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Attack $attack)
+    public function destroy(Attack $attack): JsonResponse
     {
         if ($attack->user_id !== auth()->id()) {
             abort(403, 'Unauthorized action.');

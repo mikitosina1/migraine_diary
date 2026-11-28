@@ -31,6 +31,9 @@ Route::prefix('v1/migraine-diary')
         Route::get('/attacks/active', [AttackController::class, 'active'])
             ->name('attacks.active');
 
+        Route::get('/calendar', [AttackController::class, 'calendar'])
+            ->name('calendar');
+
         Route::apiResource('/attacks', AttackController::class);
 
         Route::post('/attacks/{attack}/end', [AttackController::class, 'end'])
